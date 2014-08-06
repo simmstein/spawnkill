@@ -4,25 +4,25 @@
 // @author      Spixel_
 // @namespace   http://www.spixel.fr
 // @include     http://*.jeuxvideo.com*
-// @version     1.5
-// @require     jquery-1.11.1.min.js?v1.5
-// @require     spin.min.js?v1.5
-// @require     jquery-plugins.js?v1.5
-// @require     base.js?v1.5
-// @require     Util.js?v1.5
-// @require     Message.js?v1.5
-// @require     Author.js?v1.5
-// @require     Button.js?v1.5
-// @require     SlideToggle.js?v1.5
-// @require     Modal.js?v1.5
-// @require     modules/Module.js?v1.5
-// @require     modules/StartSpawnKill.js?v1.5
-// @require     modules/Settings.js?v1.5
-// @require     modules/QuickResponse.js?v1.5
-// @require     modules/Quote.js?v1.5
-// @require     modules/InfosPseudo.js?v1.5
-// @require     modules/HilightNewTopic.js?v1.5
-// @require     modules/LastPage.js?v1.5
+// @version     1.6
+// @require     jquery-1.11.1.min.js?v1.6
+// @require     spin.min.js?v1.6
+// @require     jquery-plugins.js?v1.6
+// @require     base.js?v1.6
+// @require     Util.js?v1.6
+// @require     Message.js?v1.6
+// @require     Author.js?v1.6
+// @require     Button.js?v1.6
+// @require     SlideToggle.js?v1.6
+// @require     Modal.js?v1.6
+// @require     modules/Module.js?v1.6
+// @require     modules/StartSpawnKill.js?v1.6
+// @require     modules/Settings.js?v1.6
+// @require     modules/QuickResponse.js?v1.6
+// @require     modules/Quote.js?v1.6
+// @require     modules/InfosPseudo.js?v1.6
+// @require     modules/HilightNewTopic.js?v1.6
+// @require     modules/LastPage.js?v1.6
 // @resource    banImage    images/ban.png
 // @resource    newTopic    images/topic_new.gif
 // @resource    carton      images/carton.png
@@ -52,8 +52,10 @@
 // ==/UserScript==
 
 /*
-
 Changelog :
+
+    v1.6
+    - Ajout du plugin LastPage
 
     v1.5
     - Légère correction des citations pour améliorer l'affichage sur mobile
