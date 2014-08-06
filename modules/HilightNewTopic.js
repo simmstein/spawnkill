@@ -1,0 +1,38 @@
+"use strict";
+/* jshint multistr: true */
+/* jshint newcap: false */
+
+/**
+ * HilightNewTopic : met en valeur les topics sans réponses
+ * 
+ */
+SK.moduleConstructors.HilightNewTopic = SK.Module.new();
+
+SK.moduleConstructors.HilightNewTopic.prototype.title = "Mise en avant des nouveaux topics";
+SK.moduleConstructors.HilightNewTopic.prototype.description = "Permet de voir facilement les nouveaux topics dans la liste des sujets";
+
+SK.moduleConstructors.HilightNewTopic.prototype.init = function() {
+    this.hilightNewTopic();
+};
+
+/* Change l'icone des topics avec 0 posts */
+SK.moduleConstructors.HilightNewTopic.prototype.hilightNewTopic = function() {
+    $("#liste_topics tr td:nth-child(4)").each(function() {
+
+        var $postCount = $(this);
+
+        if(parseInt($postCount.html().trim()) === 0) {
+            //On remplace l'image du topic, sauf si c'est une épingle
+            $postCount.parent().find("img[src='http://image.jeuxvideo.com/pics/forums/topic_dossier1.gif']").attr("src", GM_getResourceURL("newTopic"));
+        }
+    });
+};
+
+
+SK.moduleConstructors.HilightNewTopic.prototype.shouldBeActivated = function() {
+    return (window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/0/));
+};
+
+SK.moduleConstructors.HilightNewTopic.prototype.getCss = function() {
+    return "";
+};
