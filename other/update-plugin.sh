@@ -17,6 +17,7 @@ ln -sv /media/data/www/greasemonkey/jvc-spawnkill/modules/QuickResponse.js /home
 ln -sv /media/data/www/greasemonkey/jvc-spawnkill/modules/Quote.js /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
 ln -sv /media/data/www/greasemonkey/jvc-spawnkill/modules/InfosPseudo.js /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
 ln -sv /media/data/www/greasemonkey/jvc-spawnkill/modules/HilightNewTopic.js /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
+ln -sv /media/data/www/greasemonkey/jvc-spawnkill/modules/LastPage.js /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
 ln -sv /media/data/www/greasemonkey/jvc-spawnkill/modules/Settings.js /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
 ln -sv /media/data/www/greasemonkey/jvc-spawnkill/images/ban.png /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
 ln -sv /media/data/www/greasemonkey/jvc-spawnkill/images/topic_new.gif /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/

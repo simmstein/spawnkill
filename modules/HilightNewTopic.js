@@ -23,7 +23,9 @@ SK.moduleConstructors.HilightNewTopic.prototype.hilightNewTopic = function() {
 
         if(parseInt($postCount.html().trim()) === 0) {
             //On remplace l'image du topic, sauf si c'est une épingle
-            $postCount.parent().find("img[src='http://image.jeuxvideo.com/pics/forums/topic_dossier1.gif']").attr("src", GM_getResourceURL("newTopic"));
+            $postCount.parent().find("img[src='http://image.jeuxvideo.com/pics/forums/topic_dossier1.gif']")
+                .attr("src", GM_getResourceURL("newTopic"))
+                .addClass("new-topic");
         }
     });
 };

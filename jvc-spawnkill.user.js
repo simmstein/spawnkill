@@ -22,6 +22,7 @@
 // @require     modules/Quote.js?v1.5
 // @require     modules/InfosPseudo.js?v1.5
 // @require     modules/HilightNewTopic.js?v1.5
+// @require     modules/LastPage.js?v1.5
 // @resource    banImage    images/ban.png
 // @resource    newTopic    images/topic_new.gif
 // @resource    carton      images/carton.png
