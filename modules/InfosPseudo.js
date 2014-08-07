@@ -34,16 +34,16 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostInfos = function() {
             //Crée l'auteur                
             var author = new SK.Author($msg);
 
-            if(self.settings.enableAvatar.value) {
+            if(self.getSetting("enableAvatar")) {
                 self.addAvatarPlaceholder($msg);
             }
 
             //Appelée quand la récupération des  données de l'auteur est terminée
             author.addListener(function() {
-                if(self.settings.enableAvatar.value) {
+                if(self.getSetting("enableAvatar")) {
                     self.addAvatar(author);
                 }
-                if(self.settings.enableRank.value && self.settings.enableAvatar.value) {
+                if(self.getSetting("enableRank")) {
                     self.addRank(author);
                 }
                 self.addPostButtons(author);
@@ -157,16 +157,28 @@ SK.moduleConstructors.InfosPseudo.prototype.addAvatarPlaceholder = function($msg
 /* Ajoute le rang de l'auteur */
 SK.moduleConstructors.InfosPseudo.prototype.addRank = function(author) {
 
-    //On ajute le rang seulement si l'avatar est présent
-    var $avatarWrapper = author.$msg.find(".avatar-wrapper");
-
     if(author.rank !== "") {
-        var $rank = $("<span />", {
-            class: "rank " + author.rank,
-            title: "Rang " + author.rank.charAt(0).toUpperCase() + author.rank.slice(1)
-        });
 
-        $avatarWrapper.append($rank.hide().fadeIn());
+        var rankString = "Rang " + author.rank.charAt(0).toUpperCase() + author.rank.slice(1);
+
+        if(this.getSetting("enableAvatar")) {
+            
+            var $rank = $("<span />", {
+                class: "rank " + author.rank,
+                title: rankString
+            });
+            var $avatarWrapper = author.$msg.find(".avatar-wrapper");
+            $avatarWrapper.append($rank.hide().fadeIn());
+        }
+        else {
+            SK.Util.addButton(author.$msg, {
+                class: "rank " + author.rank,
+                tooltip: {
+                    text: rankString
+                }
+            });
+        }
+
     }
 };
 
@@ -366,6 +378,9 @@ SK.moduleConstructors.InfosPseudo.prototype.getCss = function() {
         .msg {\
             position: relative;\
         }\
+        .msg li.ancre {\
+            min-height: 15px;\
+        }\
         .sk-button-content.mp {\
             background-image: url('" + GM_getResourceURL("mp") + "');\
             background-color: #FCCB0C;\
@@ -404,9 +419,45 @@ SK.moduleConstructors.InfosPseudo.prototype.getCss = function() {
             background-color: #FE2711;\
             border-bottom-color: #A0170B;\
         }\
-        .discrete .button {\
-            background-color: #CCC !important;\
-            border-bottom-color: #555 !important;\
+        .sk-button-content.rank {\
+            border: none !important;\
+            height: 15px !important;\
+        }\
+        .sk-button-content.rank:active {\
+            margin-top: 0px !important;\
+            border-bottom: none !important;\
+        }\
+        .sk-button-content.rank.argent {\
+            background-image: url('" + GM_getResourceURL("argent") + "');\
+            background-color: #A7A9AC;\
+        }\
+        .sk-button-content.rank.carton {\
+            background-image: url('" + GM_getResourceURL("carton") + "');\
+            background-color: #C49A6C;\
+        }\
+        .sk-button-content.rank.bronze {\
+            background-image: url('" + GM_getResourceURL("bronze") + "');\
+            background-color: #C57E16;\
+        }\
+        .sk-button-content.rank.diamant {\
+            background-image: url('" + GM_getResourceURL("diamant") + "');\
+            background-color: #27AAE1;\
+        }\
+        .sk-button-content.rank.emeraude {\
+            background-image: url('" + GM_getResourceURL("emeraude") + "');\
+            background-color: #39B54A;\
+        }\
+        .sk-button-content.rank.or {\
+            background-image: url('" + GM_getResourceURL("or") + "');\
+            background-color: #DBB71D;\
+        }\
+        .sk-button-content.rank.rubis {\
+            background-image: url('" + GM_getResourceURL("rubis") + "');\
+            background-color: #BE1E2D;\
+        }\
+        .sk-button-content.rank.saphir {\
+            background-image: url('" + GM_getResourceURL("saphir") + "');\
+            background-color: #4D57BC;\
         }\
     ";
 

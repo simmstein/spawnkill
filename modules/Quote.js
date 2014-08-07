@@ -20,9 +20,15 @@ SK.moduleConstructors.Quote.prototype.description = "Permet de citer un message 
 //Longueur maximum d'une ligne (approximatif), les lignes plus longues sont tronquées
 SK.moduleConstructors.Quote.prototype.maxLength = 50;
 //Longueur de l'indentation de la citation
-SK.moduleConstructors.Quote.prototype.indentationBefore = 2;
+SK.moduleConstructors.Quote.prototype.indentationBefore = 0;
 
 SK.moduleConstructors.Quote.prototype.init = function() {
+    //Si une citation est prévue, on l'affiche
+    var quoteMessage = GM_getValue("response.content");
+    if(quoteMessage) {
+        this.citeMessage(quoteMessage);
+        GM_deleteValue("response.content");
+    }
     this.addCitationButtons();
 };
 
@@ -41,7 +47,21 @@ SK.moduleConstructors.Quote.prototype.addCitationButtons = function() {
                 text: "Citer ce message",
             },
             click: function() {
-                self.citeMessage(new SK.Message($(this).parents(".msg")));
+
+                var citationBlock = self.createCitationBlock(new SK.Message($(this).parents(".msg")));
+
+                //Si QuickResponse n'est pas activé et qu'on est sur la page de lecture,
+                //le bouton de citation dirige vers la page de réponse en remplissant
+                //le formulaire de réponse
+                if(!SK.modules.QuickResponse.activated &&
+                    window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/1/))
+                {
+                    GM_setValue("response.content", citationBlock);
+                    window.location.href = $(".bt_repondre").attr("href");
+                }
+                else {
+                    self.citeMessage(citationBlock);
+                }
             }
         });
     });
@@ -104,10 +124,10 @@ SK.moduleConstructors.Quote.prototype.createCitationBlock = function(message) {
     }.bind(this));
 
     //Message descriptif de la citation
-    lines.splice(0, 0, SK.Util._(this.indentationBefore) + "╭┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄");
-    lines.splice(0, 0, SK.Util._(this.indentationBefore + 5) + message.author + ", le " + message.date + " :");
+    lines.splice(0, 0, SK.Util._(this.indentationBefore) + "╭┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄");
+    lines.splice(0, 0, SK.Util._(this.indentationBefore + 4) + message.author + ", le " + message.date + " :");
     //Fin de la citation
-    lines.push(SK.Util._(this.indentationBefore) + "╰┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄");
+    lines.push(SK.Util._(this.indentationBefore) + "╰┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄");
     //On passe une ligne après la citation
     lines.push("\n");
 
@@ -119,8 +139,8 @@ SK.moduleConstructors.Quote.prototype.createCitationBlock = function(message) {
 
 /* Crée une citation dans la réponse à partir du texte passé en paramètre
  * et scroll vers la boîte de réponse. */
-SK.moduleConstructors.Quote.prototype.citeMessage = function(message) {
-    this.addToResponse(this.createCitationBlock(message));
+SK.moduleConstructors.Quote.prototype.citeMessage = function(citationBlock) {
+    this.addToResponse(citationBlock);
 
     var $responseBox = $("#newmessage");
 
@@ -141,14 +161,10 @@ SK.moduleConstructors.Quote.prototype.citeMessage = function(message) {
 };
 
 SK.moduleConstructors.Quote.prototype.shouldBeActivated = function() {
-    /* On affiche le bloc de citation sur la page réponse
-        ou sur les pages de lecture quand QuickResponse est activé */
+    /* On affiche le bloc de citation sur la page réponse et les pages de lecture */
     return (
             window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/3/) || 
-            (
-                SK.modules.QuickResponse.activated &&
-                window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/1/)
-            )
+            window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/1/)
         );
 };
 

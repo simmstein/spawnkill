@@ -60,7 +60,17 @@ SK.Util = {
                     $msg.find(".pseudo > strong").first().after($buttons);
                     break;
                 case "bottom":
-                    $msg.find(".ancre").first().append($buttons);
+                    //Si le li .ancre n'existe pas, on la crée
+                    var $ancre = $msg.find(".ancre").first();
+
+                    if($ancre.length === 0) {
+                        $ancre = $("<li>", {
+                            class: "ancre"
+                        });
+                        $msg.find(".post").after($ancre);
+                    }
+
+                    $ancre.append($buttons);
                     break;
                 case "right":
                     $msg.find(".date").first().append($buttons);

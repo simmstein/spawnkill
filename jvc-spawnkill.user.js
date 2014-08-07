@@ -4,25 +4,25 @@
 // @author      Spixel_
 // @namespace   http://www.spixel.fr
 // @include     http://*.jeuxvideo.com*
-// @version     1.6
-// @require     jquery-1.11.1.min.js?v1.6
-// @require     spin.min.js?v1.6
-// @require     jquery-plugins.js?v1.6
-// @require     base.js?v1.6
-// @require     Util.js?v1.6
-// @require     Message.js?v1.6
-// @require     Author.js?v1.6
-// @require     Button.js?v1.6
-// @require     SlideToggle.js?v1.6
-// @require     Modal.js?v1.6
-// @require     modules/Module.js?v1.6
-// @require     modules/StartSpawnKill.js?v1.6
-// @require     modules/Settings.js?v1.6
-// @require     modules/QuickResponse.js?v1.6
-// @require     modules/Quote.js?v1.6
-// @require     modules/InfosPseudo.js?v1.6
-// @require     modules/HilightNewTopic.js?v1.6
-// @require     modules/LastPage.js?v1.6
+// @version     1.6.1
+// @require     jquery-1.11.1.min.js?v1.6.1
+// @require     spin.min.js?v1.6.1
+// @require     jquery-plugins.js?v1.6.1
+// @require     base.js?v1.6.1
+// @require     Util.js?v1.6.1
+// @require     Message.js?v1.6.1
+// @require     Author.js?v1.6.1
+// @require     Button.js?v1.6.1
+// @require     SlideToggle.js?v1.6.1
+// @require     Modal.js?v1.6.1
+// @require     modules/Module.js?v1.6.1
+// @require     modules/StartSpawnKill.js?v1.6.1
+// @require     modules/Settings.js?v1.6.1
+// @require     modules/QuickResponse.js?v1.6.1
+// @require     modules/Quote.js?v1.6.1
+// @require     modules/InfosPseudo.js?v1.6.1
+// @require     modules/HilightNewTopic.js?v1.6.1
+// @require     modules/LastPage.js?v1.6.1
 // @resource    banImage    images/ban.png
 // @resource    newTopic    images/topic_new.gif
 // @resource    carton      images/carton.png
@@ -48,11 +48,16 @@
 // @grant       GM_setClipboard
 // @grant       GM_setValue
 // @grant       GM_getValue
+// @grant       GM_deleteValue
 // @run-at document-start
 // ==/UserScript==
 
 /*
 Changelog :
+
+    v1.6.1
+    - Désormais, les rangs s'affichent même si les avatars ne sont pas activés
+    
 
     v1.6
     - Ajout du plugin LastPage
@@ -114,8 +119,6 @@ Bugs connus :
 Roadmap :
 
     v1.6.1
-    - Correction du décalage des posts au chargement du plugin
-    - Ajout des rangs même si les avatars ne sont pas présents
     - Ajout des citations et liens permanents sur la page de réponse
     - Possibilité de citer un post sans la QuickResponse
 
@@ -140,6 +143,7 @@ Roadmap :
     Fonctionnalités :
         - Ajouter un lien vers les citations de ce message
         - Ajouter d'autres types d'options pour les plugins (string, text, int, bool, float, color, select,...)
+        - Ajouter une option de choix pour la position du rang
         - Ajouter un lien vers les screenshots de la fonctionnalité dans le panneau de config
         - Ajouter une preview des fonctionnalités (depuis ajax du site)
         - Possibilité d'afficher plus de 15 topics par page
@@ -153,6 +157,7 @@ Roadmap :
         - Faire fonctionner le plugin sur Opera
     
     Autre :
+        - Corriger l'affichage des citations pour les mobiles
         - Réduire la taille des options
         - Affichage de la version en grisé à droite dans les settings
         - Mettre un Message dans auteur au lieu d'un $msg, renommer $msg en $el ou l'inverse

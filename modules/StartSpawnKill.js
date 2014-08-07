@@ -89,14 +89,9 @@ SK.moduleConstructors.StartSpawnKill.prototype.addModalBackground = function() {
         .buttons.right {\
             position: relative;\
             top: -1px;\
-            font-size: 125%;\
-            font-weight: normal;\
-        }\
-        .buttons.bottom {\
-            font-size: 125%;\
         }\
         .buttons.box {\
-         width: 100%;\
+            width: 100%;\
         }\
         .sk-button-content {\
             background-color: #FF7B3B;\
@@ -144,6 +139,7 @@ SK.moduleConstructors.StartSpawnKill.prototype.addModalBackground = function() {
             padding: 4px;\
             background-color: #222;\
             font-size: 10px;\
+            font-weight: normal;\
             color: #FFF;\
             opacity: 0.8;\
             z-index: 100;\
@@ -159,6 +155,7 @@ SK.moduleConstructors.StartSpawnKill.prototype.addModalBackground = function() {
         }\
         .tooltip.top {\
             top: -27px;\
+            left: -4px;\
         }\
         .tooltip.bottom {\
             bottom: -27px;\
