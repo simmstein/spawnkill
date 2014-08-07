@@ -32,6 +32,8 @@ SK.moduleConstructors.QuickResponse.prototype.addResponseForm = function() {
 
             $quickResponseForm.hide();
             $quickResponseForm.html($(data.replace(/<p class="lien_base">\n.*\n<\/p>/, "")).find(".bloc_forum:last, form[name=post2]"));
+            $quickResponseForm.find('#boutons_repondre').css('background', 'none');
+            $quickResponseForm.find('#boutons_repondre').css('padding-bottom', '0');
             $quickResponseForm.fadeIn();
         }
     });
