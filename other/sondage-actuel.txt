@@ -1,0 +1,15 @@
+Quelle fonctionnalité ajouter en premier à SpawnKill ?
+Indiquer quand une mise à jour de SpawnKill est disponible
+Voir les images/vidéos dans les posts
+Ajout de raccourcis claviers
+Signatures automatiques
+Faire clignoter l'onglet quand un message est posté dans le topic
+Ajouter des liens vers les messages qui citent un post en particulier
+Mise en avant des PEMT
+Affichage rapide des CDV
+Ajout de la descriptions et d'un screenshot des fonctionnalités dans les paramètres
+Liste de membres à ignorer
+Liste de topics à ignorer
+Actualisation des messages en live
+Prévisualisation des topics dans la liste des sujets
+Autre ? (préciser)

@@ -137,20 +137,27 @@ Roadmap :
     v1.8
     - Ajouter une box pour les images/vidéos/sondages
     
-    - Mettre un Message dans auteur au lieu d'un $msg, renommer $msg en $el ou l'inverse
-    - Ajouter un lien vers les citations de ce message
-    - Réduire la taille des options
-    - Le panneau de paramètrage ne peut pas défiler
-    - Ajouter d'autres types d'options pour les plugins (string, text, int, bool, float, color, select,...)
-    - Ajouter un lien vers les screenshots de la fonctionnalité dans le panneau de config
-    - Ajouter une preview des fonctionnalités
-    - Affichage de la version en grisé à droite dans les settings
-    - Possibilité d'afficher plus de 15 topics par page
-    - Faire fonctionner le plugin sur Opera
-    - Pouvoir réellement collectionner les triangles poupres / hexagones oranges ou rectangles dorés scintillants
-    - Permettre de déplacer les rangs
-    - Ajouter des tooltips facilement (slidetoggle, lastpage, ...)
-    - Ajout de raccourcis claviers
+    Fonctionnalités :
+        - Ajouter un lien vers les citations de ce message
+        - Ajouter d'autres types d'options pour les plugins (string, text, int, bool, float, color, select,...)
+        - Ajouter un lien vers les screenshots de la fonctionnalité dans le panneau de config
+        - Ajouter une preview des fonctionnalités (depuis ajax du site)
+        - Possibilité d'afficher plus de 15 topics par page
+        - Pouvoir réellement collectionner les triangles poupres / hexagones oranges ou rectangles dorés scintillants
+        - Permettre de déplacer les rangs
+        - Ajouter des conditions aux options
+        - Ajout de raccourcis claviers
+    
+    Bugs :
+        - Le panneau de paramètrage ne peut pas défiler
+        - Faire fonctionner le plugin sur Opera
+    
+    Autre :
+        - Réduire la taille des options
+        - Affichage de la version en grisé à droite dans les settings
+        - Mettre un Message dans auteur au lieu d'un $msg, renommer $msg en $el ou l'inverse
+        - Ajouter des tooltips facilement (slidetoggle, lastpage, ...)
+        - Ajout de hooks au chargement des données
 
     Documentation :
         - Créer un module
