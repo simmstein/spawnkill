@@ -56,6 +56,7 @@ Changelog :
 
     v1.6
     - Ajout du plugin LastPage
+    - Passage à Github
 
     v1.5
     - Légère correction des citations pour améliorer l'affichage sur mobile
@@ -100,25 +101,25 @@ Bugs connus :
         - Citations moches sur mobile
         - Ralentissements importants sous Firefox au chargement des avatars
             -> Correctif : ne faire qu'une seule requête HTTP
-        - Noelshack ne fonctionne pas en mode réponse rapide
         
     Mineur :
         - Décalage des posts au chargement des boutons
         - les avatars ne s'affichent pas dans la prévisualisation du message
         - ne fonctionne pas sous Opera
         - Les citations ne fonctionnent pas dans les MP
-        - Problème de compatibilité avec SHAR : http://www.jeuxvideo.com/forums/1-1000021-2267708-4-0-1-0-script-jvc-spawnkill-avant-respawn.htm#message_2269024
         - Conflits avec Turboforum
         - Lorsqu'on reload à la création d'un message, il disparait.
         - les boutons ne chargent pas en même temps
 
 Roadmap :
-    v1.6
-    - Ajout du bouton "Dernière page" sur la liste des topics
-    - Ajout d'une documentation pour les contributeurs et passage à Github
+
+    v1.6.1
+    - Correction du décalage des posts au chargement du plugin
+    - Ajout des rangs même si les avatars ne sont pas présents
+    - Ajout des citations et liens permanents sur la page de réponse
+    - Possibilité de citer un post sans la QuickResponse
 
     v1.6.2
-    - Améliorer les citations sur mobile sur mobile
     - Ne permettre qu'un seul niveau de citation
     - Afficher un style particulier pour les citations
     - Prendre en compte les citations de JVC Master
@@ -127,23 +128,29 @@ Roadmap :
     v1.7
     - Ajouter un AutoUpdater
 
+    v1.7.1
     - Possibilité de citer seulement une partie du message
-    - Ajouter une box pour les images/vidéos/sondages
     - Ajouter un helper pour les regex de pages
-    - Mettre un Message dans auteur au lieu d'un $msg, renommer $msg en $el ou l'inverse
     - Plusieurs tailles d'avatars
-    - Ajouter une preview des fonctionnalités
+    - Afficher la description des modules dans le panneau de configuration
+
+    v1.8
+    - Ajouter une box pour les images/vidéos/sondages
+    
+    - Mettre un Message dans auteur au lieu d'un $msg, renommer $msg en $el ou l'inverse
     - Ajouter un lien vers les citations de ce message
     - Réduire la taille des options
     - Le panneau de paramètrage ne peut pas défiler
     - Ajouter d'autres types d'options pour les plugins (string, text, int, bool, float, color, select,...)
-    - Afficher la description des modules dans le panneau de configuration
     - Ajouter un lien vers les screenshots de la fonctionnalité dans le panneau de config
+    - Ajouter une preview des fonctionnalités
     - Affichage de la version en grisé à droite dans les settings
     - Possibilité d'afficher plus de 15 topics par page
     - Faire fonctionner le plugin sur Opera
     - Pouvoir réellement collectionner les triangles poupres / hexagones oranges ou rectangles dorés scintillants
     - Permettre de déplacer les rangs
+    - Ajouter des tooltips facilement (slidetoggle, lastpage, ...)
+    - Ajout de raccourcis claviers
 
     Documentation :
         - Créer un module
