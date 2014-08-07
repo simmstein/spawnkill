@@ -133,6 +133,21 @@ SK.Util = {
         }
     },
 
+    setValue: function(key, value) {
+        key = "SK." + key;
+        localStorage.setItem(key, JSON.stringify(value));
+    },
+
+    getValue: function(key) {
+        key = "SK." + key;
+        return JSON.parse(localStorage.getItem(key));
+    },
+
+    deleteValue: function(key) {
+        key = "SK." + key;
+        localStorage.removeItem(key);
+    },
+
     /* Retourne nbspCount espaces insecables */
     _: function(nbspCount) {
         var nbspString = "";

@@ -18,11 +18,11 @@ SK.moduleConstructors.Settings.prototype.init = function() {
 
 /* Affiche le panneau de configuration au premier lancement du script */
 SK.moduleConstructors.Settings.prototype.showSettingsIfNeeded = function() {
-    if(!GM_getValue("seenSettings")) {
+    if(!SK.Util.getValue("seenSettings")) {
         window.setTimeout(function() {
             $("#settings-button > a").click();
             //Le panneau ne doit s'afficher qu'une fois
-            GM_setValue("seenSettings", true);
+            SK.Util.setValue("seenSettings", true);
         }, 200);
     }
 };
@@ -109,7 +109,6 @@ SK.moduleConstructors.Settings.prototype.getSettingsUI = function() {
                         var setting = module.settings[settingKey];
                         ui += "<li class='option' data-value='" + (setting.value ? "1" : "0") + "' data-id='" + settingKey + "' >";
                             ui += module.settings[settingKey].title;
-                            // console.log(moduleKey + "." + setting.label + ": " + setting);
                         ui += "</li>";
                     }    
                 ui += "</ul>";
@@ -175,14 +174,14 @@ SK.moduleConstructors.Settings.prototype.saveSettings = function() {
         var $setting = $(this);
         var settingId = $setting.attr("data-id");
         var settingIsActivated = $setting.find(".main-setting .slide-toggle input").prop("checked");
-        GM_setValue(settingId, settingIsActivated);
+        SK.Util.setValue(settingId, settingIsActivated);
 
         //Enregistrement des options des modules
         $setting.find(".option").each(function() {
             var $option = $(this);
             var optionId = settingId + "." + $option.attr("data-id");
             var optionValue = $option.find("input").prop("checked");
-            GM_setValue(optionId, optionValue);
+            SK.Util.setValue(optionId, optionValue);
 
         });
 

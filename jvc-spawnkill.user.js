@@ -42,13 +42,10 @@
 // @resource    quote       images/quote.png
 // @resource    mp          images/mp.png
 // @resource    alert       images/alert.png
-// @resource    settings       images/settings.png
+// @resource    settings    images/settings.png
 // @grant       GM_xmlhttpRequest
 // @grant       GM_getResourceURL
 // @grant       GM_setClipboard
-// @grant       GM_setValue
-// @grant       GM_getValue
-// @grant       GM_deleteValue
 // @run-at document-start
 // ==/UserScript==
 
@@ -57,8 +54,10 @@ Changelog :
 
     v1.6.1
     - Désormais, les rangs s'affichent même si les avatars ne sont pas activés
+    - Possibilité de citer un post sans la QuickResponse
+    - Ajout des citations et liens permanents sur la page de réponse
+    - Correction d'un bug qui empêchait parfois la sauvegarde des paramètres sous Chrome
     
-
     v1.6
     - Ajout du plugin LastPage
     - Passage à Github
@@ -118,11 +117,8 @@ Bugs connus :
 
 Roadmap :
 
-    v1.6.1
-    - Ajout des citations et liens permanents sur la page de réponse
-    - Possibilité de citer un post sans la QuickResponse
-
-    v1.6.2
+    v1.6.2  
+    - Revoir le style des citations
     - Ne permettre qu'un seul niveau de citation
     - Afficher un style particulier pour les citations
     - Prendre en compte les citations de JVC Master
@@ -176,7 +172,6 @@ Fonctionnement du versioning :
     - Incrémentation de la dernière partie : Correction de bugs
 
 */
-
 "use strict";
 /* jshint unused: false */
 /* jshint multistr: true */
@@ -194,7 +189,7 @@ for(var key in SK.moduleConstructors) {
 
     var moduleName = key;
     var module = new SK.moduleConstructors[key]();
-    var moduleSettings = GM_getValue(moduleName);
+    var moduleSettings = SK.Util.getValue(moduleName);
     //On prépare le chargement du module
     SK.modules[moduleName] = module;
 
@@ -202,10 +197,10 @@ for(var key in SK.moduleConstructors) {
     for(var settingKey in module.settings) {
         var setting = module.settings[settingKey];
         var settingLabel = settingKey;
-        var settingValue = GM_getValue(moduleName + "." + settingLabel);
+        var settingValue = SK.Util.getValue(moduleName + "." + settingLabel);
 
         //Si la préférence n'est pas enregistrée, on prend la valeur par défaut
-        if(typeof settingValue === "undefined") {
+        if(settingValue === null) {
             settingValue = setting.default;
         }
 
@@ -214,7 +209,7 @@ for(var key in SK.moduleConstructors) {
     }
 
     //Si le module est requis, qu'il n'y a pas de préférences ou que la préférence est à faux
-    if(module.required || typeof moduleSettings === "undefined" || moduleSettings) {
+    if(module.required || moduleSettings === null || moduleSettings) {
 
         //On charge le CSS du module
         modulesStyle += module.internal_getCss();

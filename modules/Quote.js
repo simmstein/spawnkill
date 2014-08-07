@@ -24,10 +24,10 @@ SK.moduleConstructors.Quote.prototype.indentationBefore = 0;
 
 SK.moduleConstructors.Quote.prototype.init = function() {
     //Si une citation est prévue, on l'affiche
-    var quoteMessage = GM_getValue("response.content");
+    var quoteMessage = SK.Util.getValue("responseContent");
     if(quoteMessage) {
         this.citeMessage(quoteMessage);
-        GM_deleteValue("response.content");
+        SK.Util.deleteValue("responseContent");
     }
     this.addCitationButtons();
 };
@@ -56,7 +56,7 @@ SK.moduleConstructors.Quote.prototype.addCitationButtons = function() {
                 if(!SK.modules.QuickResponse.activated &&
                     window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/1/))
                 {
-                    GM_setValue("response.content", citationBlock);
+                    SK.Util.setValue("responseContent", citationBlock);
                     window.location.href = $(".bt_repondre").attr("href");
                 }
                 else {
