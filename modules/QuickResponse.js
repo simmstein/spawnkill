@@ -32,8 +32,7 @@ SK.moduleConstructors.QuickResponse.prototype.addResponseForm = function() {
 
             $quickResponseForm.hide();
             $quickResponseForm.html($(data.replace(/<p class="lien_base">\n.*\n<\/p>/, "")).find(".bloc_forum:last, form[name=post2]"));
-            $quickResponseForm.find('#boutons_repondre').css('background', 'none');
-            $quickResponseForm.find('#boutons_repondre').css('padding-bottom', '0');
+            $quickResponseForm.addClass("quick-response");
             $quickResponseForm.fadeIn();
         }
     });
@@ -52,5 +51,17 @@ SK.moduleConstructors.QuickResponse.prototype.addAnchor = function() {
 };
 
 SK.moduleConstructors.QuickResponse.prototype.shouldBeActivated = function() {
-    return (window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/1/) && $(".bt_repondre").length > 0);
+    return window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/1/);
+};
+
+SK.moduleConstructors.QuickResponse.prototype.getCss = function() {
+
+    var css = "\
+        .quick-response #boutons_repondre {\
+            background: none;\
+            padding-bottom: 0px;\
+        }\
+    ";
+
+    return css;
 };

@@ -64,8 +64,6 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostButtons = function(author) {
     var profileUrl = "http://www.jeuxvideo.com/profil/" + author.pseudo + ".html";
     var mpUrl = "http://www.jeuxvideo.com/messages-prives/nouveau.php?all_dest=" + author.pseudo;
 
-    // <a  target="avertir" rel="nofollow" title="Avertir un administrateur" href="http://www.jeuxvideo.com/cgi-bin/jvforums/avertir_moderateur.cgi?mode=1&amp;forum=36&amp;topic=22319326&amp;hash_mdr=0&amp;numero=22333737&amp;page=4&amp;t=1406898519&amp;k=3b25bdfddc8c430e9cd30c2c7af54bfe" onclick="window.open('','avertir','width=700,height=470,scrollbars=no,status=no')">
-
     //Bouton CDV
     SK.Util.addButton(author.$msg, {
         class: (author.gender && this.getSetting("enableSex")) ? author.gender : "unknown",

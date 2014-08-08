@@ -4,25 +4,25 @@
 // @author      Spixel_
 // @namespace   http://www.spixel.fr
 // @include     http://*.jeuxvideo.com*
-// @version     1.6.1
-// @require     jquery-1.11.1.min.js?v1.6.1
-// @require     spin.min.js?v1.6.1
-// @require     jquery-plugins.js?v1.6.1
-// @require     base.js?v1.6.1
-// @require     Util.js?v1.6.1
-// @require     Message.js?v1.6.1
-// @require     Author.js?v1.6.1
-// @require     Button.js?v1.6.1
-// @require     SlideToggle.js?v1.6.1
-// @require     Modal.js?v1.6.1
-// @require     modules/Module.js?v1.6.1
-// @require     modules/StartSpawnKill.js?v1.6.1
-// @require     modules/Settings.js?v1.6.1
-// @require     modules/QuickResponse.js?v1.6.1
-// @require     modules/Quote.js?v1.6.1
-// @require     modules/InfosPseudo.js?v1.6.1
-// @require     modules/HilightNewTopic.js?v1.6.1
-// @require     modules/LastPage.js?v1.6.1
+// @version     1.6.2
+// @require     jquery-1.11.1.min.js?v1.6.2
+// @require     spin.min.js?v1.6.2
+// @require     jquery-plugins.js?v1.6.2
+// @require     base.js?v1.6.2
+// @require     Util.js?v1.6.2
+// @require     Message.js?v1.6.2
+// @require     Author.js?v1.6.2
+// @require     Button.js?v1.6.2
+// @require     SlideToggle.js?v1.6.2
+// @require     Modal.js?v1.6.2
+// @require     modules/Module.js?v1.6.2
+// @require     modules/StartSpawnKill.js?v1.6.2
+// @require     modules/Settings.js?v1.6.2
+// @require     modules/QuickResponse.js?v1.6.2
+// @require     modules/Quote.js?v1.6.2
+// @require     modules/InfosPseudo.js?v1.6.2
+// @require     modules/HilightNewTopic.js?v1.6.2
+// @require     modules/LastPage.js?v1.6.2
 // @resource    banImage    images/ban.png
 // @resource    newTopic    images/topic_new.gif
 // @resource    carton      images/carton.png
@@ -117,12 +117,15 @@ Bugs connus :
 
 Roadmap :
 
-    v1.6.2  
+    v1.6.2
     - Revoir le style des citations
     - Ne permettre qu'un seul niveau de citation
     - Afficher un style particulier pour les citations
-    - Prendre en compte les citations de JVC Master
-    - Corriger les lenteurs sous Firefox
+    - Prendre en compte les citations de JVC Master/TurboForum
+
+    v1.6.3
+    - Ajout d'un cache pour les données de l'auteur (Correctif apporté par, merci :) )
+    - Correction des lenteurs sous Firefox
 
     v1.7
     - Ajouter un AutoUpdater
@@ -147,6 +150,8 @@ Roadmap :
         - Permettre de déplacer les rangs
         - Ajouter des conditions aux options
         - Ajout de raccourcis claviers
+        - Création d'une branche dev sur github et hébergement du projet
+        - Mettre en cache toutes les infos de l'utilisateur
     
     Bugs :
         - Le panneau de paramètrage ne peut pas défiler
