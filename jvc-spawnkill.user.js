@@ -4,25 +4,25 @@
 // @author      Spixel_
 // @namespace   http://www.spixel.fr
 // @include     http://*.jeuxvideo.com*
-// @version     1.6.2
-// @require     jquery-1.11.1.min.js?v1.6.2
-// @require     spin.min.js?v1.6.2
-// @require     jquery-plugins.js?v1.6.2
-// @require     base.js?v1.6.2
-// @require     Util.js?v1.6.2
-// @require     Message.js?v1.6.2
-// @require     Author.js?v1.6.2
-// @require     Button.js?v1.6.2
-// @require     SlideToggle.js?v1.6.2
-// @require     Modal.js?v1.6.2
-// @require     modules/Module.js?v1.6.2
-// @require     modules/StartSpawnKill.js?v1.6.2
-// @require     modules/Settings.js?v1.6.2
-// @require     modules/QuickResponse.js?v1.6.2
-// @require     modules/Quote.js?v1.6.2
-// @require     modules/InfosPseudo.js?v1.6.2
-// @require     modules/HilightNewTopic.js?v1.6.2
-// @require     modules/LastPage.js?v1.6.2
+// @version     1.6.1.1
+// @require     jquery-1.11.1.min.js?v1.6.1.1
+// @require     spin.min.js?v1.6.1.1
+// @require     jquery-plugins.js?v1.6.1.1
+// @require     base.js?v1.6.1.1
+// @require     Util.js?v1.6.1.1
+// @require     Message.js?v1.6.1.1
+// @require     Author.js?v1.6.1.1
+// @require     Button.js?v1.6.1.1
+// @require     SlideToggle.js?v1.6.1.1
+// @require     Modal.js?v1.6.1.1
+// @require     modules/Module.js?v1.6.1.1
+// @require     modules/StartSpawnKill.js?v1.6.1.1
+// @require     modules/Settings.js?v1.6.1.1
+// @require     modules/QuickResponse.js?v1.6.1.1
+// @require     modules/Quote.js?v1.6.1.1
+// @require     modules/InfosPseudo.js?v1.6.1.1
+// @require     modules/HilightNewTopic.js?v1.6.1.1
+// @require     modules/LastPage.js?v1.6.1.1
 // @resource    banImage    images/ban.png
 // @resource    newTopic    images/topic_new.gif
 // @resource    carton      images/carton.png
@@ -51,6 +51,10 @@
 
 /*
 Changelog :
+
+    v1.6.1.1
+    - Correction mineure du CSS de QuickResponse
+    - Préparation de la mise en cache des avatars
 
     v1.6.1
     - Désormais, les rangs s'affichent même si les avatars ne sont pas activés
@@ -174,7 +178,8 @@ Roadmap :
 Fonctionnement du versioning :
     - Incrémentation de la première partie : nouveau fonctionnement
     - Incrémentation de la seconde partie : Ajout d'une fonctionnalité
-    - Incrémentation de la dernière partie : Correction de bugs
+    - Incrémentation de la troisième partie : Amélioration d'une fonctionnalité
+    - Incrémentation de la dernière partie : Correction de bugs ou changement mineurs
 
 */
 "use strict";
