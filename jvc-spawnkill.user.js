@@ -154,26 +154,21 @@ Roadmap :
         - Permettre de déplacer les rangs
         - Ajouter des conditions aux options
         - Ajout de raccourcis claviers
-        - Création d'une branche dev sur github et hébergement du projet
         - Mettre en cache toutes les infos de l'utilisateur
+        - Choix entre plusieurs citations
     
     Bugs :
         - Le panneau de paramètrage ne peut pas défiler
         - Faire fonctionner le plugin sur Opera
     
     Autre :
+        - Création d'une branche dev sur github et hébergement du projet
         - Corriger l'affichage des citations pour les mobiles
         - Réduire la taille des options
         - Affichage de la version en grisé à droite dans les settings
         - Mettre un Message dans auteur au lieu d'un $msg, renommer $msg en $el ou l'inverse
         - Ajouter des tooltips facilement (slidetoggle, lastpage, ...)
         - Ajout de hooks au chargement des données
-
-    Documentation :
-        - Créer un module
-        - Utiliser les boutons
-        - Utiliser les fenêtres modales
-        - Utiliser les SlideToggles
 
 Fonctionnement du versioning :
     - Incrémentation de la première partie : nouveau fonctionnement
