@@ -22,6 +22,9 @@ SK.Author.prototype.init = function() {
     self.loaded = false;
     self.pseudo = self.$msg.find("strong").html().trim();
     self.profileLink = "http://www.jeuxvideo.com/profil/" + self.pseudo + ".html";
+    
+    // Chargement de l'ancien avatar dans le cache
+    self.avatar = localStorage.getItem("SK." + self.pseudo + ".avatar") || '';
 
     SK.Util.jvc("profil/" + self.pseudo + ".xml", function($xml) {
 
@@ -34,6 +37,7 @@ SK.Author.prototype.init = function() {
             self.rank = SK.Author.getRankFromColor($xml.find("couleur_rang").text());
             self.messageCount = parseInt($xml.find("nb_messages").text());
             self.avatar = $xml.find("petite_image").text();
+            localStorage.setItem("SK." + self.pseudo + ".avatar", self.avatar); // Sauvegarde du nouvel avatar
             self.gender = $xml.find("couleur_pseudo").text() === "#0066CC" ? "male" : "female";
             self.loaded = true;
         }
