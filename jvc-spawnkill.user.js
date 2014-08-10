@@ -23,7 +23,6 @@
 // @require     modules/InfosPseudo.js?v1.6.1.1
 // @require     modules/HilightNewTopic.js?v1.6.1.1
 // @require     modules/LastPage.js?v1.6.1.1
-// @require     modules/Test.js?v1.6.1.1
 // @resource    banImage    images/ban.png
 // @resource    newTopic    images/topic_new.gif
 // @resource    carton      images/carton.png
@@ -126,10 +125,16 @@ Roadmap :
     OK - Revoir le style des citations
     OK - Afficher un style particulier pour les citations
     OK - Prendre en compte les citations de JVC Master/TurboForum
-    - Supprimer le guillemet de fin des citations Turboforum
-    - Supprimer les espaces vides avant et après les messages
+    - Passer le code dans Quote
+    - Commenter le code
+    - Modifier Quote pour les citations de citations
+    - Compiler les quotes dans un objet
 
     v1.6.3
+    - Ajouter l'option d'afficher ou non les citations en HTML
+    - Ajouter option type de citations
+
+    v1.6.4
     - Ajout d'un cache pour les données de l'auteur (Correctif apporté par, merci :) )
     - Correction des lenteurs sous Firefox
 
@@ -159,11 +164,13 @@ Roadmap :
         - Mettre en cache toutes les infos de l'utilisateur
         - Choix entre plusieurs citations
         - Faire la distinction entre les bans définitifs et les ban tempo
+        - Système de dépendances dans les configs
     
     Bugs :
         - Corriger la déformation de la liste des sujets quand pseudo trop long
         - Le panneau de paramètrage ne peut pas défiler
         - Faire fonctionner le plugin sur Opera
+        - Corriger taille de popups sur mac
     
     Autre :
         - Création d'une branche dev sur github et hébergement du projet
@@ -242,6 +249,8 @@ var checkDomReady = setInterval(function() {
 
     if($("#footer").length > 0) {
 
+        clearInterval(checkDomReady);
+        
         //On initialise les modules actifs
         for(var key in SK.modules) {
             if(SK.modules[key].activated) {
@@ -249,7 +258,6 @@ var checkDomReady = setInterval(function() {
             }
         }
 
-        clearInterval(checkDomReady);
     }
 
 }, 100);
