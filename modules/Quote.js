@@ -17,8 +17,8 @@ SK.moduleConstructors.Quote = SK.Module.new();
 SK.moduleConstructors.Quote.prototype.title = "Citations";
 SK.moduleConstructors.Quote.prototype.description = "Permet de citer un message de manière propre simplement en cliquant sur un bouton \"citer\".";
 
-//Longueur maximum d'une ligne (approximatif), les lignes plus longues sont tronquées
-SK.moduleConstructors.Quote.prototype.maxLength = 50;
+//Longueur maximum d'une ligne (approximatif), les lignes plus longues sont tronquées. 0 = pas de limite
+SK.moduleConstructors.Quote.prototype.maxLength = 0;
 //Longueur de l'indentation de la citation
 SK.moduleConstructors.Quote.prototype.indentationBefore = 0;
 
@@ -95,39 +95,42 @@ SK.moduleConstructors.Quote.prototype.createCitationBlock = function(message) {
 
     var lines = message.text.split("\n");
 
-    //On parcourt toutes les lignes du message
-    for(var i = 0; i < lines.length; i++) {
-        if(lines[i].length > this.maxLength) {
+    if(this.maxLength !== 0) {
+        //On parcourt toutes les lignes du message
+        for(var i = 0; i < lines.length; i++) {
+            if(lines[i].length > this.maxLength) {
 
-            //On passe les liens à la ligne
-            var httpIndex = lines[i].indexOf("http");
+                //On passe les liens à la ligne
+                var httpIndex = lines[i].indexOf("http");
 
-            if(httpIndex > 1) { // > 0 et pas !== -1 pour éviter une boucle infini
-                lines.splice(i, 0, lines[i].substr(0, httpIndex));
-                lines.splice(i + 1, 1, lines[i + 1].substr(httpIndex));
-            } 
+                if(httpIndex > 1) { // > 1 et pas !== -1 pour éviter une boucle infini
+                    lines.splice(i, 0, lines[i].substr(0, httpIndex));
+                    lines.splice(i + 1, 1, lines[i + 1].substr(httpIndex));
+                } 
 
-            //On coupe les lignes trop longues au niveau des espaces (pour éviter de tronquer les mots)
-            var cutIndex = lines[i].substr(this.maxLength).indexOf(" ");
+                //On coupe les lignes trop longues au niveau des espaces (pour éviter de tronquer les mots)
+                var cutIndex = lines[i].substr(this.maxLength).indexOf(" ");
 
-            //S'il n'y a pas d'espaces dans la chaine, on ne la coupe pas
-            if(cutIndex !== -1) {
-                lines.splice(i, 0, lines[i].substr(0, this.maxLength + cutIndex));
-                lines.splice(i + 1, 1, lines[i + 1].substr(this.maxLength + cutIndex));
+                //S'il n'y a pas d'espaces dans la chaine, on ne la coupe pas
+                if(cutIndex !== -1) {
+                    lines.splice(i, 0, lines[i].substr(0, this.maxLength + cutIndex));
+                    lines.splice(i + 1, 1, lines[i + 1].substr(this.maxLength + cutIndex));
+                }
             }
         }
     }
 
     //Ajout de décoration/indentation à gauche des lignes
     $.each(lines, function(i, line) {
-        lines[i] = SK.Util._(this.indentationBefore) + "┆ " + SK.Util._(1) + " " + line;
+        lines[i] = SK.Util._(this.indentationBefore) + "┊ " + line;
     }.bind(this));
 
     //Message descriptif de la citation
-    lines.splice(0, 0, SK.Util._(this.indentationBefore) + "╭┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄");
-    lines.splice(0, 0, SK.Util._(this.indentationBefore + 4) + message.author + ", le " + message.date + " :");
+    lines.splice(0, 0, SK.Util._(this.indentationBefore) + "┊┄┄┄");
+    lines.splice(0, 0, SK.Util._(this.indentationBefore) + "┊ " + message.permalink);
+    lines.splice(0, 0, SK.Util._(this.indentationBefore) + "╭ " + message.author + ", le " + message.date);
     //Fin de la citation
-    lines.push(SK.Util._(this.indentationBefore) + "╰┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄");
+    lines.push(SK.Util._(this.indentationBefore) + "╰┄┄┄");
     //On passe une ligne après la citation
     lines.push("\n");
 

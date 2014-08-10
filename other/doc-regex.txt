@@ -1,0 +1,156 @@
+Regex effectuée sur :
+var post = $("#test");
+post.html(post.html().replace(/\n/g, "").replace(/ <br>/g, "\n").replace(/\n/g, "<br>"));
+
+BEATRICE (sans lien, impossible à matcher, pas de délimitation de fin)
+texte :
+/^# (.*)\n^# Posté le (\d{1,2}) ([^\s]*) (\d{4}) à (\d{2}:\d{2}:\d{2})\n((?:.|[\n\r])*?)\n^# (http.*)/m
+html :
+/# (.*)\n^# Posté le (\d{1,2}) ([^\s]*) (\d{4}) à (\d{2}:\d{2}:\d{2})\n((?:.|[\n\r])*?)\n^# <a(?:.*?)href="(http[^"]*)".*/m
+$1 : pseudo
+$2 : jour
+$3 : mois
+$4 : année
+$5 : heure
+$6 : message
+$7 : permalien
+
+SpawnKill
+texte : 
+/╭ ([^,]*), le (\d{1,2}) ([^\s]*) (\d{4}) à (\d{2}:\d{2}:\d{2})\n^┊ (http.*)\n┊┄┄┄\n((?:.|[\n\r])*)\n^╰┄┄┄/m
+html : 
+/╭(?:┄┄┄)* ([^,]*), le (\d{1,2}) ([^\s]*) (\d{4}) à (\d{2}:\d{2}:\d{2})\n^┊ <a(?:.*?)href="(http[^"]*)".*\n┊┄┄┄\n((?:.|[\n\r])*?)\n^╰┄┄┄/m
+$1 : pseudo
+$2 : jour
+$3 : mois
+$4 : année
+$5 : heure
+$6 : permalien
+$7 : message (à épurer en retirant le cadre)
+
+JVC Master
+texte : 
+/(?:(?:^\| (http.*)\n)|())^\| Ecrit par « ([^\s]*) »(?:[^\d]*)(\d{1,2}) ([^\s]*) (\d{4}) à (\d{2}:\d{2}:\d{2})\n\| « ((?:.|[\n\r])*?) »(?:(?:[\s]*)> )*/m
+html : 
+/(?:(?:\| <a(?:.*?)href="(http[^"]*)".*\n))*\| Ecrit par « ([^\s]*) »(?:[^\d]*)(\d{1,2}) ([^\s]*) (\d{4}) à (\d{2}:\d{2}:\d{2})\n\| « ((?:.|[\n\r])*?) »(?:(?:[\s]*)&gt; )*/m
+
+$1 : permalien (peut être vide)
+$2 : pseudo
+$3 : jour
+$4 : mois
+$5 : année
+$6 : heure
+$7 : message (à épurer en retirant le cadre)
+
+Turboforum
+texte :
+/^\| ([^\s]*)[^-]*-[^l]*le (\d{1,2}) ([^\s]*) (\d{4})(?:\n\| (http.*)|())\n((?:(?:\n*^\|.*)*)*)(?:(?:[\s]*)> )*/m
+html :
+/^\| ([^\s]*)(?:(?:&nbsp;)|[\s])*-(?:(?:&nbsp;)|[\s])*le (\d{1,2}) ([^\s]*) (\d{4}) (?:\n\| <a(?:.*?)href="(http[^"]*)".*)*\n((?:(?:\n*^\|.*)*)*)(?:(?:[\s]*)&gt; )*/m
+$1 : pseudo
+$2 : jour
+$3 : mois
+$4 : année
+$5 : permalien (peut être vide)
+$6 : message (à épurer en retirant le cadre)
+
+
+Citations de test ( http://www.jeuxvideo.com/forums/1-28577-19-1-0-1-0-avertissement.htm ):
+----
+
+╭ Mynesquik, le 12 avril 2012 à 11:20:42
+┊ <a sl-processed="1" href="http://www.lelien.com" target="_blank">httpmssage_19</a>
+┊┄┄┄
+┊ Bonjour à Tous, Je crée ce topic uniquement dans le but de
+┊ prévenir que le jeu n'est pas sorti depuis quelques heures 
+┊ mais bien depuis plusieurs jours ( je l'avais installé ) et que 
+┊ la version Lite est injouable, on se retrouve avec des joysticks 
+┊ adaptés à l'iPad mais sur iPhone ( gros gros problème de visibilité 
+┊ donc ) ce qui fait que les boutons se chevauchent et il rame à mort 
+┊ en plus de ne pas avoir les impacts de billes de peintures sur aucun
+┊  materiau du décor ni ennemi. Enfin bref, je trouve que c'est une bouse. 
+┊ Je voudrais savoir si c'est la même chose pour Vous. Voilà bonne journée   
+┊ <img src="http://image.jeuxvideo.com/smileys_img/36.gif" alt=":ok:"> 
+╰┄┄┄
+
+SpawnKill
+
+
+| Mynesquik  -  le 12 avril 2012 
+| <a sl-processed="1" href="http://www.lelien.com" target="_blank">httpmssage_19</a>
+| Bonjour à Tous, 
+| Je crée ce topic uniquement dans le but de prévenir que le jeu n'est pas sorti depuis
+|  quelques heures mais bien depuis plusieurs jours ( je l'avais installé ) et que la 
+| version Lite est injouable, on se retrouve avec des joysticks adaptés à l'iPad mais sur
+|  iPhone ( gros gros problème de visibilité donc ) ce qui fait que les boutons se 
+| chevauchent et il rame à mort en plus de ne pas avoir les impacts de billes de peinture
+| s sur aucun materiau du décor ni ennemi. 
+| Enfin bref, je trouve que c'est une bouse. 
+| Je voudrais savoir si c'est la même chose pour Vous. 
+| Voilà bonne journée  <img src="http://imays_img/36.gif" alt=":ok:"> 
+
+&gt; Turboforum
+
+| Mynesquik &nbsp;-&nbsp; le 12 avril 2012 
+| Bonjour à Tous, 
+| Je crée ce topic uniquement dans le but de prévenir que le jeu n'est pas sorti depu
+| is quelques heures mais bien depuis plusieurs jours ( je l'avais installé ) et que la
+|  version Lite est injouable, on se retrouve avec des joysticks adaptés à l'iPad mais 
+|  sur iPhone ( gros gros problème de visibilité donc ) ce qui fait que les boutons se 
+|  chevauchent et il rame à mort en plus de ne pas avoir les impacts de billes de pein
+|  tures sur aucun materiau du décor ni ennemi. 
+| Enfin bref, je trouve que c'est une bouse. 
+| Je voudrais savoir si c'est la même chose pour Vous. 
+| Voilà bonne journée  <img src="http://image.je/36.gif" alt=":ok:"> 
+
+&gt; Turboforum
+
+
+| <a sl-processed="1" href="http://www.lelien.com" target="_blank">httpmssage_19</a>
+| Ecrit par « Mynesquik », via mobile 12 avril 2012 à 11:20:42
+| « Bonjour à Tous,
+| Je crée ce topic uniquement dans le but de prévenir que le jeu n'est pas sorti dep
+| uis quelques heures mais bien depuis plusieurs jours ( je l'avais installé ) et que 
+| la version Lite est injouable, on se retrouve avec des joysticks adaptés à l'iPad ma
+| is sur iPhone ( gros gros problème de visibilité donc ) ce qui fait que les boutons 
+| se chevauchent et il rame à mort en plus de ne pas avoir les impacts de billes de pe
+| intures sur aucun materiau du décor ni ennemi.
+| Enfin bref, je trouve que c'est une bouse.
+| Je voudrais savoir si c'est la même chose pour Vous.
+| Voilà bonne journée   <img src="http://image.jeimg/36.gif" alt=":ok:">  »
+
+&gt; JVC Master
+
+
+| Ecrit par « Mynesquik », via mobile 12 avril 2012 à 11:20:42
+| « Bonjour à Tous,
+| Je crée ce topic uniquement dans le but de prévenir que le jeu n'est pas sorti depuis
+|  quelques heures mais bien depuis plusieurs jours ( je l'avais installé ) et que la 
+| version Lite est injouable, on se retrouve avec des joysticks adaptés à l'iPad mais s
+| ur iPhone ( gros gros problème de visibilité donc ) ce qui fait que les boutons se ch
+| evauchent et il rame à mort en plus de ne pas avoir les impacts de billes de peinture
+| s sur aucun materiau du décor ni ennemi.
+| Enfin bref, je trouve que c'est une bouse.
+| Je voudrais savoir si c'est la même chose pour Vous.
+| Voilà bonne journée   <img src="http:/6.gif" alt=":ok:">  »
+
+&gt; JVC Master
+
+
+
+# Mynesquik
+# Posté le 12 avril 2012 à 11:20:42
+Bonjour à Tous, 
+Je crée ce topic uniquement dans le but de prévenir que le jeu n'est pas sorti depuis
+ quelques heures mais bien depuis plusieurs jours ( je l'avais installé ) et que la v
+ ersion Lite est injouable, on se retrouve avec des joysticks adaptés à l'iPad mais s
+ ur iPhone ( gros gros problème de visibilité donc ) ce qui fait que les boutons se c
+ hevauchent et il rame à mort en plus de ne pas avoir les impacts de billes de peintu
+ res sur aucun materiau du décor ni ennemi. 
+Enfin bref, je trouve que c'est une bouse. 
+Je voudrais savoir si c'est la même chose pour Vous. 
+Voilà bonne journée   <img src="http://image.jeuxvideoimg/36.gif" alt=":ok:">  
+# <a sl-processed="1" href="http://www.lelien.com" target="_blank">httpmssage_19</a>
+
+BEATRICE avec lien
+

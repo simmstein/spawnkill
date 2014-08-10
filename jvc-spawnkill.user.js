@@ -23,6 +23,7 @@
 // @require     modules/InfosPseudo.js?v1.6.1.1
 // @require     modules/HilightNewTopic.js?v1.6.1.1
 // @require     modules/LastPage.js?v1.6.1.1
+// @require     modules/Test.js?v1.6.1.1
 // @resource    banImage    images/ban.png
 // @resource    newTopic    images/topic_new.gif
 // @resource    carton      images/carton.png
@@ -122,10 +123,11 @@ Bugs connus :
 Roadmap :
 
     v1.6.2
-    - Revoir le style des citations
-    - Ne permettre qu'un seul niveau de citation
-    - Afficher un style particulier pour les citations
-    - Prendre en compte les citations de JVC Master/TurboForum
+    OK - Revoir le style des citations
+    OK - Afficher un style particulier pour les citations
+    OK - Prendre en compte les citations de JVC Master/TurboForum
+    - Supprimer le guillemet de fin des citations Turboforum
+    - Supprimer les espaces vides avant et après les messages
 
     v1.6.3
     - Ajout d'un cache pour les données de l'auteur (Correctif apporté par, merci :) )
@@ -156,8 +158,10 @@ Roadmap :
         - Ajout de raccourcis claviers
         - Mettre en cache toutes les infos de l'utilisateur
         - Choix entre plusieurs citations
+        - Faire la distinction entre les bans définitifs et les ban tempo
     
     Bugs :
+        - Corriger la déformation de la liste des sujets quand pseudo trop long
         - Le panneau de paramètrage ne peut pas défiler
         - Faire fonctionner le plugin sur Opera
     

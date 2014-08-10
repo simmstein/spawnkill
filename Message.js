@@ -25,10 +25,10 @@ SK.Message.prototype.initText = function() {
     return $message.text().trim();
 };
 
-//À implémenter :
 /* Retourne le permalien du post $(.msg) passé en paramètre */
 SK.Message.prototype.initPermalink = function() {
-    return "";
+
+    return location.protocol + "//" + location.host + location.pathname + "#" + this.$msg.attr("id");
 };
 
 /* Retourne l'auteur du post $(.msg) passé en paramètre */
