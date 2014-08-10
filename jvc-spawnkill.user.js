@@ -4,25 +4,24 @@
 // @author      Spixel_
 // @namespace   http://www.spixel.fr
 // @include     http://*.jeuxvideo.com*
-// @version     1.6.1.1
-// @require     jquery-1.11.1.min.js?v1.6.1.1
-// @require     spin.min.js?v1.6.1.1
-// @require     jquery-plugins.js?v1.6.1.1
-// @require     base.js?v1.6.1.1
-// @require     Util.js?v1.6.1.1
-// @require     Message.js?v1.6.1.1
-// @require     Author.js?v1.6.1.1
-// @require     Button.js?v1.6.1.1
-// @require     SlideToggle.js?v1.6.1.1
-// @require     Modal.js?v1.6.1.1
-// @require     modules/Module.js?v1.6.1.1
-// @require     modules/StartSpawnKill.js?v1.6.1.1
-// @require     modules/Settings.js?v1.6.1.1
-// @require     modules/QuickResponse.js?v1.6.1.1
-// @require     modules/Quote.js?v1.6.1.1
-// @require     modules/InfosPseudo.js?v1.6.1.1
-// @require     modules/HilightNewTopic.js?v1.6.1.1
-// @require     modules/LastPage.js?v1.6.1.1
+// @version     1.6.2
+// @require     jquery-1.11.1.min.js?v1.6.2
+// @require     jquery-plugins.js?v1.6.2
+// @require     base.js?v1.6.2
+// @require     Util.js?v1.6.2
+// @require     Message.js?v1.6.2
+// @require     Author.js?v1.6.2
+// @require     Button.js?v1.6.2
+// @require     SlideToggle.js?v1.6.2
+// @require     Modal.js?v1.6.2
+// @require     modules/Module.js?v1.6.2
+// @require     modules/StartSpawnKill.js?v1.6.2
+// @require     modules/Settings.js?v1.6.2
+// @require     modules/QuickResponse.js?v1.6.2
+// @require     modules/Quote.js?v1.6.2
+// @require     modules/InfosPseudo.js?v1.6.2
+// @require     modules/HilightNewTopic.js?v1.6.2
+// @require     modules/LastPage.js?v1.6.2
 // @resource    banImage    images/ban.png
 // @resource    newTopic    images/topic_new.gif
 // @resource    carton      images/carton.png
@@ -43,6 +42,7 @@
 // @resource    mp          images/mp.png
 // @resource    alert       images/alert.png
 // @resource    settings    images/settings.png
+// @resource    loader      images/loader.gif
 // @grant       GM_xmlhttpRequest
 // @grant       GM_getResourceURL
 // @grant       GM_setClipboard
@@ -137,6 +137,9 @@ Roadmap :
     v1.6.4
     - Ajout d'un cache pour les données de l'auteur (Correctif apporté par, merci :) )
     - Correction des lenteurs sous Firefox
+    - Mise en cache
+    - Une seule requête ajax
+
 
     v1.7
     - Ajouter un AutoUpdater
@@ -173,6 +176,7 @@ Roadmap :
         - Corriger taille de popups sur mac
     
     Autre :
+        - Décalage quand prévenir admin
         - Création d'une branche dev sur github et hébergement du projet
         - Corriger l'affichage des citations pour les mobiles
         - Réduire la taille des options

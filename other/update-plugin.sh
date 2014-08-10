@@ -1,7 +1,6 @@
 #!/bin/bash
 rm -rfv /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/*
 ln -sv /media/data/www/spawnkill/jvc-spawnkill.user.js /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
-ln -sv /media/data/www/spawnkill/spin.min.js /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
 ln -sv /media/data/www/spawnkill/jquery-1.11.1.min.js /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
 ln -sv /media/data/www/spawnkill/base.js /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
 ln -sv /media/data/www/spawnkill/jquery-plugins.js /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
@@ -40,4 +39,5 @@ ln -sv /media/data/www/spawnkill/images/quote.png /home/dorian/.mozilla/firefox/
 ln -sv /media/data/www/spawnkill/images/mp.png /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
 ln -sv /media/data/www/spawnkill/images/alert.png /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
 ln -sv /media/data/www/spawnkill/images/settings.png /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
+ln -sv /media/data/www/spawnkill/images/loader.gif /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
 read

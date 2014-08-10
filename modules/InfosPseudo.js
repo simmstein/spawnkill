@@ -36,9 +36,6 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostInfos = function() {
 
             if(self.getSetting("enableAvatar")) {
                 self.addAvatarPlaceholder($msg);
-                
-                //On affiche un des loaders en attendant les données
-                $(".avatar").spin("tiny");
             }
 
             //Appelée quand la récupération des  données de l'auteur est terminée
@@ -150,6 +147,9 @@ SK.moduleConstructors.InfosPseudo.prototype.addAvatarPlaceholder = function($msg
 
     $avatarWrapper.append($avatar);
     $msg.append($avatarWrapper);
+
+    //On affiche un loader en attendant les données
+    $avatar.addClass("loading");
 };
 
 /* Ajoute le rang de l'auteur */
@@ -207,7 +207,7 @@ SK.moduleConstructors.InfosPseudo.prototype.addAvatar = function(author) {
     $avatarImg.on("load", function() {
         $avatar
             .attr("href", author.profileLink)
-            .spin(false)
+            .removeClass("loading")
             .append($avatarImg);
         $avatarImg.fadeIn();
         this.calculateAvatarDimensions($avatarImg);
@@ -316,6 +316,11 @@ SK.moduleConstructors.InfosPseudo.prototype.getCss = function() {
                 overflow: hidden;\
                 box-shadow: 0px 2px 3px -2px rgba(0, 0, 0, 0.8);\
                 cursor: pointer;\
+            }\
+            .msg .avatar.loading {\
+                background-image: url('" + GM_getResourceURL("loader") + "');\
+                background-repeat: no-repeat;\
+                background-position: 22px;\
             }\
             .msg .avatar.ban {\
                 box-shadow: none;\
