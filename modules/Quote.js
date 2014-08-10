@@ -132,16 +132,17 @@ SK.moduleConstructors.Quote.prototype.createCitationBlock = function(message) {
     }.bind(this));
 
     //Message descriptif de la citation
-    lines.splice(0, 0, SK.Util._(this.indentationBefore) + "┊┄┄┄");
+    lines.splice(0, 0, SK.Util._(this.indentationBefore) + "┊");
     lines.splice(0, 0, SK.Util._(this.indentationBefore) + "┊ " + message.permalink);
-    lines.splice(0, 0, SK.Util._(this.indentationBefore) + "╭ " + message.author + ", le " + message.date);
+    lines.splice(0, 0, SK.Util._(this.indentationBefore) + "┊ " + message.author + ", le " + message.date);
+    lines.splice(0, 0, SK.Util._(this.indentationBefore) + "╭");
     //Fin de la citation
-    lines.push(SK.Util._(this.indentationBefore) + "╰┄┄┄");
+    lines.push(SK.Util._(this.indentationBefore) + "╰");
     //On passe une ligne après la citation
     lines.push("\n");
 
     //On n'autorise pas les sauts de ligne consécutifs dans les citations
-    var quote = lines.join("\n").replace("\n\n\n", "\n");
+    var quote = lines.join("\n")/*.replace("\n\n\n", "\n")*/;
 
     return quote;
 };
@@ -226,7 +227,7 @@ SK.moduleConstructors.Quote.prototype.initQuoteTypes = function() {
     self.quoteTypes.push(new SK.moduleConstructors.Quote.QuoteType({
         id: "spawnkill",
         /* $1: pseudo, $2: jour, $3: mois, $4: année, $5: heure, $6: permalien, $7: message (à épurer en retirant le cadre) */
-        regex: /╭(?:┄┄┄)* ([^,]*), le (\d{1,2}) ([^\s]*) (\d{4}) à (\d{2}:\d{2}:\d{2})\n^ *┊ *<a(?:.*?)href="(http[^"]*)".*\n *┊┄┄┄\n((?:.|[\n\r])*?)\n^ *╰┄┄┄[\s]*/gm,
+        regex: /╭(?:┄┄┄)?(?:\n *┊)? ([^,]*), le (\d{1,2}) ([^\s]*) (\d{4}) à (\d{2}:\d{2}:\d{2})\n^ *┊ *<a(?:.*?)href="(http[^"]*)".*\n *┊(?:┄┄┄)?\n((?:.|[\n\r])*?)\n^ *╰(?:┄┄┄)?[\s]*/gm,
 
         replaceCallback: function(match, pseudo, jour, mois, annee, heure, permalien, message) {
 
@@ -325,7 +326,7 @@ SK.moduleConstructors.Quote.prototype.htmlizeAllQuotes = function() {
         postText = self.htmlizeQuote(postText);
 
         //On remet les <br>
-        $(this).html(postText.replace(/\n/g, "<br>"));
+        $(this).html(postText.replace(/\n/g, "\n<br>"));
     });
 };
 

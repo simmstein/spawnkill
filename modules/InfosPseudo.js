@@ -420,6 +420,7 @@ SK.moduleConstructors.InfosPseudo.prototype.getCss = function() {
         .sk-button-content.rank {\
             border: none !important;\
             height: 15px !important;\
+            cursor: default;\
         }\
         .sk-button-content.rank:active {\
             margin-top: 0px !important;\
