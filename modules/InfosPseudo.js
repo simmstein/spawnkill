@@ -36,6 +36,9 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostInfos = function() {
 
             if(self.getSetting("enableAvatar")) {
                 self.addAvatarPlaceholder($msg);
+                
+                //On affiche un des loaders en attendant les données
+                $(".avatar").spin("tiny");
             }
 
             //Appelée quand la récupération des  données de l'auteur est terminée
@@ -147,9 +150,6 @@ SK.moduleConstructors.InfosPseudo.prototype.addAvatarPlaceholder = function($msg
 
     $avatarWrapper.append($avatar);
     $msg.append($avatarWrapper);
-
-    //On affiche un loader en attendant les données
-    $avatar.spin("tiny");
 };
 
 /* Ajoute le rang de l'auteur */
