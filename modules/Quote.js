@@ -184,7 +184,7 @@ SK.moduleConstructors.Quote.prototype.citationToHtml = function(pseudo, jour, mo
     var profileUrl = "http://www.jeuxvideo.com/profil/" + pseudo + ".html";
 
     if(heure !== "") {
-        heure = "<div class='quote-hour' >à " + heure + "</div>";
+        heure = "<div class='quote-hour' >" + heure + "</div>";
     }
     var $quote = $("<div class='quote-bloc' >" +
             "<div class='quote-header' >" +
@@ -442,15 +442,22 @@ SK.moduleConstructors.Quote.prototype.getCss = function() {
                 display: inline-block;\
                 position: relative;\
                 top: 1px;\
+                padding-left: 18px;\
                 font-size: 0.9em;\
+                background-image: url('" + GM_getResourceURL("calendar") + "');\
+                background-position: 1px -1px;\
+                background-repeat: no-repeat;\
             }\
             .quote-hour {\
                 float: right;\
                 display: inline-block;\
                 position: relative;\
                 top: 1px;\
-                padding-left: 4px;\
+                padding-left: 26px;\
                 font-size: 0.9em;\
+                background-image: url('" + GM_getResourceURL("clock") + "');\
+                background-position: 9px -1px;\
+                background-repeat: no-repeat;\
             }\
             .quote-link {\
                 float: right;\
