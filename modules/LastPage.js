@@ -53,6 +53,7 @@ SK.moduleConstructors.LastPage.prototype.addLastPageLinks = function() {
 
 		//On réduit la taille de la date pour ne pas casser l'affichage
 		$topic.find("td:eq(4)").html($topic.find("td:eq(4)").text().trim().replace(/\/[\d]{4}/, ""));
+		$("#liste_topics #c5").html("Dern. Msg.");
 	});
 };
 

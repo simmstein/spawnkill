@@ -136,6 +136,7 @@ Roadmap :
     - Ajouter une box pour les images/vidéos/sondages
     
     Fonctionnalités :
+        - Remplacer le lien avatar vers un agrandissement de l'avatar.
         - Faire des icones pour améliorer les citations
         - Ajouter un lien vers les citations de ce message
         - Ajouter d'autres types d'options pour les plugins (string, text, int, bool, float, color, select,...)
