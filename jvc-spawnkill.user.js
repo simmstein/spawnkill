@@ -151,6 +151,8 @@ Roadmap :
 
     
     Fonctionnalités :
+        - Prévenir en cas de nouveau message (+ notifications)
+        - Bookmark dernière page d'un topic
         - Ajouter un lien vers les citations de ce message
         - Ajouter un lien vers les screenshots de la fonctionnalité dans le panneau de config
         - Ajouter une preview des fonctionnalités (depuis ajax du site)

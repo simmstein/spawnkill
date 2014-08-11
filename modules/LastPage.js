@@ -77,6 +77,9 @@ SK.moduleConstructors.LastPage.prototype.getCss = function() {
 			#liste_topics th#c5 {\
 				width: auto;\
 			}\
+			#liste_topics th#c1 {\
+				min-width: 26px;\
+			}\
 			a.last-page-link {\
 			  position: relative;\
 			  width: 27px;\
