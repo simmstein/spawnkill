@@ -456,12 +456,8 @@ SK.moduleConstructors.Quote.prototype.getCss = function() {
                 padding-left: 26px;\
                 font-size: 0.9em;\
                 background-image: url('" + GM_getResourceURL("clock") + "');\
-                background-position: 9px -1px;\
+                background-position: 10px -1px;\
                 background-repeat: no-repeat;\
-            }\
-            .quote-link {\
-                float: right;\
-                display: inline-block;\
             }\
             .quote-message {\
                 padding: 5px;\
@@ -469,6 +465,7 @@ SK.moduleConstructors.Quote.prototype.getCss = function() {
             }\
             .quote-bloc .sk-button {\
                 float: right;\
+                margin-left: 8px;\
             }\
             .sk-button-content.link-gray {\
                 background-image: url('" + GM_getResourceURL("link-gray") + "');\
