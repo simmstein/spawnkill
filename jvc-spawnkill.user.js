@@ -125,7 +125,7 @@ Roadmap :
 
     v1.7
     - Remplacer le lien avatar vers un agrandissement de l'avatar.
-    - Affichage des photos/vidéos dans les posts
+    - Affichage des photos/vidéos/sondages dans les posts
     - Popup pour voir les images/vidéos en grand
     - Ajouter une option de choix pour la position du rang
     - Décalage du bouton prévenir admin
@@ -137,7 +137,6 @@ Roadmap :
     - Affichage de la version en grisé à droite dans les settings
 
     v1.9
-    - Ajouter une box pour les images/vidéos/sondages
     - Faire la distinction entre les bans définitifs et les ban tempo
     - Bugs avec "aujourd'hui" dans les citations Turboforum
 
