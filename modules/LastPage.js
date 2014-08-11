@@ -73,6 +73,9 @@ SK.moduleConstructors.LastPage.prototype.getCss = function() {
 
 	if(this.getSetting("showIndicator")) {
 		css += "\
+			#liste_topics th#c5 {\
+				width: auto;\
+			}\
 			a.last-page-link {\
 			  position: relative;\
 			  width: 27px;\

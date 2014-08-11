@@ -151,6 +151,7 @@ Roadmap :
         - Système de dépendances dans les configs
     
     Bugs :
+        - Bugs avec "aujourd'hui" dans les citations Turboforum
         - Le panneau de paramètrage ne peut pas défiler
         - Faire fonctionner le plugin sur Opera
         - Corriger taille de popups sur mac
