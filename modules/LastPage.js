@@ -51,6 +51,8 @@ SK.moduleConstructors.LastPage.prototype.addLastPageLinks = function() {
 			title: "Accéder à la dernière page du sujet"
 		}));
 
+		//On réduit la taille de la date pour ne pas casser l'affichage
+		$topic.find("td:eq(4)").html($topic.find("td:eq(4)").text().trim().replace(/\/[\d]{4}/, ""));
 	});
 };
 

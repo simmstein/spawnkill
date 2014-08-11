@@ -59,6 +59,7 @@ Changelog :
     - Remplacement du loader par un gif pour améliorer les performances
     - Interdiction d'imbriquer les citations pour éviter les posts à rallonge
     - Ajouter une option pour afficher/cacher le bouton de citation
+    - Correction de la déformation de la liste des sujets quand le pseudo est trop long
 
     v1.6.1.1
     - Correction mineure du CSS de QuickResponse
@@ -150,7 +151,6 @@ Roadmap :
         - Système de dépendances dans les configs
     
     Bugs :
-        - Corriger la déformation de la liste des sujets quand pseudo trop long
         - Le panneau de paramètrage ne peut pas défiler
         - Faire fonctionner le plugin sur Opera
         - Corriger taille de popups sur mac
