@@ -116,58 +116,56 @@ Changelog :
 Roadmap :
 
     v1.6.3
-    - Ajout d'un cache pour les données de l'auteur (Correctif apporté par, merci :) )
+    - Ajout d'un cache pour les données de l'auteur (Correctif apporté par, keywc, merci :) )
     - Correction des lenteurs sous Firefox
-    - Mise en cache
+    - Mettre en cache toutes les infos de l'utilisateur
+    - Mettre un Message dans auteur au lieu d'un $msg, renommer $msg en $el ou l'inverse
     - Une seule requête ajax
 
-
     v1.7
-    - Ajouter un AutoUpdater
+    - Remplacer le lien avatar vers un agrandissement de l'avatar.
+    - Affichage des photos/vidéos dans les posts
+    - Popup pour voir les images/vidéos en grand
+    - Ajouter une option de choix pour la position du rang
+    - Décalage du bouton prévenir admin
 
-    v1.7.1
+    v1.8
+    - Ajouter un AutoUpdater
+    - Faire des icones pour améliorer les citations
+    - Affichage des plugins dans la preview du message
+    - Affichage de la version en grisé à droite dans les settings
+
+    v1.9
+    - Ajouter une box pour les images/vidéos/sondages
+    - Faire la distinction entre les bans définitifs et les ban tempo
+    - Bugs avec "aujourd'hui" dans les citations Turboforum
+
+    v1.9.1
+    - Ajouter d'autres types d'options pour les plugins (string, text, int, bool, float, color, select,...)
     - Ajouter option type de citations
     - Possibilité de citer seulement une partie du message
     - Ajouter un helper pour les regex de pages
     - Plusieurs tailles d'avatars
     - Afficher la description des modules dans le panneau de configuration
 
-    v1.8
-    - Ajouter une box pour les images/vidéos/sondages
     
     Fonctionnalités :
-        - Remplacer le lien avatar vers un agrandissement de l'avatar.
-        - Faire des icones pour améliorer les citations
         - Ajouter un lien vers les citations de ce message
-        - Ajouter d'autres types d'options pour les plugins (string, text, int, bool, float, color, select,...)
-        - Ajouter une option de choix pour la position du rang
         - Ajouter un lien vers les screenshots de la fonctionnalité dans le panneau de config
         - Ajouter une preview des fonctionnalités (depuis ajax du site)
         - Possibilité d'afficher plus de 15 topics par page
-        - Pouvoir réellement collectionner les triangles poupres / hexagones oranges ou rectangles dorés scintillants
-        - Permettre de déplacer les rangs
-        - Ajouter des conditions aux options
+        - Ajouter des conditions/dépendances aux options
         - Ajout de raccourcis claviers
-        - Mettre en cache toutes les infos de l'utilisateur
-        - Choix entre plusieurs citations
-        - Faire la distinction entre les bans définitifs et les ban tempo
-        - Système de dépendances dans les configs
+        - Pouvoir réellement collectionner les triangles poupres / hexagones oranges ou rectangles dorés scintillants
     
     Bugs :
-        - Bugs avec "aujourd'hui" dans les citations Turboforum
         - Le panneau de paramètrage ne peut pas défiler
-        - Faire fonctionner le plugin sur Opera
         - Corriger taille de popups sur mac
-        - Affichage des plugins dans la preview du message
         - Lorsqu'on reload à la création d'un message, il disparait.
+        - Faire fonctionner le plugin sur Opera
     
     Autre :
-        - Décalage quand prévenir admin
-        - Création d'une branche dev sur github et hébergement du projet
-        - Corriger l'affichage des citations pour les mobiles
         - Réduire la taille des options
-        - Affichage de la version en grisé à droite dans les settings
-        - Mettre un Message dans auteur au lieu d'un $msg, renommer $msg en $el ou l'inverse
         - Ajouter des tooltips facilement (slidetoggle, lastpage, ...)
         - Ajout de hooks au chargement des données
 

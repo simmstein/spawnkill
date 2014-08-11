@@ -31,8 +31,14 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostInfos = function() {
 
             var $msg = $(this).parents(".msg").first();
             
-            //Crée l'auteur                
+            //On crée le Message
+            var message = new SK.message($msg);
+
+            //On crée l'auteur correspondant
             var author = new SK.Author($msg);
+
+            //Et on l'ajoute au message
+            message.setAuthor(author);
 
             if(self.getSetting("enableAvatar")) {
                 self.addAvatarPlaceholder($msg);

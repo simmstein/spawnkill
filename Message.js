@@ -7,9 +7,10 @@ SK.Message = function($msg) {
 
     this.$msg = $msg;
     this.text = this.initText();
-    this.author = this.initAuthor();
+    this.authorPseudo = this.initAuthorPseudo();
     this.date = this.initDate();
     this.permalink = this.initPermalink();
+    this.author = null;
 };
 
 /* Récupère le texte présent dans le post $(.msg) passé en paramètre 
@@ -28,22 +29,26 @@ SK.Message.prototype.initText = function() {
     return $message.text().trim();
 };
 
-/* Retourne le permalien du post $(.msg) passé en paramètre */
+/* Retourne le permalien du post */
 SK.Message.prototype.initPermalink = function() {
 
     return location.protocol + "//" + location.host + location.pathname + "#" + this.$msg.attr("id");
 };
 
-/* Retourne l'auteur du post $(.msg) passé en paramètre */
-SK.Message.prototype.initAuthor = function() {
+/* Retourne le pseudo de l'auteur du post  */
+SK.Message.prototype.initAuthorPseudo = function() {
     return this.$msg.find(".pseudo > strong").html().trim();            
 };
 
-/* Retourne la date du post $(.msg) passé en paramètre */
+/* Retourne la date du post  */
 SK.Message.prototype.initDate = function() {
     var $dateBloc = this.$msg.find(".date");
     var dateString = $dateBloc.text().trim();
 
     var match = dateString.match(/Posté (via mobile )?le([^:]*[^\s]*)/);
     return match[2].trim();
+};
+
+SK.Message.prototype.setAuthor = function(author) {
+    this.author = author;
 };

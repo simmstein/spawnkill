@@ -139,7 +139,7 @@ SK.moduleConstructors.Quote.prototype.createCitationBlock = function(message) {
     //Message descriptif de la citation
     lines.splice(0, 0, SK.Util._(this.indentationBefore) + "┊");
     lines.splice(0, 0, SK.Util._(this.indentationBefore) + "┊ " + message.permalink);
-    lines.splice(0, 0, SK.Util._(this.indentationBefore) + "┊ " + message.author + ", le " + message.date);
+    lines.splice(0, 0, SK.Util._(this.indentationBefore) + "┊ " + message.authorPseudo + ", le " + message.date);
     lines.splice(0, 0, SK.Util._(this.indentationBefore) + "╭");
     //Fin de la citation
     lines.push(SK.Util._(this.indentationBefore) + "╰");
