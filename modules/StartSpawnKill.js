@@ -143,6 +143,7 @@ SK.moduleConstructors.StartSpawnKill.prototype.addModalBackground = function() {
             background-color: #222;\
             font-size: 10px;\
             font-weight: normal;\
+            text-align: center;\
             color: #FFF;\
             opacity: 0.8;\
             z-index: 100;\

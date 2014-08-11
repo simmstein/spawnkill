@@ -48,7 +48,7 @@ SK.Button = function(options) {
         $("#footer").append($tooltip);
 
         $button.append($tooltip.css({
-            width: $tooltip.width()
+            width: $tooltip.width() + 20
         }));
     }
     
