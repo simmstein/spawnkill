@@ -18,6 +18,9 @@ SK.Message.prototype.initText = function() {
 
     var $message = this.$msg.find(".post").clone();
 
+    //On supprime les éventuelles citations
+    $message.find(".quote-bloc").remove();
+
     $message.find("img").each(function() {
         $(this).replaceWith($(this).attr("alt"));
     });

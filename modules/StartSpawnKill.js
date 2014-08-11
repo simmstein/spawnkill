@@ -28,6 +28,9 @@ SK.moduleConstructors.StartSpawnKill.prototype.addModalBackground = function() {
 
  SK.moduleConstructors.StartSpawnKill.prototype.getCss = function() {
     var css = "\
+        .msg .post {\
+            overflow: visible !important;\
+        }\
         #modal-background {\
             display: none;\
             position: fixed;\

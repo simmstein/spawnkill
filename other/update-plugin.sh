@@ -38,6 +38,7 @@ ln -sv /media/data/www/spawnkill/images/link.png /home/dorian/.mozilla/firefox/8
 ln -sv /media/data/www/spawnkill/images/quote.png /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
 ln -sv /media/data/www/spawnkill/images/mp.png /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
 ln -sv /media/data/www/spawnkill/images/alert.png /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
+ln -sv /media/data/www/spawnkill/images/link-gray.png /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
 ln -sv /media/data/www/spawnkill/images/settings.png /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
 ln -sv /media/data/www/spawnkill/images/loader.gif /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
 read

@@ -25,17 +25,22 @@ SK.moduleConstructors.Quote.prototype.indentationBefore = 0;
 SK.moduleConstructors.Quote.prototype.init = function() {
 
     //On transforme les citations en Html
-    this.initQuoteTypes();
-    this.htmlizeAllQuotes();
-
-    //Si une citation est prévue, on l'affiche
-    var quoteMessage = SK.Util.getValue("responseContent");
-
-    if(quoteMessage) {
-        this.citeMessage(quoteMessage);
-        SK.Util.deleteValue("responseContent");
+    if(this.getSetting("htmlQuote")) {
+        this.initQuoteTypes();
+        this.htmlizeAllQuotes();
     }
-    this.addCitationButtons();
+
+    if(this.getSetting("quoteButton")) {
+        //Si une citation est prévue, on l'affiche
+        var quoteMessage = SK.Util.getValue("responseContent");
+
+        if(quoteMessage) {
+            this.citeMessage(quoteMessage);
+            SK.Util.deleteValue("responseContent");
+        }
+
+        this.addCitationButtons();
+    }
 };
 
 /* Ajoute les boutons de citation dans l'entete du poste
@@ -174,17 +179,44 @@ SK.moduleConstructors.Quote.prototype.citeMessage = function(citationBlock) {
  * Retourne un bloc de citation html à partir des infos passées en paramètre
  */
 SK.moduleConstructors.Quote.prototype.citationToHtml = function(pseudo, jour, mois, annee, heure, permalien, message) {
-    var quote = "<div class='quote-bloc' >" +
-            "<div class='quote-pseudo' >" + pseudo + "</div>" +
-            "<div class='quote-date' >" + jour + " " + mois + " " + annee + "</div>" +
-            "<div class='quote-hour' >" + heure + "</div>" +
-            "<div class='quote-link' >" + permalien + "</div>" +
+
+    //CDV de l'auteur cité
+    var profileUrl = "http://www.jeuxvideo.com/profil/" + pseudo + ".html";
+
+    if(heure !== "") {
+        heure = "<div class='quote-hour' >à " + heure + "</div>";
+    }
+    var $quote = $("<div class='quote-bloc' >" +
+            "<div class='quote-header' >" +
+                "<a class='quote-pseudo' href='" + profileUrl + "' >" + pseudo + "</a>" +
+                heure +
+                "<div class='quote-date' >" + jour + " " + mois + " " + annee + "</div>" +
+            "</div>" +
+            "<hr>" +
             "<div class='quote-message' >" +
                 message + 
             "</div>" +
-        "</div>";
+        "</div>");
 
-    return quote;
+    //Permlien vers le message
+    if(permalien !== "") {
+        $quote.find(".quote-pseudo").first().after(new SK.Button({
+            class: "link-gray",
+            href: permalien,
+            tooltip: {
+                text: "Lien vers ce message",
+                position: "right"
+            }
+        }));
+    }
+
+    //Popup CDV de l'auteur
+    $quote.find(".quote-pseudo").first().on("click", function(event) {
+        event.preventDefault();
+        window.open(profileUrl, "profil", "width=800,height=570,scrollbars=no,status=no");
+    });
+
+    return $quote[0].outerHTML;
 };
 
 /* options : {
@@ -213,7 +245,7 @@ SK.moduleConstructors.Quote.prototype.initQuoteTypes = function() {
     self.quoteTypes.push(new SK.moduleConstructors.Quote.QuoteType({
         id: "beatrice",
         /* $1: pseudo, $2: jour, $3: mois, $4: année, $5: heure, $6: message, $7: permalien */
-        regex: /# (.*)\n^# Posté le (\d{1,2}) ([^\s]*) (\d{4}) à (\d{2}:\d{2}:\d{2})\n((?:.|[\n\r])*?)\n^# *<a(?:.*?)href="(http[^"]*)".*[\s]*/gm,
+        regex: /# (.*)\n^# Posté le (\d{1,2}) ([^\s]*) (\d{4}) à (\d{2}:\d{2}):\d{2}\n((?:.|[\n\r])*?)\n^# *<a(?:.*?)href="(http[^"]*)".*[\s]*/gm,
 
         replaceCallback: function(match, pseudo, jour, mois, annee, heure, message, permalien) {
 
@@ -227,7 +259,7 @@ SK.moduleConstructors.Quote.prototype.initQuoteTypes = function() {
     self.quoteTypes.push(new SK.moduleConstructors.Quote.QuoteType({
         id: "spawnkill",
         /* $1: pseudo, $2: jour, $3: mois, $4: année, $5: heure, $6: permalien, $7: message (à épurer en retirant le cadre) */
-        regex: /╭(?:┄┄┄)?(?:\n *┊)? ([^,]*), le (\d{1,2}) ([^\s]*) (\d{4}) à (\d{2}:\d{2}:\d{2})\n^ *┊ *<a(?:.*?)href="(http[^"]*)".*\n *┊(?:┄┄┄)?\n((?:.|[\n\r])*?)\n^ *╰(?:┄┄┄)?[\s]*/gm,
+        regex: /╭(?:┄┄┄)?(?:\n *┊)? ([^,]*), le (\d{1,2}) ([^\s]*) (\d{4}) à (\d{2}:\d{2}):\d{2}\n^ *┊ *<a(?:.*?)href="(http[^"]*)".*\n *┊(?:┄┄┄)?\n((?:.|[\n\r])*?)\n^ *╰(?:┄┄┄)?[\s]*/gm,
 
         replaceCallback: function(match, pseudo, jour, mois, annee, heure, permalien, message) {
 
@@ -253,7 +285,7 @@ SK.moduleConstructors.Quote.prototype.initQuoteTypes = function() {
     self.quoteTypes.push(new SK.moduleConstructors.Quote.QuoteType({
         id: "jvcmaster",
         /* $1: permalien (peut être vide), $2: pseudo, $3: jour, $4: mois, $5: année, $6: heure, $7: message (à épurer en retirant le cadre) */
-        regex: /(?:(?: *\| *<a(?:.*?)href="(http[^"]*)".*\n))* *\| Ecrit par « ([^\s]*) »(?:[^\d]*)(\d{1,2}) ([^\s]*) (\d{4}) à (\d{2}:\d{2}:\d{2})\n((?:\n? *\|.*)*)(?:(?:[\s]*)&gt; *)?/gm,
+        regex: /(?:(?: *\| *<a(?:.*?)href="(http[^"]*)".*\n))* *\| Ecrit par « ([^\s]*) »(?:[^\d]*)(\d{1,2}) ([^\s]*) (\d{4}) à (\d{2}:\d{2}):\d{2}\n((?:\n? *\|.*)*)(?:(?:[\s]*)&gt; *)?/gm,
 
         replaceCallback: function(match, permalien, pseudo, jour, mois, annee, heure, message) {
 
@@ -330,6 +362,20 @@ SK.moduleConstructors.Quote.prototype.htmlizeAllQuotes = function() {
     });
 };
 
+/* Options modifiables du plugin */ 
+SK.moduleConstructors.Quote.prototype.settings = {
+    htmlQuote: {
+        title: "Formatage des citations",
+        description: "Améliore le style des citations pour qu'elles se détachent plus du message.",
+        default: true,
+    },
+    quoteButton: {
+        title: "Bouton de citation",
+        description: "Ajoute un bouton de citation permettant de répondre à un post.",
+        default: true,
+    }
+};
+
 SK.moduleConstructors.Quote.prototype.shouldBeActivated = function() {
     /* On affiche le bloc de citation sur la page réponse et les pages de lecture */
     return (
@@ -339,44 +385,91 @@ SK.moduleConstructors.Quote.prototype.shouldBeActivated = function() {
 };
 
 SK.moduleConstructors.Quote.prototype.getCss = function() {
-    var css = "\
-        .sk-button-content.quote {\
-            background-image: url('" + GM_getResourceURL("quote") + "');\
-            background-position: -1px -1px;\
-        }\
-    ";
+    var css = "";
 
-    css += "\
-        .quote-bloc {\
-          background-color: #CCC;\
-          padding: 5px;\
-          border: solid 1px #AAA;\
-          opacity: 0.9;\
-          box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.5);\
-          margin-bottom: 10px;\
-        }\
-        .quote-pseudo {\
-          background-color: #CEF;\
-          border: solid 1px #ACD;\
-          padding: 2px;\
-        }\
-        .quote-date {\
-          background-color: #FEC;\
-          border: solid 1px #DCA;\
-          padding: 2px;\
-        }\
-        .quote-hour {\
-          background-color: #ECF;\
-          border: solid 1px #CAD;\
-          padding: 2px;\
-        }\
-        .quote-link {\
-          background-color: #CFE;\
-          border: solid 1px #ADC;\
-          padding: 2px;\
-          margin-bottom: 5px;\
-        }\
-    ";
+    if(this.getSetting("quoteButton")) {
+        css += "\
+            .sk-button-content.quote {\
+                background-image: url('" + GM_getResourceURL("quote") + "');\
+                background-position: -1px -1px;\
+            }\
+        ";
+    }
+
+    if(this.getSetting("htmlQuote")) {
+        css += "\
+            .quote-bloc {\
+                position: relative;\
+                background-color: #FFF;\
+                box-shadow: 1px 1px 3px -0px rgba(0, 0, 0, 0.3);\
+                border-left: solid 3px #FF7B3B;\
+                margin-bottom: 10px;\
+                color: #444;\
+            }\
+            .quote-bloc::after {\
+                content: \"\";\
+                display: block;\
+                width: 0px;\
+                height: 0px;\
+                position: absolute;\
+                top: 30px;\
+                left: -3px;\
+                border: solid 7px transparent;\
+                border-left-color: #FF7B3B;\
+            }\
+            .quote-header {\
+                padding: 3px 10px;\
+                padding-right: 5px;\
+            }\
+            .quote-bloc hr {\
+                display: block;\
+                border: none;\
+                border-bottom: solid 1px #E0E0E0;\
+                margin: 0 5px;\
+                margin-left: 10px;\
+                height: 0px;\
+            }\
+            .quote-pseudo {\
+                display: inline-block;\
+                font-weight: bold;\
+                color: #444;\
+            }\
+            .quote-pseudo:hover {\
+                color: #FF7B3B;\
+            }\
+            .quote-date {\
+                float: right;\
+                display: inline-block;\
+                position: relative;\
+                top: 1px;\
+                font-size: 0.9em;\
+            }\
+            .quote-hour {\
+                float: right;\
+                display: inline-block;\
+                position: relative;\
+                top: 1px;\
+                padding-left: 4px;\
+                font-size: 0.9em;\
+            }\
+            .quote-link {\
+                float: right;\
+                display: inline-block;\
+            }\
+            .quote-message {\
+                padding: 5px;\
+                padding-left: 10px;\
+            }\
+            .quote-bloc .sk-button {\
+                float: right;\
+            }\
+            .sk-button-content.link-gray {\
+                background-image: url('" + GM_getResourceURL("link-gray") + "');\
+                background-color: transparent;\
+                border-bottom-color: transparent;\
+            }\
+        ";
+    }
 
     return css;
 };

@@ -41,6 +41,7 @@
 // @resource    quote       images/quote.png
 // @resource    mp          images/mp.png
 // @resource    alert       images/alert.png
+// @resource    link-gray   images/link-gray.png
 // @resource    settings    images/settings.png
 // @resource    loader      images/loader.gif
 // @grant       GM_xmlhttpRequest
@@ -51,6 +52,13 @@
 
 /*
 Changelog :
+
+    v1.6.2
+    - Affichage d'un style particulier pour les citations
+    - Prise en compte des citations de JVC Master/TurboForum/Beatrice
+    - Remplacement du loader par un gif pour améliorer les performances
+    - Interdiction d'imbriquer les citations pour éviter les posts à rallonge
+    - Ajouter une option pour afficher/cacher le bouton de citation
 
     v1.6.1.1
     - Correction mineure du CSS de QuickResponse
@@ -102,39 +110,9 @@ Changelog :
     - Bouton de citation plus petit
 
 
-Bugs connus :
-    Majeurs :
-        - Pas de bloc .ancre en mode réponse classique sur le forum (docn pas de boutons.bottom)
-        - Les citations de citations s'affichent mal
-        - Citations moches sur mobile
-        - Ralentissements importants sous Firefox au chargement des avatars
-            -> Correctif : ne faire qu'une seule requête HTTP
-        
-    Mineur :
-        - Décalage des posts au chargement des boutons
-        - les avatars ne s'affichent pas dans la prévisualisation du message
-        - ne fonctionne pas sous Opera
-        - Les citations ne fonctionnent pas dans les MP
-        - Conflits avec Turboforum
-        - Lorsqu'on reload à la création d'un message, il disparait.
-        - les boutons ne chargent pas en même temps
-
 Roadmap :
 
-    v1.6.2
-    OK - Revoir le style des citations
-    OK - Afficher un style particulier pour les citations
-    OK - Prendre en compte les citations de JVC Master/TurboForum
-    - Passer le code dans Quote
-    - Commenter le code
-    - Modifier Quote pour les citations de citations
-    - Compiler les quotes dans un objet
-
     v1.6.3
-    - Ajouter l'option d'afficher ou non les citations en HTML
-    - Ajouter option type de citations
-
-    v1.6.4
     - Ajout d'un cache pour les données de l'auteur (Correctif apporté par, merci :) )
     - Correction des lenteurs sous Firefox
     - Mise en cache
@@ -145,6 +123,7 @@ Roadmap :
     - Ajouter un AutoUpdater
 
     v1.7.1
+    - Ajouter option type de citations
     - Possibilité de citer seulement une partie du message
     - Ajouter un helper pour les regex de pages
     - Plusieurs tailles d'avatars
@@ -154,6 +133,7 @@ Roadmap :
     - Ajouter une box pour les images/vidéos/sondages
     
     Fonctionnalités :
+        - Faire des icones pour améliorer les citations
         - Ajouter un lien vers les citations de ce message
         - Ajouter d'autres types d'options pour les plugins (string, text, int, bool, float, color, select,...)
         - Ajouter une option de choix pour la position du rang
@@ -174,6 +154,8 @@ Roadmap :
         - Le panneau de paramètrage ne peut pas défiler
         - Faire fonctionner le plugin sur Opera
         - Corriger taille de popups sur mac
+        - Affichage des plugins dans la preview du message
+        - Lorsqu'on reload à la création d'un message, il disparait.
     
     Autre :
         - Décalage quand prévenir admin
