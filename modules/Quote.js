@@ -412,7 +412,7 @@ SK.moduleConstructors.Quote.prototype.getCss = function() {
                 width: 0px;\
                 height: 0px;\
                 position: absolute;\
-                top: 30px;\
+                top: 28px;\
                 left: -3px;\
                 border: solid 7px transparent;\
                 border-left-color: #FF7B3B;\
