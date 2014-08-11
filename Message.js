@@ -10,6 +10,7 @@ SK.Message = function($msg) {
     this.authorPseudo = this.initAuthorPseudo();
     this.date = this.initDate();
     this.permalink = this.initPermalink();
+    this.alertUrl = this.initAlertUrl();
     this.author = null;
 };
 
@@ -33,6 +34,11 @@ SK.Message.prototype.initText = function() {
 SK.Message.prototype.initPermalink = function() {
 
     return location.protocol + "//" + location.host + location.pathname + "#" + this.$msg.attr("id");
+};
+
+SK.Message.prototype.initAlertUrl = function() {
+
+    return this.$msg.find("[target=avertir]").first().attr("href");
 };
 
 /* Retourne le pseudo de l'auteur du post  */

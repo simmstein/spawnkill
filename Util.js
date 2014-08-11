@@ -39,9 +39,15 @@ SK.Util = {
         $(".modal-box").removeClass("active");
     },
 
-    /* Ajoute un bouton au post à l'emplacement indiqué en paramètre dans les options (location: "top" (defaut), "right", ou "bottom") */
-    addButton: function($msg, buttonOptions) {
+    /**
+     * Ajoute un bouton au post à l'emplacement indiqué en paramètre
+     * dans les options (location: "top" (defaut), "right", ou "bottom")
+     * message est un SK.Message
+     */
+    addButton: function(message, buttonOptions) {
 
+        var $msg = message.$msg;
+        
         var location = buttonOptions.location || "top";
         delete buttonOptions.location;
 

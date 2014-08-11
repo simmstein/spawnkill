@@ -3,9 +3,8 @@
 /* jshint newcap: false */
 
 /* Représente un auteur de JVC */
-SK.Author = function($msg) {
-    this.$msg = $msg;
-    this.$avatar = null;
+SK.Author = function(message) {
+    this.message = message;
     this.pseudo = "";
     this.rank = "";
     this.messageCount = 0;
@@ -20,7 +19,7 @@ SK.Author.prototype.init = function() {
     var self = this;
 
     self.loaded = false;
-    self.pseudo = self.$msg.find("strong").html().trim();
+    self.pseudo = self.message.authorPseudo;
     self.profileLink = "http://www.jeuxvideo.com/profil/" + self.pseudo + ".html";
     
     // Chargement de l'ancien avatar dans le cache

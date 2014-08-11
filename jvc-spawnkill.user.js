@@ -4,24 +4,24 @@
 // @author      Spixel_
 // @namespace   http://www.spixel.fr
 // @include     http://*.jeuxvideo.com*
-// @version     1.6.2.2
-// @require     jquery-1.11.1.min.js?v1.6.2.2
-// @require     jquery-plugins.js?v1.6.2.2
-// @require     base.js?v1.6.2.2
-// @require     Util.js?v1.6.2.2
-// @require     Message.js?v1.6.2.2
-// @require     Author.js?v1.6.2.2
-// @require     Button.js?v1.6.2.2
-// @require     SlideToggle.js?v1.6.2.2
-// @require     Modal.js?v1.6.2.2
-// @require     modules/Module.js?v1.6.2.2
-// @require     modules/StartSpawnKill.js?v1.6.2.2
-// @require     modules/Settings.js?v1.6.2.2
-// @require     modules/QuickResponse.js?v1.6.2.2
-// @require     modules/Quote.js?v1.6.2.2
-// @require     modules/InfosPseudo.js?v1.6.2.2
-// @require     modules/HilightNewTopic.js?v1.6.2.2
-// @require     modules/LastPage.js?v1.6.2.2
+// @version     1.7
+// @require     jquery-1.11.1.min.js?v1.7
+// @require     jquery-plugins.js?v1.7
+// @require     base.js?v1.7
+// @require     Util.js?v1.7
+// @require     Message.js?v1.7
+// @require     Author.js?v1.7
+// @require     Button.js?v1.7
+// @require     SlideToggle.js?v1.7
+// @require     Modal.js?v1.7
+// @require     modules/Module.js?v1.7
+// @require     modules/StartSpawnKill.js?v1.7
+// @require     modules/Settings.js?v1.7
+// @require     modules/QuickResponse.js?v1.7
+// @require     modules/Quote.js?v1.7
+// @require     modules/InfosPseudo.js?v1.7
+// @require     modules/HilightNewTopic.js?v1.7
+// @require     modules/LastPage.js?v1.7
 // @resource    banImage    images/ban.png
 // @resource    newTopic    images/topic_new.gif
 // @resource    carton      images/carton.png
@@ -121,6 +121,7 @@ Roadmap :
     - Mettre en cache toutes les infos de l'utilisateur
     - Mettre un Message dans auteur au lieu d'un $msg, renommer $msg en $el ou l'inverse
     - Une seule requête ajax
+    - Fusionner les méthodes init dans SK.Message
 
     v1.7
     - Remplacer le lien avatar vers un agrandissement de l'avatar.
@@ -165,6 +166,7 @@ Roadmap :
         - Faire fonctionner le plugin sur Opera
     
     Autre :
+        - Ajout d'un module de structure des données, de dépendances et de hooks pour les plugins
         - Réduire la taille des options
         - Ajouter des tooltips facilement (slidetoggle, lastpage, ...)
         - Ajout de hooks au chargement des données
