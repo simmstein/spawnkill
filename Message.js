@@ -6,18 +6,20 @@
 SK.Message = function($msg) {
 
     this.$msg = $msg;
-    this.text = this.initText();
-    this.authorPseudo = this.initAuthorPseudo();
-    this.date = this.initDate();
-    this.permalink = this.initPermalink();
-    this.alertUrl = this.initAlertUrl();
+    this.text = "";
+    this.authorPseudo = "";
+    this.date = "";
+    this.permalink = "";
+    this.alertUrl = "";
     this.author = null;
+    this.init();
 };
 
-/* Récupère le texte présent dans le post $(.msg) passé en paramètre 
-* Note : remplace les images par leur attribut alt */
-SK.Message.prototype.initText = function() {
 
+SK.Message.prototype.init = function() {
+
+    /* Récupère le texte présent dans le post $(.msg) passé en paramètre 
+    * Note : remplace les images par leur attribut alt */
     var $message = this.$msg.find(".post").clone();
 
     //On supprime les éventuelles citations
@@ -27,32 +29,22 @@ SK.Message.prototype.initText = function() {
         $(this).replaceWith($(this).attr("alt"));
     });
 
-    return $message.text().trim();
-};
+    this.text = $message.text().trim();
 
-/* Retourne le permalien du post */
-SK.Message.prototype.initPermalink = function() {
+    /* Retourne le permalien du post */
+    this.permalink = location.protocol + "//" + location.host + location.pathname + "#" + this.$msg.attr("id");
 
-    return location.protocol + "//" + location.host + location.pathname + "#" + this.$msg.attr("id");
-};
+    /* Retourne le pseudo de l'auteur du post  */
+    this.alertUrl = this.$msg.find("[target=avertir]").first().attr("href");
 
-SK.Message.prototype.initAlertUrl = function() {
+    this.authorPseudo = this.$msg.find(".pseudo > strong").html().trim();
 
-    return this.$msg.find("[target=avertir]").first().attr("href");
-};
-
-/* Retourne le pseudo de l'auteur du post  */
-SK.Message.prototype.initAuthorPseudo = function() {
-    return this.$msg.find(".pseudo > strong").html().trim();            
-};
-
-/* Retourne la date du post  */
-SK.Message.prototype.initDate = function() {
+    /* Retourne la date du post  */
     var $dateBloc = this.$msg.find(".date");
     var dateString = $dateBloc.text().trim();
 
     var match = dateString.match(/Posté (via mobile )?le([^:]*[^\s]*)/);
-    return match[2].trim();
+    this.date = match[2].trim();
 };
 
 SK.Message.prototype.setAuthor = function(author) {

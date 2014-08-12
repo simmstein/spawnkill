@@ -53,7 +53,7 @@ SK.moduleConstructors.Quote.prototype.addCitationButtons = function() {
 
         var $msg = $(this);
 
-        SK.Util.queue.add(function() {
+        self.queueFunction(function() {
 
             //Triche pour éviter de créer un SK.Message.
             //À modifier à l'ajout des hooks
@@ -360,15 +360,17 @@ SK.moduleConstructors.Quote.prototype.htmlizeAllQuotes = function() {
     //On remplace les citations textes par de l'Html dans tous les posts
     $(".post").each(function() {
 
-        SK.Util.queue.add(function() {
+        var $post = $(this);
+
+        self.queueFunction(function() {
             //On retire les <br> pour le parsing, on les ajoutera par la suite
-            var postText = $(this).html().replace(/\n/g, "").replace(/[ ]*<br>/g, "\n");
+            var postText = $post.html().replace(/\n/g, "").replace(/[ ]*<br>/g, "\n");
 
             //On converti les citations en html
             postText = self.htmlizeQuote(postText);
 
             //On remet les <br>
-            $(this).html(postText.replace(/\n/g, "\n<br>"));
+            $post.html(postText.replace(/\n/g, "\n<br>"));
         }, this);
     });
 };

@@ -14,6 +14,7 @@ SK.moduleConstructors.StartSpawnKill.prototype.required = true;
 
 SK.moduleConstructors.StartSpawnKill.prototype.init = function() {
     this.addModalBackground();
+    this.correctSplitPost();
 };
 
 /** prépare le terrain pour les modales */
@@ -24,6 +25,16 @@ SK.moduleConstructors.StartSpawnKill.prototype.addModalBackground = function() {
             SK.Util.hideModal();
         }
     }));
+};
+
+SK.moduleConstructors.StartSpawnKill.prototype.correctSplitPost = function() {
+
+    var $splitPost = $(".suite_sujet").parents(".msg");
+    $splitPost
+        .addClass("not-loading")
+        .css({
+            "min-height": "0px"
+        });
 };
 
  SK.moduleConstructors.StartSpawnKill.prototype.getCss = function() {

@@ -4,24 +4,24 @@
 // @author      Spixel_
 // @namespace   http://www.spixel.fr
 // @include     http://*.jeuxvideo.com*
-// @version     1.7c
-// @require     jquery-1.11.1.min.js?v1.7c
-// @require     jquery-plugins.js?v1.7c
-// @require     base.js?v1.7c
-// @require     Util.js?v1.7c
-// @require     Message.js?v1.7c
-// @require     Author.js?v1.7c
-// @require     Button.js?v1.7c
-// @require     SlideToggle.js?v1.7c
-// @require     Modal.js?v1.7c
-// @require     modules/Module.js?v1.7c
-// @require     modules/StartSpawnKill.js?v1.7c
-// @require     modules/Settings.js?v1.7c
-// @require     modules/QuickResponse.js?v1.7c
-// @require     modules/Quote.js?v1.7c
-// @require     modules/InfosPseudo.js?v1.7c
-// @require     modules/HilightNewTopic.js?v1.7c
-// @require     modules/LastPage.js?v1.7c
+// @version     1.7e
+// @require     jquery-1.11.1.min.js?v1.7e
+// @require     jquery-plugins.js?v1.7e
+// @require     base.js?v1.7e
+// @require     Util.js?v1.7e
+// @require     Message.js?v1.7e
+// @require     Author.js?v1.7e
+// @require     Button.js?v1.7e
+// @require     SlideToggle.js?v1.7e
+// @require     Modal.js?v1.7e
+// @require     modules/Module.js?v1.7e
+// @require     modules/StartSpawnKill.js?v1.7e
+// @require     modules/Settings.js?v1.7e
+// @require     modules/QuickResponse.js?v1.7e
+// @require     modules/Quote.js?v1.7e
+// @require     modules/InfosPseudo.js?v1.7e
+// @require     modules/HilightNewTopic.js?v1.7e
+// @require     modules/LastPage.js?v1.7e
 // @resource    banImage    images/ban.png
 // @resource    newTopic    images/topic_new.gif
 // @resource    carton      images/carton.png
@@ -242,9 +242,7 @@ SK.Util.addCss(modulesStyle);
 var checkDomReady = setInterval(function() {
 
     var initModule = function(module) {
-        SK.Util.queue.add(function() {
-            module.internal_init();
-        }, this);
+        module.internal_init();
     };
 
     if($("#footer").length > 0) {
@@ -259,4 +257,4 @@ var checkDomReady = setInterval(function() {
         }
     }
 
-}, 100);
+}, 50);

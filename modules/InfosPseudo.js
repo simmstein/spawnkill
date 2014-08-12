@@ -98,7 +98,8 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostInfos = function() {
 SK.moduleConstructors.InfosPseudo.prototype.showMessageInfos = function(message) {
 
     var self = this;
-    SK.Util.queue.add(function() {
+    
+    self.queueFunction(function() {
         if(self.getSetting("enableAvatar")) {
             self.addAvatar(message);
         }
