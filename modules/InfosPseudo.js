@@ -43,7 +43,8 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostInfos = function() {
 
             //On crée l'auteur correspondant
             if(typeof authors[message.authorPseudo] === "undefined") {
-                authors[message.authorPseudo] = new SK.Author(message);
+                authors[message.authorPseudo] = new SK.Author(message.authorPseudo);
+                authors[message.authorPseudo].loadLocalData();
             }
             var author = authors[message.authorPseudo];
             author.addMessage(message);
@@ -56,31 +57,38 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostInfos = function() {
                 self.addAvatarPlaceholder(message);
             }
 
-            //Appelée quand la récupération des  données de l'auteur est terminée
-            author.addListener(function() {
+            //On affiche les données des auteurs qu'on a en localStorage
+            if(author.hasLocalData) {
                 self.showMessageInfos(message);
-            });
+            }
+            else {
 
-            //On conserve les auteurs dont on n'a pas les données
-            if(toLoadAuthorPseudos.indexOf(message.authorPseudo) === -1) {
-                toLoadAuthors.push(author);
-                toLoadAuthorPseudos.push(message.authorPseudo);
+                //On conserve les auteurs dont on n'a pas les données
+                if(toLoadAuthorPseudos.indexOf(message.authorPseudo) === -1) {
+                    toLoadAuthors.push(author);
+                    toLoadAuthorPseudos.push(message.authorPseudo);
+                }
             }
 
         });
-        //On récupère les infos des auteurs périmées ou qu'on n'a pas encore dans le localStorage
-        SK.Util.jvcs(toLoadAuthorPseudos, function($jvcs) {
-            $jvcs.find("author").each(function() {
-                var pseudo = $(this).attr("pseudo");
-                var $cdv = $(this).find("cdv");
-                var author = authors[pseudo];
-                author.init($cdv);
 
-                for(var message in author.messages) {
-                    self.showMessageInfos(author.messages[message]);
-                }
+        //On récupère les infos des auteurs périmées ou qu'on n'a pas encore dans le localStorage
+        if(toLoadAuthorPseudos.length > 0) {
+            SK.Util.jvcs(toLoadAuthorPseudos, function($jvcs) {
+                $jvcs.find("author").each(function() {
+                    var pseudo = $(this).attr("pseudo");
+                    var $cdv = $(this).find("cdv");
+                    var author = authors[pseudo];
+                    author.initFromCdv($cdv);
+                    //On enregistre les données dans le localStorage
+                    author.saveLocalData();
+
+                    for(var message in author.messages) {
+                        self.showMessageInfos(author.messages[message]);
+                    }
+                });
             });
-        });
+        }
     }
 };
 
