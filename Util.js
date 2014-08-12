@@ -155,6 +155,7 @@ SK.Util = {
         localStorage.setItem(key, JSON.stringify(value));
     },
 
+    /* Retourne null si la donnée n'existe pas */
     getValue: function(key) {
         key = "SK." + key;
         return JSON.parse(localStorage.getItem(key));
