@@ -39,19 +39,18 @@ SK.moduleConstructors.Quote.prototype.init = function() {
             SK.Util.deleteValue("responseContent");
         }
 
-        this.addCitationButtons();
+        this.addQuoteButtons();
     }
 };
 
 /* Ajoute les boutons de citation dans l'entete du poste
 * si la boîte de réponse est présente dans la page */
-SK.moduleConstructors.Quote.prototype.addCitationButtons = function() {
+SK.moduleConstructors.Quote.prototype.addQuoteButtons = function() {
 
     var self = this;
 
-    $(".msg").each(function() {
-
-        var $msg = $(this);
+    //On passe les fonctions dans la file pour éviter de bloquer l'UI
+    var queueQuoteButton = function($msg) {
 
         self.queueFunction(function() {
 
@@ -67,7 +66,7 @@ SK.moduleConstructors.Quote.prototype.addCitationButtons = function() {
                 },
                 click: function() {
 
-                    var citationBlock = self.createCitationBlock(new SK.Message($msg.parents(".msg")));
+                    var citationBlock = self.createCitationBlock(new SK.Message($msg));
 
                     //Si QuickResponse n'est pas activé et qu'on est sur la page de lecture,
                     //le bouton de citation dirige vers la page de réponse en remplissant
@@ -84,6 +83,10 @@ SK.moduleConstructors.Quote.prototype.addCitationButtons = function() {
                 }
             });
         }, this);
+    };
+
+    $(".msg").each(function() {
+        queueQuoteButton($(this));
     });
 };
 

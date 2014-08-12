@@ -36,8 +36,8 @@ SK.Message.prototype.init = function() {
 
     /* Retourne le pseudo de l'auteur du post  */
     this.alertUrl = this.$msg.find("[target=avertir]").first().attr("href");
-
-    this.authorPseudo = this.$msg.find(".pseudo > strong").html().trim();
+    
+    this.authorPseudo = this.$msg.find(".pseudo > strong").first().html().trim();
 
     /* Retourne la date du post  */
     var $dateBloc = this.$msg.find(".date");
