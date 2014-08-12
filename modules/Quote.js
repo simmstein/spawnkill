@@ -54,11 +54,7 @@ SK.moduleConstructors.Quote.prototype.addQuoteButtons = function() {
 
         self.queueFunction(function() {
 
-            //Triche pour éviter de créer un SK.Message.
-            //À modifier à l'ajout des hooks
-            var message = { $msg: $msg };
-
-            SK.Util.addButton(message, {
+            SK.Util.addButton($msg, {
                 class: "quote",
                 location: "bottom",
                 tooltip: {

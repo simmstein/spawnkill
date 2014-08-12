@@ -9,7 +9,6 @@ SK.moduleConstructors.YouTube = SK.Module.new();
 
 SK.moduleConstructors.YouTube.prototype.title = "Intégration YouTube";
 SK.moduleConstructors.YouTube.prototype.description = "Remplace les liens vers une vidéo YouTube par la vidéo elle-même.";
-SK.moduleConstructors.YouTube.prototype.required = false;
 
 SK.moduleConstructors.YouTube.prototype.init = function() {
     /**
@@ -30,14 +29,15 @@ SK.moduleConstructors.YouTube.prototype.init = function() {
      * Fonction qui crée l'élément à intégrer à la page.
      */
     function createVideoElement(ytLink) {
-            var $el = $('<iframe>');
-            $el.attr('src', ytLink);
-            $el.attr('width', "400");
-            $el.attr('height', "300");
-            $el.attr('allowfullscreen', 1);
-            $el.attr('frameborder', 0);
-            $el.css('margin', '10px');
-            $el.addClass('youtube-video');
+            var $el = $("<iframe>");
+            $el
+                .attr("src", ytLink)
+                .attr("width", "400")
+                .attr("height", "300")
+                .attr("allowfullscreen", 1)
+                .attr("frameborder", 0)
+                .css("margin", "10px")
+                .addClass("youtube-video");
             return $el;
         }
         
@@ -48,8 +48,8 @@ SK.moduleConstructors.YouTube.prototype.init = function() {
             var showVideos = true;
             SK.Util.addButton($post, btnOpts(function() {
                 showVideos = !showVideos;
-                $post.find('.youtube-video').toggle(showVideos);
-                $post.find('.youtube-link').toggle(!showVideos);
+                $post.find(".youtube-video").toggle(showVideos);
+                $post.find(".youtube-link").toggle(!showVideos);
                 if (!showVideos) $(this).css("text-decoration", "line-through");
                 else $(this).css("text-decoration", "none");
             }));
@@ -81,31 +81,26 @@ SK.moduleConstructors.YouTube.prototype.init = function() {
      * Parcourt des posts à la recherche de liens YouTube,
      * remplacement des liens pas les vidéos et ajout d'un bouton masquer/afficher au post si nécessaire.
      */
-    $('.msg').each(function(id, post) {
+    $(".msg").each(function(id, post) {
         var $post = $(post);
         var linkCpt = 0;
-        $post.find('.post a').each(function(id, lien) {
+        $post.find(".post a").each(function(id, lien) {
             var ytLink = normalizeYTUrl(lien.href);
             if (ytLink !== null) {
                 var $lien = $(lien);
                 var $video = createVideoElement(ytLink);
                 $lien.after($video);
-                $lien.addClass('youtube-link');
+                $lien.addClass("youtube-link");
                 $lien.hide();
                 linkCpt++;
             }
         });
-        if (linkCpt > 0) addButtonToPost($post);
+        if (linkCpt > 0) {
+            addButtonToPost($post);
+        }
     });
 };
 
 SK.moduleConstructors.YouTube.prototype.shouldBeActivated = function() {
     return window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/1/);
 };
-
-
-SK.moduleConstructors.YouTube.prototype.getCss = function() {
-    return "";
-};
-
-SK.moduleConstructors.YouTube.prototype.settings = {};

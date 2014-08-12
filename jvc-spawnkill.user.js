@@ -4,24 +4,25 @@
 // @author      Spixel_
 // @namespace   http://www.spixel.fr
 // @include     http://*.jeuxvideo.com*
-// @version     1.6.3.1
-// @require     jquery-1.11.1.min.js?v1.6.3.1
-// @require     jquery-plugins.js?v1.6.3.1
-// @require     base.js?v1.6.3.1
-// @require     Util.js?v1.6.3.1
-// @require     Message.js?v1.6.3.1
-// @require     Author.js?v1.6.3.1
-// @require     Button.js?v1.6.3.1
-// @require     SlideToggle.js?v1.6.3.1
-// @require     Modal.js?v1.6.3.1
-// @require     modules/Module.js?v1.6.3.1
-// @require     modules/StartSpawnKill.js?v1.6.3.1
-// @require     modules/Settings.js?v1.6.3.1
-// @require     modules/QuickResponse.js?v1.6.3.1
-// @require     modules/Quote.js?v1.6.3.1
-// @require     modules/InfosPseudo.js?v1.6.3.1
-// @require     modules/HilightNewTopic.js?v1.6.3.1
-// @require     modules/LastPage.js?v1.6.3.1
+// @version     1.7
+// @require     jquery-1.11.1.min.js?v1.7
+// @require     jquery-plugins.js?v1.7
+// @require     base.js?v1.7
+// @require     Util.js?v1.7
+// @require     Message.js?v1.7
+// @require     Author.js?v1.7
+// @require     Button.js?v1.7
+// @require     SlideToggle.js?v1.7
+// @require     Modal.js?v1.7
+// @require     modules/Module.js?v1.7
+// @require     modules/StartSpawnKill.js?v1.7
+// @require     modules/Settings.js?v1.7
+// @require     modules/QuickResponse.js?v1.7
+// @require     modules/Quote.js?v1.7
+// @require     modules/InfosPseudo.js?v1.7
+// @require     modules/HilightNewTopic.js?v1.7
+// @require     modules/LastPage.js?v1.7
+// @require     modules/YouTube.js?v1.7
 // @resource    banImage    images/ban.png
 // @resource    newTopic    images/topic_new.gif
 // @resource    carton      images/carton.png
@@ -101,6 +102,11 @@ Roadmap :
         - Lorsqu'on reload à la création d'un message, il disparait.
         - Faire fonctionner le plugin sur Opera
     
+    Guide :
+        - Utilisation des classes Message, Modal, Author, Button
+        - Mise en file du code
+        - Guideline boutons/actions/animations/...
+
     Autre :
         - Ajouter option durée validité cache, options avancées ?
         - Ajouter le système de files au guide

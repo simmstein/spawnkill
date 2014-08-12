@@ -53,12 +53,10 @@ SK.Util = {
     /**
      * Ajoute un bouton au post à l'emplacement indiqué en paramètre
      * dans les options (location: "top" (defaut), "right", ou "bottom")
-     * message est un SK.Message
+     * message est un $msg
      */
-    addButton: function(message, buttonOptions) {
+    addButton: function($msg, buttonOptions) {
 
-        var $msg = message.$msg;
-        
         var location = buttonOptions.location || "top";
         delete buttonOptions.location;
 

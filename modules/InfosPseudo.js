@@ -132,7 +132,7 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostButtons = function(message) {
     var mpUrl = "http://www.jeuxvideo.com/messages-prives/nouveau.php?all_dest=" + message.authorPseudo;
 
     //Bouton CDV
-    SK.Util.addButton(message, {
+    SK.Util.addButton(message.$msg, {
         class: (message.author.gender && this.getSetting("enableSex")) ? message.author.gender : "unknown",
         href: profileUrl,
         tooltip: {
@@ -146,7 +146,7 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostButtons = function(message) {
 
     //Bouton Avertir
     if(this.getSetting("enableAlert")) {
-        SK.Util.addButton(message, {
+        SK.Util.addButton(message.$msg, {
             class: "alert",
             location: "right",
             href: avertirUrl,
@@ -162,7 +162,7 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostButtons = function(message) {
 
     //Bouton MP
     if(this.getSetting("enableMP")) {
-        SK.Util.addButton(message, {
+        SK.Util.addButton(message.$msg, {
             class: "mp",
             href: mpUrl,
             tooltip: {
@@ -178,7 +178,7 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostButtons = function(message) {
 
     //Bouton permalien
     if(this.getSetting("enablePermalink")) {
-        SK.Util.addButton(message, {
+        SK.Util.addButton(message.$msg, {
             class: "link",
             location: "bottom",
             href: permalink,
