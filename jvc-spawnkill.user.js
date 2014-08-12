@@ -4,24 +4,24 @@
 // @author      Spixel_
 // @namespace   http://www.spixel.fr
 // @include     http://*.jeuxvideo.com*
-// @version     1.6.2.2
-// @require     jquery-1.11.1.min.js?v1.6.2.2
-// @require     jquery-plugins.js?v1.6.2.2
-// @require     base.js?v1.6.2.2
-// @require     Util.js?v1.6.2.2
-// @require     Message.js?v1.6.2.2
-// @require     Author.js?v1.6.2.2
-// @require     Button.js?v1.6.2.2
-// @require     SlideToggle.js?v1.6.2.2
-// @require     Modal.js?v1.6.2.2
-// @require     modules/Module.js?v1.6.2.2
-// @require     modules/StartSpawnKill.js?v1.6.2.2
-// @require     modules/Settings.js?v1.6.2.2
-// @require     modules/QuickResponse.js?v1.6.2.2
-// @require     modules/Quote.js?v1.6.2.2
-// @require     modules/InfosPseudo.js?v1.6.2.2
-// @require     modules/HilightNewTopic.js?v1.6.2.2
-// @require     modules/LastPage.js?v1.6.2.2
+// @version     1.7c
+// @require     jquery-1.11.1.min.js?v1.7c
+// @require     jquery-plugins.js?v1.7c
+// @require     base.js?v1.7c
+// @require     Util.js?v1.7c
+// @require     Message.js?v1.7c
+// @require     Author.js?v1.7c
+// @require     Button.js?v1.7c
+// @require     SlideToggle.js?v1.7c
+// @require     Modal.js?v1.7c
+// @require     modules/Module.js?v1.7c
+// @require     modules/StartSpawnKill.js?v1.7c
+// @require     modules/Settings.js?v1.7c
+// @require     modules/QuickResponse.js?v1.7c
+// @require     modules/Quote.js?v1.7c
+// @require     modules/InfosPseudo.js?v1.7c
+// @require     modules/HilightNewTopic.js?v1.7c
+// @require     modules/LastPage.js?v1.7c
 // @resource    banImage    images/ban.png
 // @resource    newTopic    images/topic_new.gif
 // @resource    carton      images/carton.png
@@ -116,58 +116,62 @@ Changelog :
 Roadmap :
 
     v1.6.3
-    - Ajout d'un cache pour les données de l'auteur (Correctif apporté par, merci :) )
-    - Correction des lenteurs sous Firefox
-    - Mise en cache
-    - Une seule requête ajax
-
+    OK - Ajout d'un cache pour les données de l'auteur
+    OK - Amélioration des performances sous Firefox
+    OK - Amélioration de la récupération des données (une seule requête HTTP pour tous les auteurs)
+    - Fusionner les méthodes init dans SK.Message
+    - Ajouter un TTL aux données en localStorage
+    - Améliorer les performances de l'ajout de boutons
+    - Remplacer l'avatar placeholder par un :after
 
     v1.7
-    - Ajouter un AutoUpdater
+    - Remplacer le lien avatar vers un agrandissement de l'avatar.
+    - Affichage des photos/vidéos/sondages dans les posts
+    - Popup pour voir les images/vidéos en grand
+    - Ajouter une option de choix pour la position du rang
+    - Décalage du bouton prévenir admin
+    - Prendre en compte les mecs bannis
+    - Ajouter le pseudo du mec dans le XML
 
-    v1.7.1
+    v1.8
+    - Ajouter un AutoUpdater
+    - Faire des icones pour améliorer les citations
+    - Affichage des plugins dans la preview du message
+    - Affichage de la version en grisé à droite dans les settings
+
+    v1.9
+    - Faire la distinction entre les bans définitifs et les ban tempo
+    - Bugs avec "aujourd'hui" dans les citations Turboforum
+
+    v1.9.1
+    - Ajouter d'autres types d'options pour les plugins (string, text, int, bool, float, color, select,...)
     - Ajouter option type de citations
     - Possibilité de citer seulement une partie du message
     - Ajouter un helper pour les regex de pages
     - Plusieurs tailles d'avatars
     - Afficher la description des modules dans le panneau de configuration
 
-    v1.8
-    - Ajouter une box pour les images/vidéos/sondages
     
     Fonctionnalités :
-        - Remplacer le lien avatar vers un agrandissement de l'avatar.
-        - Faire des icones pour améliorer les citations
+        - Prévenir en cas de nouveau message (+ notifications)
+        - Bookmark dernière page d'un topic
         - Ajouter un lien vers les citations de ce message
-        - Ajouter d'autres types d'options pour les plugins (string, text, int, bool, float, color, select,...)
-        - Ajouter une option de choix pour la position du rang
         - Ajouter un lien vers les screenshots de la fonctionnalité dans le panneau de config
         - Ajouter une preview des fonctionnalités (depuis ajax du site)
         - Possibilité d'afficher plus de 15 topics par page
-        - Pouvoir réellement collectionner les triangles poupres / hexagones oranges ou rectangles dorés scintillants
-        - Permettre de déplacer les rangs
-        - Ajouter des conditions aux options
+        - Ajouter des conditions/dépendances aux options
         - Ajout de raccourcis claviers
-        - Mettre en cache toutes les infos de l'utilisateur
-        - Choix entre plusieurs citations
-        - Faire la distinction entre les bans définitifs et les ban tempo
-        - Système de dépendances dans les configs
+        - Pouvoir réellement collectionner les triangles poupres / hexagones oranges ou rectangles dorés scintillants
     
     Bugs :
-        - Bugs avec "aujourd'hui" dans les citations Turboforum
         - Le panneau de paramètrage ne peut pas défiler
-        - Faire fonctionner le plugin sur Opera
         - Corriger taille de popups sur mac
-        - Affichage des plugins dans la preview du message
         - Lorsqu'on reload à la création d'un message, il disparait.
+        - Faire fonctionner le plugin sur Opera
     
     Autre :
-        - Décalage quand prévenir admin
-        - Création d'une branche dev sur github et hébergement du projet
-        - Corriger l'affichage des citations pour les mobiles
+        - Ajout d'un module de structure des données, de dépendances et de hooks pour les plugins
         - Réduire la taille des options
-        - Affichage de la version en grisé à droite dans les settings
-        - Mettre un Message dans auteur au lieu d'un $msg, renommer $msg en $el ou l'inverse
         - Ajouter des tooltips facilement (slidetoggle, lastpage, ...)
         - Ajout de hooks au chargement des données
 
@@ -237,6 +241,12 @@ SK.Util.addCss(modulesStyle);
 //Pour vérifier que le DOM est chargé, on vérifie que le footer est présent.
 var checkDomReady = setInterval(function() {
 
+    var initModule = function(module) {
+        SK.Util.queue.add(function() {
+            module.internal_init();
+        }, this);
+    };
+
     if($("#footer").length > 0) {
 
         clearInterval(checkDomReady);
@@ -244,10 +254,9 @@ var checkDomReady = setInterval(function() {
         //On initialise les modules actifs
         for(var key in SK.modules) {
             if(SK.modules[key].activated) {
-                SK.modules[key].internal_init();
+                initModule(SK.modules[key]);
             }
         }
-
     }
 
 }, 100);

@@ -23,50 +23,104 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostInfos = function() {
 
     var self = this;
 
-    //Evite les MP
+    //:not(.lecture_msg) evite les MP
     if($("#col1:not(.lecture_msg) .msg").length > 0) {
 
+        //Auteurs dont on n'a pas les données
+        var toLoadAuthors = [];
+        var toLoadAuthorPseudos = [];
+
+        //Auteurs sur la page
+        var authors = {};
+        
         //On parcourt tous les messages
         $(".msg .pseudo").each(function() {
 
             var $msg = $(this).parents(".msg").first();
             
-            //Crée l'auteur                
-            var author = new SK.Author($msg);
+            //On crée le Message
+            var message = new SK.Message($msg);
 
             if(self.getSetting("enableAvatar")) {
-                self.addAvatarPlaceholder($msg);
+
+                self.addAvatarPlaceholder(message);
             }
 
-            //Appelée quand la récupération des  données de l'auteur est terminée
-            author.addListener(function() {
-                if(self.getSetting("enableAvatar")) {
-                    self.addAvatar(author);
-                }
-                if(self.getSetting("enableRank")) {
-                    self.addRank(author);
-                }
-                self.addPostButtons(author);
-            });
+            //On crée l'auteur correspondant
+            if(typeof authors[message.authorPseudo] === "undefined") {
+                authors[message.authorPseudo] = new SK.Author(message.authorPseudo);
+                authors[message.authorPseudo].loadLocalData();
+            }
+            var author = authors[message.authorPseudo];
+            author.addMessage(message);
 
-            //Lance la requête sur l'API
-            author.init();
+
+            //Et on l'ajoute au message
+            message.setAuthor(author);
+
+
+            //On affiche les données des auteurs qu'on a en localStorage
+            if(author.hasLocalData) {
+                self.showMessageInfos(message);
+            }
+            else {
+
+                //On conserve les auteurs dont on n'a pas les données
+                if(toLoadAuthorPseudos.indexOf(message.authorPseudo) === -1) {
+                    toLoadAuthors.push(author);
+                    toLoadAuthorPseudos.push(message.authorPseudo);
+                }
+            }
 
         });
+
+        //On récupère les infos des auteurs périmées ou qu'on n'a pas encore dans le localStorage
+        if(toLoadAuthorPseudos.length > 0) {
+            SK.Util.jvcs(toLoadAuthorPseudos, function($jvcs) {
+                $jvcs.find("author").each(function() {
+                    var pseudo = $(this).attr("pseudo");
+                    var $cdv = $(this).find("cdv");
+                    var author = authors[pseudo];
+                    author.initFromCdv($cdv);
+                    //On enregistre les données dans le localStorage
+                    author.saveLocalData();
+
+                    for(var message in author.messages) {
+                        self.showMessageInfos(author.messages[message]);
+                    }
+                });
+            });
+        }
     }
 };
 
-/** Ajoute les différents boutons et remplace ceux par défaut */
-SK.moduleConstructors.InfosPseudo.prototype.addPostButtons = function(author) {
+/** Affiche les infos du post et de l'auteur au message */
+SK.moduleConstructors.InfosPseudo.prototype.showMessageInfos = function(message) {
 
-    var permalink = author.$msg.find(".ancre a").first().attr("href");
-    var avertirUrl = author.$msg.find("[target=avertir]").first().attr("href");
-    var profileUrl = "http://www.jeuxvideo.com/profil/" + author.pseudo + ".html";
-    var mpUrl = "http://www.jeuxvideo.com/messages-prives/nouveau.php?all_dest=" + author.pseudo;
+    var self = this;
+    SK.Util.queue.add(function() {
+        if(self.getSetting("enableAvatar")) {
+            self.addAvatar(message);
+        }
+        if(self.getSetting("enableRank")) {
+            self.addRank(message);
+        }
+        self.addPostButtons(message);
+    }, this);
+};
+
+
+/** Ajoute les différents boutons et remplace ceux par défaut */
+SK.moduleConstructors.InfosPseudo.prototype.addPostButtons = function(message) {
+
+    var permalink = message.permalink;
+    var avertirUrl = message.alertUrl;
+    var profileUrl = "http://www.jeuxvideo.com/profil/" + message.authorPseudo + ".html";
+    var mpUrl = "http://www.jeuxvideo.com/messages-prives/nouveau.php?all_dest=" + message.authorPseudo;
 
     //Bouton CDV
-    SK.Util.addButton(author.$msg, {
-        class: (author.gender && this.getSetting("enableSex")) ? author.gender : "unknown",
+    SK.Util.addButton(message, {
+        class: (message.author.gender && this.getSetting("enableSex")) ? message.author.gender : "unknown",
         href: profileUrl,
         tooltip: {
             text: "Voir la carte de visite"
@@ -79,7 +133,7 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostButtons = function(author) {
 
     //Bouton Avertir
     if(this.getSetting("enableAlert")) {
-        SK.Util.addButton(author.$msg, {
+        SK.Util.addButton(message, {
             class: "alert",
             location: "right",
             href: avertirUrl,
@@ -95,7 +149,7 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostButtons = function(author) {
 
     //Bouton MP
     if(this.getSetting("enableMP")) {
-        SK.Util.addButton(author.$msg, {
+        SK.Util.addButton(message, {
             class: "mp",
             href: mpUrl,
             tooltip: {
@@ -111,7 +165,7 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostButtons = function(author) {
 
     //Bouton permalien
     if(this.getSetting("enablePermalink")) {
-        SK.Util.addButton(author.$msg, {
+        SK.Util.addButton(message, {
             class: "link",
             location: "bottom",
             href: permalink,
@@ -126,11 +180,11 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostButtons = function(author) {
     }
 
     //Supprimer boutons par défaut
-    author.$msg.find("[target='avertir'], .ancre > a:first, [target='profil']").remove();
+    message.$msg.find("[target='avertir'], .ancre > a:first, [target='profil']").remove();
 };
 
 /** Préparer une place pour l'avatar de l'auteur */
-SK.moduleConstructors.InfosPseudo.prototype.addAvatarPlaceholder = function($msg) {
+SK.moduleConstructors.InfosPseudo.prototype.addAvatarPlaceholder = function(message) {
 
     //On ajoute déjà le wrapper de l'avatar
     var $avatarWrapper = $("<div />", {
@@ -139,38 +193,32 @@ SK.moduleConstructors.InfosPseudo.prototype.addAvatarPlaceholder = function($msg
 
     //Lien vers la CDV
     var $avatar = $("<a />", {
-        class: "avatar",
-        css: {
-            "background-color": "#FFF"
-        }
+        class: "avatar"
     });
 
     $avatarWrapper.append($avatar);
-    $msg.append($avatarWrapper);
-
-    //On affiche un loader en attendant les données
-    $avatar.addClass("loading");
+    message.$msg.append($avatarWrapper);
 };
 
 /* Ajoute le rang de l'auteur */
-SK.moduleConstructors.InfosPseudo.prototype.addRank = function(author) {
+SK.moduleConstructors.InfosPseudo.prototype.addRank = function(message) {
 
-    if(author.rank !== "") {
+    if(message.author.rank !== "") {
 
-        var rankString = "Rang " + author.rank.charAt(0).toUpperCase() + author.rank.slice(1);
+        var rankString = "Rang " + message.author.rank.charAt(0).toUpperCase() + message.author.rank.slice(1);
 
         if(this.getSetting("enableAvatar")) {
             
             var $rank = $("<span />", {
-                class: "rank " + author.rank,
+                class: "rank " + message.author.rank,
                 title: rankString
             });
-            var $avatarWrapper = author.$msg.find(".avatar-wrapper");
+            var $avatarWrapper = message.$msg.find(".avatar-wrapper");
             $avatarWrapper.append($rank.hide().fadeIn());
         }
         else {
-            SK.Util.addButton(author.$msg, {
-                class: "rank " + author.rank,
+            SK.Util.addButton(message.$msg, {
+                class: "rank " + message.author.rank,
                 tooltip: {
                     text: rankString
                 }
@@ -181,40 +229,39 @@ SK.moduleConstructors.InfosPseudo.prototype.addRank = function(author) {
 };
 
 /** Remplace le loader de l'avatar du post par l'image de l'auteur */
-SK.moduleConstructors.InfosPseudo.prototype.addAvatar = function(author) {
+SK.moduleConstructors.InfosPseudo.prototype.addAvatar = function(message) {
 
-    var $avatarWrapper = author.$msg.find(".avatar-wrapper");
+    var $avatarWrapper = message.$msg.find(".avatar-wrapper");
     var $avatar = $avatarWrapper.find(".avatar");
-    //Si on n'a pas réussi à récupérer les infos de l'auteur
-    if(!author.loaded) {
+
+    //Si l'auteur est banni
+    if(message.author.ban) {
 
         //L'utilisateur est sûrement banni
-        author.avatar = GM_getResourceURL("banImage");
-        $avatar
-            .addClass("ban")
-            .css({
-                "background-color": "transparent"
-            });
+        message.author.avatar = GM_getResourceURL("banImage");
+        $avatar.addClass("ban");
+        message.$msg.addClass("not-loading");
     }
 
     var $avatarImg = $("<img />", {
-        title: author.pseudo,
-        alt: author.pseudo
+        title: message.authorPseudo,
+        alt: message.authorPseudo
     });
 
     $avatarImg.hide();
 
     $avatarImg.on("load", function() {
         $avatar
-            .attr("href", author.profileLink)
-            .removeClass("loading")
+            .attr("href", message.author.profileLink)
             .append($avatarImg);
-        $avatarImg.fadeIn();
+        $avatarImg.fadeIn(function() {
+            message.$msg.addClass("not-loading");
+        });
         this.calculateAvatarDimensions($avatarImg);
     }.bind(this));
 
     //On met seulement src pour que l'event onload soit en place avant
-    $avatarImg.attr("src", author.avatar); 
+    $avatarImg.attr("src", message.author.avatar); 
 
     //Permet de régler les problèmes de cache sur certains navigateurs
     if(this.complete) {
@@ -310,17 +357,29 @@ SK.moduleConstructors.InfosPseudo.prototype.getCss = function() {
                 height: 60px;\
             }\
             .msg .avatar {\
+                position: relative;\
                 display: block;\
                 width: 100%;\
                 height: 100%;\
                 overflow: hidden;\
                 box-shadow: 0px 2px 3px -2px rgba(0, 0, 0, 0.8);\
                 cursor: pointer;\
+                z-index: 100;\
             }\
-            .msg .avatar.loading {\
+            .msg:not(.not-loading)::after {\
+                content: \"\";\
+                display: block;\
+                width: 60px;\
+                height: 60px;\
+                position: absolute;\
+                    top: 9px;\
+                    left: 9px;\
+                background-color: #FFF;\
+                box-shadow: 0px 2px 3px -2px rgba(0, 0, 0, 0.8);\
                 background-image: url('" + GM_getResourceURL("loader") + "');\
                 background-repeat: no-repeat;\
                 background-position: 22px;\
+                z-index: 10;\
             }\
             .msg .avatar.ban {\
                 box-shadow: none;\

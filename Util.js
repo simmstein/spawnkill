@@ -20,6 +20,17 @@ SK.Util = {
         });
     },
 
+    /** Effectue un ensemble de requêtes cdv sur l'API de JVC via un agregateur maison. */
+    jvcs: function(pseudos, callback) {
+        GM_xmlhttpRequest({
+            url: "http://dl.spixel.fr/greasemonkey/jvc-spawnkill/server/api-jvc.php?pseudos=" + JSON.stringify(pseudos),
+            method: "GET",
+            onload: function(response) {
+                callback($($.parseXML(SK.Util.sanitizeXML(response.responseText))));
+            }
+        });
+    },
+
     /* Montre une fenêtre modale passée en paramètre */
     showModal: function($modal) {
         var $background = $("#modal-background");
@@ -39,52 +50,61 @@ SK.Util = {
         $(".modal-box").removeClass("active");
     },
 
-    /* Ajoute un bouton au post à l'emplacement indiqué en paramètre dans les options (location: "top" (defaut), "right", ou "bottom") */
-    addButton: function($msg, buttonOptions) {
+    /**
+     * Ajoute un bouton au post à l'emplacement indiqué en paramètre
+     * dans les options (location: "top" (defaut), "right", ou "bottom")
+     * message est un SK.Message
+     */
+    addButton: function(message, buttonOptions) {
 
-        var location = buttonOptions.location || "top";
-        delete buttonOptions.location;
+        SK.Util.queue.add(function() {
+            var $msg = message.$msg;
+            
+            var location = buttonOptions.location || "top";
+            delete buttonOptions.location;
 
-        //On récupère ou on crée le conteneur des boutons
-        var $buttons = $msg.find(".buttons." + location);
-        
-        if($buttons.length === 0) {
+            //On récupère ou on crée le conteneur des boutons
+            var $buttons = $msg.find(".buttons." + location);
+            
+            if($buttons.length === 0) {
 
-            $buttons = $("<div>", {
-                class: "buttons " + location
-            });
+                $buttons = $("<div>", {
+                    class: "buttons " + location
+                });
 
-            //On place la box .buttons en fonction de l'emplacement
-            switch(location) {
-                case "top":
-                    $msg.find(".pseudo > strong").first().after($buttons);
-                    break;
-                case "bottom":
-                    //Si le li .ancre n'existe pas, on la crée
-                    var $ancre = $msg.find(".ancre").first();
+                //On place la box .buttons en fonction de l'emplacement
+                switch(location) {
+                    case "top":
+                        $msg.find(".pseudo > strong").first().after($buttons);
+                        break;
+                    case "bottom":
+                        //Si le li .ancre n'existe pas, on la crée
+                        var $ancre = $msg.find(".ancre").first();
 
-                    if($ancre.length === 0) {
-                        $ancre = $("<li>", {
-                            class: "ancre"
-                        });
-                        $msg.find(".post").after($ancre);
-                    }
+                        if($ancre.length === 0) {
+                            $ancre = $("<li>", {
+                                class: "ancre"
+                            });
+                            $msg.find(".post").after($ancre);
+                        }
 
-                    $ancre.append($buttons);
-                    break;
-                case "right":
-                    $msg.find(".date").first().append($buttons);
-                    break;
+                        $ancre.append($buttons);
+                        break;
+                    case "right":
+                        $msg.find(".date").first().append($buttons);
+                        break;
+                }
+
             }
 
-        }
+            //On crée le bouton avec les options
+            var $button = new SK.Button(buttonOptions);
 
-        //On crée le bouton avec les options
-        var $button = new SK.Button(buttonOptions);
-
-        $button.hide();
-        //TODO: Faire un append avec un positionnement
-        $buttons.append($button.fadeIn());
+            $button.hide();
+            //TODO: Faire un append avec un positionnement
+            $buttons.append($button.fadeIn());
+            
+        }, this);
 
     },
 
@@ -138,6 +158,7 @@ SK.Util = {
         localStorage.setItem(key, JSON.stringify(value));
     },
 
+    /* Retourne null si la donnée n'existe pas */
     getValue: function(key) {
         key = "SK." + key;
         return JSON.parse(localStorage.getItem(key));
@@ -155,5 +176,39 @@ SK.Util = {
             nbspString += String.fromCharCode(160);
         }
         return nbspString;
+    },
+
+     queue: {
+        _timer: null,
+        _queue: [],
+        add: function(fn, context, time) {
+            var setTimer = function(time) {
+                SK.Util.queue._timer = setTimeout(function() {
+                    time = SK.Util.queue.add();
+                    if (SK.Util.queue._queue.length) {
+                        setTimer(time);
+                    }
+                }, time || 2);
+            };
+
+            if (fn) {
+                SK.Util.queue._queue.push([fn, context, time]);
+                if (SK.Util.queue._queue.length == 1) {
+                    setTimer(time);
+                }
+                return;
+            }
+
+            var next = SK.Util.queue._queue.shift();
+            if (!next) {
+                return 0;
+            }
+            next[0].call(next[1] || window);
+            return next[2];
+        },
+        clear: function() {
+            clearTimeout(SK.Util.queue._timer);
+            SK.Util.queue._queue = [];
+        }
     }
 };
