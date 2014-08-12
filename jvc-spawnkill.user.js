@@ -119,7 +119,6 @@ Roadmap :
     - Ajout d'un cache pour les données de l'auteur (Correctif apporté par, keywc, merci :) )
     - Correction des lenteurs sous Firefox
     - Mettre en cache toutes les infos de l'utilisateur
-    - Mettre un Message dans auteur au lieu d'un $msg, renommer $msg en $el ou l'inverse
     - Une seule requête ajax
     - Fusionner les méthodes init dans SK.Message
 
@@ -129,6 +128,8 @@ Roadmap :
     - Popup pour voir les images/vidéos en grand
     - Ajouter une option de choix pour la position du rang
     - Décalage du bouton prévenir admin
+    - Prendre en compte les mecs bannis
+    - Ajouter le pseudo du mec dans le XML
 
     v1.8
     - Ajouter un AutoUpdater

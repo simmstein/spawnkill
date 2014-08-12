@@ -20,6 +20,17 @@ SK.Util = {
         });
     },
 
+    /** Effectue un ensemble de requêtes cdv sur l'API de JVC via un agregateur maison. */
+    jvcs: function(pseudos, callback) {
+        GM_xmlhttpRequest({
+            url: "http://dl.spixel.fr/greasemonkey/jvc-spawnkill/server/api-jvc.php?pseudos=" + JSON.stringify(pseudos),
+            method: "GET",
+            onload: function(response) {
+                callback($($.parseXML(SK.Util.sanitizeXML(response.responseText))));
+            }
+        });
+    },
+
     /* Montre une fenêtre modale passée en paramètre */
     showModal: function($modal) {
         var $background = $("#modal-background");

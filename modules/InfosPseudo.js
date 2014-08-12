@@ -23,8 +23,15 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostInfos = function() {
 
     var self = this;
 
-    //Evite les MP
+    //:not(.lecture_msg) evite les MP
     if($("#col1:not(.lecture_msg) .msg").length > 0) {
+
+        //Auteurs dont on n'a pas les données
+        var toLoadAuthors = [];
+        var toLoadAuthorPseudos = [];
+
+        //Auteurs sur la page
+        var authors = {};
 
         //On parcourt tous les messages
         $(".msg .pseudo").each(function() {
@@ -35,7 +42,12 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostInfos = function() {
             var message = new SK.Message($msg);
 
             //On crée l'auteur correspondant
-            var author = new SK.Author(message);
+            if(typeof authors[message.authorPseudo] === "undefined") {
+                authors[message.authorPseudo] = new SK.Author(message);
+            }
+            var author = authors[message.authorPseudo];
+            author.addMessage(message);
+
 
             //Et on l'ajoute au message
             message.setAuthor(author);
@@ -46,21 +58,44 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostInfos = function() {
 
             //Appelée quand la récupération des  données de l'auteur est terminée
             author.addListener(function() {
-                if(self.getSetting("enableAvatar")) {
-                    self.addAvatar(message);
-                }
-                if(self.getSetting("enableRank")) {
-                    self.addRank(message);
-                }
-                self.addPostButtons(message);
+                self.showMessageInfos(message);
             });
 
-            //Lance la requête sur l'API
-            author.init();
+            //On conserve les auteurs dont on n'a pas les données
+            if(toLoadAuthorPseudos.indexOf(message.authorPseudo) === -1) {
+                toLoadAuthors.push(author);
+                toLoadAuthorPseudos.push(message.authorPseudo);
+            }
 
+        });
+        //On récupère les infos des auteurs périmées ou qu'on n'a pas encore dans le localStorage
+        SK.Util.jvcs(toLoadAuthorPseudos, function($jvcs) {
+            $jvcs.find("author").each(function() {
+                var pseudo = $(this).attr("pseudo");
+                var $cdv = $(this).find("cdv");
+                var author = authors[pseudo];
+                author.init($cdv);
+
+                for(var message in author.messages) {
+                    self.showMessageInfos(author.messages[message]);
+                }
+            });
         });
     }
 };
+
+/** Affiche les infos du post et de l'auteur au message */
+SK.moduleConstructors.InfosPseudo.prototype.showMessageInfos = function(message) {
+
+    if(this.getSetting("enableAvatar")) {
+        this.addAvatar(message);
+    }
+    if(this.getSetting("enableRank")) {
+        this.addRank(message);
+    }
+    this.addPostButtons(message);
+};
+
 
 /** Ajoute les différents boutons et remplace ceux par défaut */
 SK.moduleConstructors.InfosPseudo.prototype.addPostButtons = function(message) {
@@ -191,8 +226,9 @@ SK.moduleConstructors.InfosPseudo.prototype.addAvatar = function(message) {
 
     var $avatarWrapper = message.$msg.find(".avatar-wrapper");
     var $avatar = $avatarWrapper.find(".avatar");
-    //Si on n'a pas réussi à récupérer les infos de l'auteur
-    if(!message.author.loaded) {
+
+    //Si l'auteur est banni
+    if(message.author.ban) {
 
         //L'utilisateur est sûrement banni
         message.author.avatar = GM_getResourceURL("banImage");

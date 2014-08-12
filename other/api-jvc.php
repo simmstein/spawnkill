@@ -9,19 +9,20 @@
 
 
 header('Content-Type: application/xml; charset=utf-8');
-if(!empty($_GET['pages'])) {
+if(!empty($_GET['pseudos'])) {
 
 	$username = 'appandr';
 	$password = 'e32!cdf';
 	$base_url = 'http://ws.jeuxvideo.com/';
-	$url_suffixes = json_decode($_GET['pages']);
+	$pseudos = json_decode($_GET['pseudos']);
 
-	$result = "<cdvs>";
+	$result = '<jvcs>';
 
-	foreach($url_suffixes as $url_suffix) {
+	foreach($pseudos as $pseudo) {
+		$result .= '<author pseudo="' . $pseudo . '">';
 
 		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $base_url . $url_suffix);
+		curl_setopt($ch, CURLOPT_URL, $base_url . '/profil/' . $pseudo . '.xml');
 		curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
 		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
@@ -29,9 +30,10 @@ if(!empty($_GET['pages'])) {
 		$status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);   //get status code
 		$result .= curl_exec($ch);
 		curl_close ($ch);
+		$result .= '</author>';
 	}
 
-	$result .= "</cdvs>";
+	$result .= '</jvcs>';
 
 	echo $result;
 }
