@@ -15,8 +15,13 @@ SK.Author = function(pseudo) {
     this.messages = [];
 };
 
+/** Durée de validité du localStorage en jours */
+SK.Author.DATA_TTL = 4;
 
-/* set les données de l'auteur */
+
+/** 
+ * Set les données de l'auteur à partir d'un objet data
+ */
 SK.Author.prototype.initFromData = function(data) {
     this.rank = data.rank || "";
     this.messageCount = data.messageCount || 0;
@@ -27,7 +32,7 @@ SK.Author.prototype.initFromData = function(data) {
     this.hasLocalData = data.hasLocalData || false;
 };
 
-/* Charge les données de l'auteur à partir d"un élément cdv (issu de l'API JVC) */
+/* Charge les données de l'auteur à partir d"un élément $cdv (issu de l'API JVC) */
 SK.Author.prototype.initFromCdv = function($cdv) {
 
     this.profileLink = "http://www.jeuxvideo.com/profil/" + this.pseudo + ".html";
@@ -54,7 +59,9 @@ SK.Author.prototype.addMessage = function(message) {
     this.messages.push(message);
 };
 
-/* Enregistre les données de l'auteur dans le localStorage */
+/** 
+ * Enregistre les données de l'auteur dans le localStorage
+ */
 SK.Author.prototype.saveLocalData = function() {
 
     var data = {
@@ -64,23 +71,36 @@ SK.Author.prototype.saveLocalData = function() {
         gender: this.gender,
         profileLink: this.profileLink,
         ban: this.ban,
-        hasLocalData: true
+        hasLocalData: true,
+        date: new Date()
     };
 
     SK.Util.setValue(this.pseudo, data);
 };
 
-/* Retourne vrai si on a trouvé des données exploitables en local pour cet auteur */
+/*
+ * Récupère les données de l'auteur dans le localStorage.
+ * Retourne vrai si on a trouvé des données exploitables en local pour cet auteur
+ */
 SK.Author.prototype.loadLocalData = function() {
+
     var data = SK.Util.getValue(this.pseudo);
 
     if(data !== null) {
-        this.initFromData(data);
-        return true;
+
+        //On ne charge les données que si elles sont encore valables
+        var dataDate = new Date(data.date);
+        var now = new Date();
+        var timeDiff = Math.abs(now.getTime() - dataDate.getTime());
+        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+        if(diffDays < SK.Author.DATA_TTL) {
+            this.initFromData(data);
+            return true;
+        }
     }
-    else {
-        return false;
-    }
+
+    return false;
 };
 
 SK.Author.getRankFromColor = function(hexString) {

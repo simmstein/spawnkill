@@ -146,6 +146,5 @@ SK.Module.prototype.queueFunction = function(fn, context, time) {
         return 0;
     }
     next[0].call(next[1] || window);
-    console.log("quote");
     return next[2];
 };

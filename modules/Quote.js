@@ -57,7 +57,7 @@ SK.moduleConstructors.Quote.prototype.addCitationButtons = function() {
 
             //Triche pour éviter de créer un SK.Message.
             //À modifier à l'ajout des hooks
-            var message = {$msg: $msg};
+            var message = { $msg: $msg };
 
             SK.Util.addButton(message, {
                 class: "quote",

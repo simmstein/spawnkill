@@ -17,16 +17,23 @@ SK.moduleConstructors.HilightNewTopic.prototype.init = function() {
 
 /* Change l'icone des topics avec 0 posts */
 SK.moduleConstructors.HilightNewTopic.prototype.hilightNewTopic = function() {
+
+    var self = this;
+
     $("#liste_topics tr td:nth-child(4)").each(function() {
 
         var $postCount = $(this);
 
-        if(parseInt($postCount.html().trim()) === 0) {
-            //On remplace l'image du topic, sauf si c'est une épingle
-            $postCount.parent().find("img[src='http://image.jeuxvideo.com/pics/forums/topic_dossier1.gif']")
-                .attr("src", GM_getResourceURL("newTopic"))
-                .addClass("new-topic");
-        }
+        self.queueFunction(function() {
+
+            if(parseInt($postCount.html().trim()) === 0) {
+                //On remplace l'image du topic, sauf si c'est une épingle
+                $postCount.parent().find("img[src='http://image.jeuxvideo.com/pics/forums/topic_dossier1.gif']")
+                    .attr("src", GM_getResourceURL("newTopic"))
+                    .addClass("new-topic");
+            }
+
+        }, this);
     });
 };
 

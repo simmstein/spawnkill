@@ -36,51 +36,50 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostInfos = function() {
         //On parcourt tous les messages
         $(".msg .pseudo").each(function() {
 
-            var $msg = $(this).parents(".msg").first();
-            
-            //On crée le Message
-            var message = new SK.Message($msg);
+            self.queueFunction(function() {
+                var $msg = $(this).parents(".msg").first();
+                
+                //On crée le Message
+                var message = new SK.Message($msg);
 
-            if(self.getSetting("enableAvatar")) {
+                if(self.getSetting("enableAvatar")) {
 
-                self.addAvatarPlaceholder(message);
-            }
-
-            //On crée l'auteur correspondant
-            if(typeof authors[message.authorPseudo] === "undefined") {
-                authors[message.authorPseudo] = new SK.Author(message.authorPseudo);
-                authors[message.authorPseudo].loadLocalData();
-            }
-            var author = authors[message.authorPseudo];
-            author.addMessage(message);
-
-
-            //Et on l'ajoute au message
-            message.setAuthor(author);
-
-
-            //On affiche les données des auteurs qu'on a en localStorage
-            if(author.hasLocalData) {
-                self.showMessageInfos(message);
-            }
-            else {
-
-                //On conserve les auteurs dont on n'a pas les données
-                if(toLoadAuthorPseudos.indexOf(message.authorPseudo) === -1) {
-                    toLoadAuthors.push(author);
-                    toLoadAuthorPseudos.push(message.authorPseudo);
+                    self.addAvatarPlaceholder(message);
                 }
-            }
+
+                //On crée l'auteur correspondant
+                if(typeof authors[message.authorPseudo] === "undefined") {
+                    authors[message.authorPseudo] = new SK.Author(message.authorPseudo);
+                    authors[message.authorPseudo].loadLocalData();
+                }
+                var author = authors[message.authorPseudo];
+                author.addMessage(message);
+
+
+                //Et on l'ajoute au message
+                message.setAuthor(author);
+
+
+                //On affiche les données des auteurs qu'on a en localStorage
+                if(author.hasLocalData) {
+                    self.showMessageInfos(message);
+                }
+                else {
+
+                    //On conserve les auteurs dont on n'a pas les données
+                    if(toLoadAuthorPseudos.indexOf(message.authorPseudo) === -1) {
+                        toLoadAuthors.push(author);
+                        toLoadAuthorPseudos.push(message.authorPseudo);
+                    }
+                }
+            }, this);
 
         });
 
-        //On récupère les infos des auteurs périmées ou qu'on n'a pas encore dans le localStorage
-        if(toLoadAuthorPseudos.length > 0) {
-            SK.Util.jvcs(toLoadAuthorPseudos, function($jvcs) {
-                $jvcs.find("author").each(function() {
-                    var pseudo = $(this).attr("pseudo");
-                    var $cdv = $(this).find("cdv");
-                    var author = authors[pseudo];
+        self.queueFunction(function() {
+            var queueInitAuthor = function(author, $cdv) {
+                self.queueFunction(function() {
+
                     author.initFromCdv($cdv);
                     //On enregistre les données dans le localStorage
                     author.saveLocalData();
@@ -88,9 +87,22 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostInfos = function() {
                     for(var message in author.messages) {
                         self.showMessageInfos(author.messages[message]);
                     }
+                }, this);
+            };
+
+            //On récupère les infos des auteurs périmées ou qu'on n'a pas encore dans le localStorage
+            if(toLoadAuthorPseudos.length > 0) {
+                SK.Util.jvcs(toLoadAuthorPseudos, function($jvcs) {
+                    $jvcs.find("author").each(function() {
+                        var $author = $(this);
+                        var pseudo = $author.attr("pseudo");
+                        var $cdv = $author.find("cdv");
+                        var author = authors[pseudo];
+                        queueInitAuthor(author, $cdv);
+                    });
                 });
-            });
-        }
+            }
+        }, this);
     }
 };
 
@@ -98,8 +110,8 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostInfos = function() {
 SK.moduleConstructors.InfosPseudo.prototype.showMessageInfos = function(message) {
 
     var self = this;
-    
-    self.queueFunction(function() {
+
+    // self.queueFunction(function() {
         if(self.getSetting("enableAvatar")) {
             self.addAvatar(message);
         }
@@ -107,7 +119,7 @@ SK.moduleConstructors.InfosPseudo.prototype.showMessageInfos = function(message)
             self.addRank(message);
         }
         self.addPostButtons(message);
-    }, this);
+    // }, this);
 };
 
 

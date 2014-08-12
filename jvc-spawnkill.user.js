@@ -4,24 +4,24 @@
 // @author      Spixel_
 // @namespace   http://www.spixel.fr
 // @include     http://*.jeuxvideo.com*
-// @version     1.7e
-// @require     jquery-1.11.1.min.js?v1.7e
-// @require     jquery-plugins.js?v1.7e
-// @require     base.js?v1.7e
-// @require     Util.js?v1.7e
-// @require     Message.js?v1.7e
-// @require     Author.js?v1.7e
-// @require     Button.js?v1.7e
-// @require     SlideToggle.js?v1.7e
-// @require     Modal.js?v1.7e
-// @require     modules/Module.js?v1.7e
-// @require     modules/StartSpawnKill.js?v1.7e
-// @require     modules/Settings.js?v1.7e
-// @require     modules/QuickResponse.js?v1.7e
-// @require     modules/Quote.js?v1.7e
-// @require     modules/InfosPseudo.js?v1.7e
-// @require     modules/HilightNewTopic.js?v1.7e
-// @require     modules/LastPage.js?v1.7e
+// @version     1.6.3
+// @require     jquery-1.11.1.min.js?v1.6.3
+// @require     jquery-plugins.js?v1.6.3
+// @require     base.js?v1.6.3
+// @require     Util.js?v1.6.3
+// @require     Message.js?v1.6.3
+// @require     Author.js?v1.6.3
+// @require     Button.js?v1.6.3
+// @require     SlideToggle.js?v1.6.3
+// @require     Modal.js?v1.6.3
+// @require     modules/Module.js?v1.6.3
+// @require     modules/StartSpawnKill.js?v1.6.3
+// @require     modules/Settings.js?v1.6.3
+// @require     modules/QuickResponse.js?v1.6.3
+// @require     modules/Quote.js?v1.6.3
+// @require     modules/InfosPseudo.js?v1.6.3
+// @require     modules/HilightNewTopic.js?v1.6.3
+// @require     modules/LastPage.js?v1.6.3
 // @resource    banImage    images/ban.png
 // @resource    newTopic    images/topic_new.gif
 // @resource    carton      images/carton.png
@@ -170,6 +170,8 @@ Roadmap :
         - Faire fonctionner le plugin sur Opera
     
     Autre :
+        - Ajouter option durée validité cache, options avancées ?
+        - Ajouter le système de files au guide
         - Ajout d'un module de structure des données, de dépendances et de hooks pour les plugins
         - Réduire la taille des options
         - Ajouter des tooltips facilement (slidetoggle, lastpage, ...)

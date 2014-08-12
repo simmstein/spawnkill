@@ -14,8 +14,10 @@ SK.moduleConstructors.QuickResponse.prototype.title = "Réponse Rapide";
 SK.moduleConstructors.QuickResponse.prototype.description = "Permet de répondre à un topic sans avoir à cliquer sur \"Répondre\". Le formulaire de réponse est présent sur toutes les pages.";
 
 SK.moduleConstructors.QuickResponse.prototype.init = function() {
-    this.addResponseForm();
-    this.addAnchor();
+    this.queueFunction(function() {
+        this.addResponseForm();
+        this.addAnchor();
+    }, this);
 };
 
 /* Ajoute le formulaire de réponse en base de la page, si nécessaire */
