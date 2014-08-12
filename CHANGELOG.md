@@ -1,6 +1,9 @@
 Changelog - SpawnKill
 =====================
 
+### v1.7
+- Ajout du module YouTube développé par Apoxx : permet de voir les vidéos Youtubes directement dans les posts
+
 ### v1.6.3.1
 - Correction des citations qui ne fonctionnaient plus
 
