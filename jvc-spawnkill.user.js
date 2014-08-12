@@ -4,24 +4,24 @@
 // @author      Spixel_
 // @namespace   http://www.spixel.fr
 // @include     http://*.jeuxvideo.com*
-// @version     1.7
-// @require     jquery-1.11.1.min.js?v1.7
-// @require     jquery-plugins.js?v1.7
-// @require     base.js?v1.7
-// @require     Util.js?v1.7
-// @require     Message.js?v1.7
-// @require     Author.js?v1.7
-// @require     Button.js?v1.7
-// @require     SlideToggle.js?v1.7
-// @require     Modal.js?v1.7
-// @require     modules/Module.js?v1.7
-// @require     modules/StartSpawnKill.js?v1.7
-// @require     modules/Settings.js?v1.7
-// @require     modules/QuickResponse.js?v1.7
-// @require     modules/Quote.js?v1.7
-// @require     modules/InfosPseudo.js?v1.7
-// @require     modules/HilightNewTopic.js?v1.7
-// @require     modules/LastPage.js?v1.7
+// @version     1.7c
+// @require     jquery-1.11.1.min.js?v1.7c
+// @require     jquery-plugins.js?v1.7c
+// @require     base.js?v1.7c
+// @require     Util.js?v1.7c
+// @require     Message.js?v1.7c
+// @require     Author.js?v1.7c
+// @require     Button.js?v1.7c
+// @require     SlideToggle.js?v1.7c
+// @require     Modal.js?v1.7c
+// @require     modules/Module.js?v1.7c
+// @require     modules/StartSpawnKill.js?v1.7c
+// @require     modules/Settings.js?v1.7c
+// @require     modules/QuickResponse.js?v1.7c
+// @require     modules/Quote.js?v1.7c
+// @require     modules/InfosPseudo.js?v1.7c
+// @require     modules/HilightNewTopic.js?v1.7c
+// @require     modules/LastPage.js?v1.7c
 // @resource    banImage    images/ban.png
 // @resource    newTopic    images/topic_new.gif
 // @resource    carton      images/carton.png
@@ -122,6 +122,7 @@ Roadmap :
     - Fusionner les méthodes init dans SK.Message
     - Ajouter un TTL aux données en localStorage
     - Améliorer les performances de l'ajout de boutons
+    - Remplacer l'avatar placeholder par un :after
 
     v1.7
     - Remplacer le lien avatar vers un agrandissement de l'avatar.
@@ -240,6 +241,12 @@ SK.Util.addCss(modulesStyle);
 //Pour vérifier que le DOM est chargé, on vérifie que le footer est présent.
 var checkDomReady = setInterval(function() {
 
+    var initModule = function(module) {
+        SK.Util.queue.add(function() {
+            module.internal_init();
+        }, this);
+    };
+
     if($("#footer").length > 0) {
 
         clearInterval(checkDomReady);
@@ -247,10 +254,9 @@ var checkDomReady = setInterval(function() {
         //On initialise les modules actifs
         for(var key in SK.modules) {
             if(SK.modules[key].activated) {
-                SK.modules[key].internal_init();
+                initModule(SK.modules[key]);
             }
         }
-
     }
 
 }, 100);

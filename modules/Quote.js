@@ -51,34 +51,39 @@ SK.moduleConstructors.Quote.prototype.addCitationButtons = function() {
 
     $(".msg").each(function() {
 
-        //Triche pour éviter de créer un SK.Message.
-        //À modifier à l'ajout des hooks
-        var message = {$msg: $(this)};
+        var $msg = $(this);
 
-        SK.Util.addButton(message, {
-            class: "quote",
-            location: "bottom",
-            tooltip: {
-                text: "Citer ce message",
-            },
-            click: function() {
+        SK.Util.queue.add(function() {
 
-                var citationBlock = self.createCitationBlock(new SK.Message($(this).parents(".msg")));
+            //Triche pour éviter de créer un SK.Message.
+            //À modifier à l'ajout des hooks
+            var message = {$msg: $msg};
 
-                //Si QuickResponse n'est pas activé et qu'on est sur la page de lecture,
-                //le bouton de citation dirige vers la page de réponse en remplissant
-                //le formulaire de réponse
-                if(!SK.modules.QuickResponse.activated &&
-                    window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/1/))
-                {
-                    SK.Util.setValue("responseContent", citationBlock);
-                    window.location.href = $(".bt_repondre").attr("href");
+            SK.Util.addButton(message, {
+                class: "quote",
+                location: "bottom",
+                tooltip: {
+                    text: "Citer ce message",
+                },
+                click: function() {
+
+                    var citationBlock = self.createCitationBlock(new SK.Message($msg.parents(".msg")));
+
+                    //Si QuickResponse n'est pas activé et qu'on est sur la page de lecture,
+                    //le bouton de citation dirige vers la page de réponse en remplissant
+                    //le formulaire de réponse
+                    if(!SK.modules.QuickResponse.activated &&
+                        window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/1/))
+                    {
+                        SK.Util.setValue("responseContent", citationBlock);
+                        window.location.href = $(".bt_repondre").attr("href");
+                    }
+                    else {
+                        self.citeMessage(citationBlock);
+                    }
                 }
-                else {
-                    self.citeMessage(citationBlock);
-                }
-            }
-        });
+            });
+        }, this);
     });
 };
 
@@ -328,7 +333,7 @@ SK.moduleConstructors.Quote.prototype.cleanUpMessage = function(message, separat
 
 /** Remplace les citations textes par du HTML dans le texte passé en paramètre */
 SK.moduleConstructors.Quote.prototype.htmlizeQuote = function(postText) {
-
+    
     var newPostText = postText;
     
     for(var i in this.quoteTypes) {
@@ -355,14 +360,16 @@ SK.moduleConstructors.Quote.prototype.htmlizeAllQuotes = function() {
     //On remplace les citations textes par de l'Html dans tous les posts
     $(".post").each(function() {
 
-        //On retire les <br> pour le parsing, on les ajoutera par la suite
-        var postText = $(this).html().replace(/\n/g, "").replace(/[ ]*<br>/g, "\n");
+        SK.Util.queue.add(function() {
+            //On retire les <br> pour le parsing, on les ajoutera par la suite
+            var postText = $(this).html().replace(/\n/g, "").replace(/[ ]*<br>/g, "\n");
 
-        //On converti les citations en html
-        postText = self.htmlizeQuote(postText);
+            //On converti les citations en html
+            postText = self.htmlizeQuote(postText);
 
-        //On remet les <br>
-        $(this).html(postText.replace(/\n/g, "\n<br>"));
+            //On remet les <br>
+            $(this).html(postText.replace(/\n/g, "\n<br>"));
+        }, this);
     });
 };
 

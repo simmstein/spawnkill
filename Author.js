@@ -68,14 +68,11 @@ SK.Author.prototype.saveLocalData = function() {
     };
 
     SK.Util.setValue(this.pseudo, data);
-
-    console.log(data);
 };
 
 /* Retourne vrai si on a trouvé des données exploitables en local pour cet auteur */
 SK.Author.prototype.loadLocalData = function() {
     var data = SK.Util.getValue(this.pseudo);
-    console.log(data);
 
     if(data !== null) {
         this.initFromData(data);

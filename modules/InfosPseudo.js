@@ -32,7 +32,7 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostInfos = function() {
 
         //Auteurs sur la page
         var authors = {};
-
+        
         //On parcourt tous les messages
         $(".msg .pseudo").each(function() {
 
@@ -42,6 +42,7 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostInfos = function() {
             var message = new SK.Message($msg);
 
             if(self.getSetting("enableAvatar")) {
+
                 self.addAvatarPlaceholder(message);
             }
 
@@ -96,13 +97,16 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostInfos = function() {
 /** Affiche les infos du post et de l'auteur au message */
 SK.moduleConstructors.InfosPseudo.prototype.showMessageInfos = function(message) {
 
-    if(this.getSetting("enableAvatar")) {
-        this.addAvatar(message);
-    }
-    if(this.getSetting("enableRank")) {
-        this.addRank(message);
-    }
-    this.addPostButtons(message);
+    var self = this;
+    SK.Util.queue.add(function() {
+        if(self.getSetting("enableAvatar")) {
+            self.addAvatar(message);
+        }
+        if(self.getSetting("enableRank")) {
+            self.addRank(message);
+        }
+        self.addPostButtons(message);
+    }, this);
 };
 
 
@@ -189,17 +193,11 @@ SK.moduleConstructors.InfosPseudo.prototype.addAvatarPlaceholder = function(mess
 
     //Lien vers la CDV
     var $avatar = $("<a />", {
-        class: "avatar",
-        css: {
-            "background-color": "#FFF"
-        }
+        class: "avatar"
     });
 
     $avatarWrapper.append($avatar);
     message.$msg.append($avatarWrapper);
-
-    //On affiche un loader en attendant les données
-    $avatar.addClass("loading");
 };
 
 /* Ajoute le rang de l'auteur */
@@ -241,11 +239,8 @@ SK.moduleConstructors.InfosPseudo.prototype.addAvatar = function(message) {
 
         //L'utilisateur est sûrement banni
         message.author.avatar = GM_getResourceURL("banImage");
-        $avatar
-            .addClass("ban")
-            .css({
-                "background-color": "transparent"
-            });
+        $avatar.addClass("ban");
+        message.$msg.addClass("not-loading");
     }
 
     var $avatarImg = $("<img />", {
@@ -258,9 +253,10 @@ SK.moduleConstructors.InfosPseudo.prototype.addAvatar = function(message) {
     $avatarImg.on("load", function() {
         $avatar
             .attr("href", message.author.profileLink)
-            .removeClass("loading")
             .append($avatarImg);
-        $avatarImg.fadeIn();
+        $avatarImg.fadeIn(function() {
+            message.$msg.addClass("not-loading");
+        });
         this.calculateAvatarDimensions($avatarImg);
     }.bind(this));
 
@@ -361,17 +357,29 @@ SK.moduleConstructors.InfosPseudo.prototype.getCss = function() {
                 height: 60px;\
             }\
             .msg .avatar {\
+                position: relative;\
                 display: block;\
                 width: 100%;\
                 height: 100%;\
                 overflow: hidden;\
                 box-shadow: 0px 2px 3px -2px rgba(0, 0, 0, 0.8);\
                 cursor: pointer;\
+                z-index: 100;\
             }\
-            .msg .avatar.loading {\
+            .msg:not(.not-loading)::after {\
+                content: \"\";\
+                display: block;\
+                width: 60px;\
+                height: 60px;\
+                position: absolute;\
+                    top: 9px;\
+                    left: 9px;\
+                background-color: #FFF;\
+                box-shadow: 0px 2px 3px -2px rgba(0, 0, 0, 0.8);\
                 background-image: url('" + GM_getResourceURL("loader") + "');\
                 background-repeat: no-repeat;\
                 background-position: 22px;\
+                z-index: 10;\
             }\
             .msg .avatar.ban {\
                 box-shadow: none;\

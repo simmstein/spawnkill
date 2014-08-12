@@ -57,51 +57,54 @@ SK.Util = {
      */
     addButton: function(message, buttonOptions) {
 
-        var $msg = message.$msg;
-        
-        var location = buttonOptions.location || "top";
-        delete buttonOptions.location;
+        SK.Util.queue.add(function() {
+            var $msg = message.$msg;
+            
+            var location = buttonOptions.location || "top";
+            delete buttonOptions.location;
 
-        //On récupère ou on crée le conteneur des boutons
-        var $buttons = $msg.find(".buttons." + location);
-        
-        if($buttons.length === 0) {
+            //On récupère ou on crée le conteneur des boutons
+            var $buttons = $msg.find(".buttons." + location);
+            
+            if($buttons.length === 0) {
 
-            $buttons = $("<div>", {
-                class: "buttons " + location
-            });
+                $buttons = $("<div>", {
+                    class: "buttons " + location
+                });
 
-            //On place la box .buttons en fonction de l'emplacement
-            switch(location) {
-                case "top":
-                    $msg.find(".pseudo > strong").first().after($buttons);
-                    break;
-                case "bottom":
-                    //Si le li .ancre n'existe pas, on la crée
-                    var $ancre = $msg.find(".ancre").first();
+                //On place la box .buttons en fonction de l'emplacement
+                switch(location) {
+                    case "top":
+                        $msg.find(".pseudo > strong").first().after($buttons);
+                        break;
+                    case "bottom":
+                        //Si le li .ancre n'existe pas, on la crée
+                        var $ancre = $msg.find(".ancre").first();
 
-                    if($ancre.length === 0) {
-                        $ancre = $("<li>", {
-                            class: "ancre"
-                        });
-                        $msg.find(".post").after($ancre);
-                    }
+                        if($ancre.length === 0) {
+                            $ancre = $("<li>", {
+                                class: "ancre"
+                            });
+                            $msg.find(".post").after($ancre);
+                        }
 
-                    $ancre.append($buttons);
-                    break;
-                case "right":
-                    $msg.find(".date").first().append($buttons);
-                    break;
+                        $ancre.append($buttons);
+                        break;
+                    case "right":
+                        $msg.find(".date").first().append($buttons);
+                        break;
+                }
+
             }
 
-        }
+            //On crée le bouton avec les options
+            var $button = new SK.Button(buttonOptions);
 
-        //On crée le bouton avec les options
-        var $button = new SK.Button(buttonOptions);
-
-        $button.hide();
-        //TODO: Faire un append avec un positionnement
-        $buttons.append($button.fadeIn());
+            $button.hide();
+            //TODO: Faire un append avec un positionnement
+            $buttons.append($button.fadeIn());
+            
+        }, this);
 
     },
 
@@ -173,5 +176,39 @@ SK.Util = {
             nbspString += String.fromCharCode(160);
         }
         return nbspString;
+    },
+
+     queue: {
+        _timer: null,
+        _queue: [],
+        add: function(fn, context, time) {
+            var setTimer = function(time) {
+                SK.Util.queue._timer = setTimeout(function() {
+                    time = SK.Util.queue.add();
+                    if (SK.Util.queue._queue.length) {
+                        setTimer(time);
+                    }
+                }, time || 2);
+            };
+
+            if (fn) {
+                SK.Util.queue._queue.push([fn, context, time]);
+                if (SK.Util.queue._queue.length == 1) {
+                    setTimer(time);
+                }
+                return;
+            }
+
+            var next = SK.Util.queue._queue.shift();
+            if (!next) {
+                return 0;
+            }
+            next[0].call(next[1] || window);
+            return next[2];
+        },
+        clear: function() {
+            clearTimeout(SK.Util.queue._timer);
+            SK.Util.queue._queue = [];
+        }
     }
 };
