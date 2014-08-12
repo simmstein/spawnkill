@@ -98,3 +98,14 @@ SK.moduleConstructors.YouTube.prototype.init = function() {
         if (linkCpt > 0) addButtonToPost($post);
     });
 };
+
+SK.moduleConstructors.YouTube.prototype.shouldBeActivated = function() {
+    return window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/1/);
+};
+
+
+SK.moduleConstructors.YouTube.prototype.getCss = function() {
+    return "";
+};
+
+SK.moduleConstructors.YouTube.prototype.settings = {};
