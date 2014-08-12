@@ -116,15 +116,12 @@ Changelog :
 Roadmap :
 
     v1.6.3
-    OK - Ajout d'un cache pour les données de l'auteur
-    OK - Amélioration des performances sous Firefox
-    OK - Amélioration de la récupération des données (une seule requête HTTP pour tous les auteurs)
-    - Fusionner les méthodes init dans SK.Message
-    - Ajouter un TTL aux données en localStorage
-    - Améliorer les performances de l'ajout de boutons
-    - Remplacer l'avatar placeholder par un :after
+    - Amélioration des performances sous Firefox
+    - Ajout d'un cache pour les données de l'auteur
+    - Amélioration de la récupération des données (une seule requête HTTP pour tous les auteurs)
 
     v1.7
+    - Nettoyage du changelog dans le code (CHANGELOG.MD)
     - Remplacer le lien avatar vers un agrandissement de l'avatar.
     - Affichage des photos/vidéos/sondages dans les posts
     - Popup pour voir les images/vidéos en grand
