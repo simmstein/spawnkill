@@ -1,4 +1,7 @@
-v1.8
+v1.8	
+
+	ajout des options
+
 	- modales centrales
 		- Passage d'un élément html
 		- Centrage de l'élément en gardant des marges
@@ -13,17 +16,21 @@ v1.8
 
 	- Photos
 		Remplacer les liens par des <img> (wrappées dans des <a>) avec attribut data-oppin
+		jpg, png, noelshack, jpeg, gif
 
 	- Vidéos
 		Remplacer les liens par des embeds
+		youtube, dailymotion, vimeo
+		Adapter la largeur aux posts
 
 	- Sondages
 		Remplacer les liens par des embeds
+		sondage.io, pixule
 		
 	- Vocaroo
 		Remplacer les liens par des embeds
 
-
+	- Sauvegarde du masquage du media dans le localstorage
 
 	- Ajouter une option de choix pour la position du rang
 		- Ajouter les types de paramètres dans la config
