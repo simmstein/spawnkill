@@ -408,6 +408,7 @@ SK.moduleConstructors.InfosPseudo.prototype.getCss = function() {
                 width: 16px;\
                 height: 16px;\
                 background-repeat: no-repeat;\
+                z-index: 200;\
             }\
             .rank.argent {\
                 background-image: url('" + GM_getResourceURL("argent") + "');\
