@@ -33,7 +33,7 @@ SK.moduleConstructors.YouTube.prototype.init = function() {
             $el
                 .attr("src", ytLink)
                 .attr("width", "400")
-                .attr("height", "300")
+                .attr("height", "225")
                 .attr("allowfullscreen", 1)
                 .attr("frameborder", 0)
                 .css("margin", "10px")
