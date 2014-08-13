@@ -56,27 +56,24 @@
 /*
 Roadmap :
 
-    v1.7
-    - Nettoyage du changelog dans le code (CHANGELOG.MD)
+    v1.8
     - Remplacer le lien avatar vers un agrandissement de l'avatar.
     - Affichage des photos/vidéos/sondages dans les posts
     - Popup pour voir les images/vidéos en grand
     - Ajouter une option de choix pour la position du rang
-    - Décalage du bouton prévenir admin
-    - Prendre en compte les mecs bannis
-    - Ajouter le pseudo du mec dans le XML
+    - Virer les commentaires du fichier de base
 
-    v1.8
+    v1.9
     - Ajouter un AutoUpdater
     - Faire des icones pour améliorer les citations
     - Affichage des plugins dans la preview du message
     - Affichage de la version en grisé à droite dans les settings
 
-    v1.9
+    v1.10
     - Faire la distinction entre les bans définitifs et les ban tempo
     - Bugs avec "aujourd'hui" dans les citations Turboforum
 
-    v1.9.1
+    v1.10.1
     - Ajouter d'autres types d'options pour les plugins (string, text, int, bool, float, color, select,...)
     - Ajouter option type de citations
     - Possibilité de citer seulement une partie du message
@@ -104,12 +101,12 @@ Roadmap :
     
     Guide :
         - Utilisation des classes Message, Modal, Author, Button
-        - Mise en file du code
+        - Mise en file d'exécution du code
         - Guideline boutons/actions/animations/...
 
     Autre :
+        - Scroller au post quand on répond
         - Ajouter option durée validité cache, options avancées ?
-        - Ajouter le système de files au guide
         - Ajout d'un module de structure des données, de dépendances et de hooks pour les plugins
         - Réduire la taille des options
         - Ajouter des tooltips facilement (slidetoggle, lastpage, ...)
