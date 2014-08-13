@@ -63,15 +63,18 @@ SK.moduleConstructors.EmbedMedia.prototype.initMediaTypes = function() {
             /**
              * Fonction qui crée l'élément à intégrer à la page.
              */
-            var createVideoElement = function (ytLink) {
+            var createVideoElement = function (youtubeLink) {
                 var $el = $("<iframe>");
-                $el.attr("src", ytLink)
-                   .attr("width", "400")
-                   .attr("height", "225")
+                var ratio = 16 / 9;
+                var videoWidth = $(".msg .post").width() - 10;
+                var videoHeight = videoWidth / ratio;
+
+                $el.attr("src", youtubeLink)
+                   .attr("width", videoWidth)
+                   .attr("height", videoHeight)
                    .attr("allowfullscreen", 1)
                    .attr("frameborder", 0)
-                   .css("margin", "10px")
-                   .addClass("youtube-video");
+                   .css("margin", "5px");
                 return $el;
             };
 
