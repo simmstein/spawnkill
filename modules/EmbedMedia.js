@@ -11,6 +11,7 @@ SK.moduleConstructors.EmbedMedia.prototype.title = "Intégration de contenus";
 SK.moduleConstructors.EmbedMedia.prototype.description = "Remplace les liens vers les images, vidéos, sondages ou vocaroo par le contenu lui-même.";
 
 SK.moduleConstructors.EmbedMedia.prototype.init = function() {
+
     this.initMediaTypes();
     this.embedMedia();
 };
@@ -18,8 +19,11 @@ SK.moduleConstructors.EmbedMedia.prototype.init = function() {
 /* options : {
     id: nom du type de media
     regex: regex de reconnaissance du lien
-    getEmbeddedMedia: callback appelé avec getEmbeddedMedia($a, link.match(regex)), retourne l'élément jQuery qui remplace le lien
     addHideButton: si vrai, un bouton pour cacher le media sera affiché
+    hideButtonText: texte au survol du bouton de masquage
+    showButtonText: texte au survol du bouton d'affichage
+    settingId: id du paramètre gérant le media
+    getEmbeddedMedia: callback appelé avec getEmbeddedMedia($a, link.match(regex)), retourne l'élément jQuery qui remplace le lien
 }*/
 SK.moduleConstructors.EmbedMedia.MediaType = function(options) {
     this.id = options.id;
@@ -27,6 +31,7 @@ SK.moduleConstructors.EmbedMedia.MediaType = function(options) {
     this.addHideButton = options.addHideButton;
     this.hideButtonText = options.hideButtonText;
     this.showButtonText = options.showButtonText;
+    this.settingId = options.settingId;
     this.getEmbeddedMedia = options.getEmbeddedMedia;
 };
 
@@ -48,8 +53,8 @@ SK.moduleConstructors.EmbedMedia.prototype.initMediaTypes = function() {
         regex: /^.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/,
 
         addHideButton: true,
-        showButtonText: "Afficher les videos Youtube de ce post",
-        hideButtonText: "Masquer les videos Youtube de ce post",
+        showButtonText: "Afficher les vidéos Youtube de ce post",
+        hideButtonText: "Masquer les vidéos Youtube de ce post",
 
         getEmbeddedMedia: function($a, match) {
 
@@ -64,17 +69,19 @@ SK.moduleConstructors.EmbedMedia.prototype.initMediaTypes = function() {
              * Fonction qui crée l'élément à intégrer à la page.
              */
             var createVideoElement = function (youtubeLink) {
-                var $el = $("<iframe>");
                 var ratio = 16 / 9;
-                var videoWidth = $(".msg .post").width() - 10;
+                var videoWidth = $a.closest(".quote-message, .post").width() - 10;
+                console.log($a.closest(".quote-bloc, .post"));
                 var videoHeight = videoWidth / ratio;
 
-                $el.attr("src", youtubeLink)
-                   .attr("width", videoWidth)
-                   .attr("height", videoHeight)
-                   .attr("allowfullscreen", 1)
-                   .attr("frameborder", 0)
-                   .css("margin", "5px");
+                var $el = $("<iframe>", {
+                   src: youtubeLink,
+                   width: videoWidth,
+                   height: videoHeight,
+                   allowfullscreen: 1,
+                   frameborder: 0,
+                });
+
                 return $el;
             };
 
@@ -85,6 +92,38 @@ SK.moduleConstructors.EmbedMedia.prototype.initMediaTypes = function() {
             else {
                 return null;
             }
+        }
+
+    }));
+
+    this.mediaTypes.push(new SK.moduleConstructors.EmbedMedia.MediaType({
+
+        id: "image",
+
+        regex: /^(http:\/\/www\.noelshack\.com\/([\d]{4})-([\d]{2})-)?(.*.(jpe?g|png|gif))$/,
+
+        addHideButton: true,
+        showButtonText: "Afficher les images de ce post",
+        hideButtonText: "Masquer les images de ce post",
+
+        getEmbeddedMedia: function($a, match) {
+
+            var imageLink = match[0];
+
+            //Prise en compte des images Noelshack
+            if(typeof match[1] != "undefined") {
+                imageLink = "http://image.noelshack.com/fichiers/" + match[2] + "/" + match[3] + "/" + match[4];
+            }
+            var $el = $("<a>", {
+                href: imageLink,
+                target: "_blank"
+            });
+
+            $el.html($("<img>", {
+                src: imageLink
+            }));
+
+            return $el;
         }
 
     }));
@@ -165,8 +204,8 @@ SK.moduleConstructors.EmbedMedia.prototype.embedMedia = function() {
                         $a.addClass(mediaType.id + "-media-link");
                         $a.hide();
 
-                        //Si besoin, on ajoute un bouton pour maquer/afficher le media
-                        if(mediaType.addHideButton) {
+                        //Si besoin, on ajouteune seule fois  un bouton pour masquer/afficher le media
+                        if(mediaType.addHideButton && $msg.find("[data-media-id='" + mediaType.id + "']").length === 0) {
                             addToggleMediaButton($msg, mediaType);
                         }
                     }
@@ -185,6 +224,17 @@ SK.moduleConstructors.EmbedMedia.prototype.getCss = function() {
         .sk-button-content[data-action=show] {\
             background-color: #A3A3A3;\
             border-bottom-color: #525252;\
+        }\
+        .youtube-media-element {\
+            margin: 5px;\
+        }\
+        .image-media-element {\
+            display: block;\
+            width: calc(100% - 10px);\
+            margin: 5px;\
+        }\
+        .image-media-element img {\
+            max-width: 100%;\
         }\
     ";
 
