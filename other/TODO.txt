@@ -1,0 +1,29 @@
+v1.8
+	- modales centrales
+		- Passage d'un élément html
+		- Centrage de l'élément en gardant des marges
+		- Fenêtre centrée avec boutons et padding ?
+
+	- Mise en place de data-popin :
+		- Ouverture dans une modale centrée
+		- Url paramètrable
+
+	- Remplacer le lien avatar vers un agrandissement de l'avatar.
+		- Ajouter une classe 'data-popin="url"' sur l'image
+
+	- Photos
+		Remplacer les liens par des <img> (wrappées dans des <a>) avec attribut data-oppin
+
+	- Vidéos
+		Remplacer les liens par des embeds
+
+	- Sondages
+		Remplacer les liens par des embeds
+		
+	- Vocaroo
+		Remplacer les liens par des embeds
+
+
+
+	- Ajouter une option de choix pour la position du rang
+		- Ajouter les types de paramètres dans la config

@@ -1,6 +1,9 @@
 Changelog - SpawnKill
 =====================
 
+### v1.7.0.1
+- Correction des rangs qui ne s'affichaient plus sur l'avatar
+
 ### v1.7
 - Ajout du module YouTube développé par Apoxx : permet de voir les vidéos Youtubes directement dans les posts
 
