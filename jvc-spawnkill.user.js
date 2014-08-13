@@ -105,6 +105,7 @@ Roadmap :
         - Guideline boutons/actions/animations/...
 
     Autre :
+        - Passer à Vanilla JS
         - Scroller au post quand on répond
         - Ajouter option durée validité cache, options avancées ?
         - Ajout d'un module de structure des données, de dépendances et de hooks pour les plugins
