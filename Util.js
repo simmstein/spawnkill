@@ -52,13 +52,16 @@ SK.Util = {
 
     /**
      * Ajoute un bouton au post à l'emplacement indiqué en paramètre
-     * dans les options (location: "top" (defaut), "right", ou "bottom")
-     * message est un $msg
+     * dans les options 
+     *    location: "top" (defaut), "right", ou "bottom"
+     *    index (int): position du bouton (de gauche à droite).
      */
     addButton: function($msg, buttonOptions) {
 
         var location = buttonOptions.location || "top";
         delete buttonOptions.location;
+        var index = buttonOptions.index || 0;
+        delete buttonOptions.index;
 
         //On récupère ou on crée le conteneur des boutons
         var $buttons = $msg.find(".buttons." + location);
@@ -97,9 +100,28 @@ SK.Util = {
         //On crée le bouton avec les options
         var $button = new SK.Button(buttonOptions);
 
-        $button.hide();
-        //TODO: Faire un append avec un positionnement
-        $buttons.append($button.fadeIn());
+        $button.hide()
+               .attr("data-index", index);
+
+        //On append le bouton à l'index choisi
+        var $existingButtons = $buttons.find(".sk-button");
+
+        if($existingButtons.length === 0) {
+            $buttons.append($button.fadeIn());
+        }
+        else {
+            $existingButtons.each(function() {
+                var $existingButton = $(this);
+                var buttonIndex = parseInt($existingButton.attr("data-index"));
+                if(buttonIndex <= index) {
+                    $existingButton.after($button.fadeIn());
+                }
+                else {
+                    $existingButton.before($button.fadeIn());
+                }
+            });
+        }
+
 
     },
 

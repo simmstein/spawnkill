@@ -148,6 +148,7 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostButtons = function(message) {
         SK.Util.addButton(message.$msg, {
             class: "alert",
             location: "right",
+            index: 100,
             href: avertirUrl,
             tooltip: {
                 text: "Avertir un administrateur"

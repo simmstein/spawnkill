@@ -58,6 +58,7 @@ SK.moduleConstructors.Quote.prototype.addQuoteButtons = function() {
             SK.Util.addButton($msg, {
                 class: "quote",
                 location: "bottom",
+                index: 100,
                 tooltip: {
                     text: "Citer ce message",
                 },
