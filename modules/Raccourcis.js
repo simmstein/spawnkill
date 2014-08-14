@@ -88,13 +88,13 @@ SK.moduleConstructors.Raccourcis.prototype.init = function() {
      */
 		$(window).keydown(function(event) {
 			//Ctrl + fleche gauche -> page précedente
-			if (event.ctrlKey && event.keyCode === 37) {
+			if (event.ctrlKey && event.keyCode == 37) {
 				alert('pPrecedente');
 				pPrecedente();
-				//event.preventDefault();
+				event.preventDefault();
 			}
 			//Ctrl + fleche doite -> page suivante
-			if (event.ctrlKey && event.keyCode === 39) {
+			if (event.ctrlKey && event.keyCode == 39) {
 				pSuivante();
 				//event.preventDefault();
 			}
