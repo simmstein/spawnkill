@@ -291,6 +291,7 @@ SK.moduleConstructors.EmbedMedia.prototype.initMediaTypes = function() {
 
     }));
 
+    //Vimeo
     this.mediaTypes.push(new SK.moduleConstructors.EmbedMedia.MediaType({
 
         id: "vimeo",
@@ -304,7 +305,7 @@ SK.moduleConstructors.EmbedMedia.prototype.initMediaTypes = function() {
 
         getEmbeddedMedia: function($a, match) {
             var vimeoId = match[1];
-            var vimeoLink = "http://player.vimeo.com/video/" + vimeoId + "?title=0&byline=0&portrait=0&color=FF7B3B";
+            var vimeoLink = "http://player.vimeo.com/video/" + vimeoId + "?title=0&byline=0&portrait=0&color=20B9EB";
             var ratio = 16 / 9;
             var videoWidth = $a.closest(".quote-message, .post").width() - 5;
             var videoHeight = videoWidth / ratio;
@@ -484,6 +485,46 @@ SK.moduleConstructors.EmbedMedia.prototype.settings = {
 
 SK.moduleConstructors.EmbedMedia.prototype.getCss = function() {
     var css = "\
+        [data-media-id='image'] {\
+            background-color: #FFB82B;\
+            border-bottom-color: #C48B21;\
+            background-image: url('" + GM_getResourceURL("image") + "');\
+            background-position: 0px -1px;\
+        }\
+        [data-media-id='youtube'] {\
+            background-color: #E62117;\
+            border-bottom-color: #9B140F;\
+            background-image: url('" + GM_getResourceURL("youtube") + "');\
+            background-position: 0px -1px;\
+        }\
+        [data-media-id='vimeo'] {\
+            background-color: #20B9EB;\
+            border-bottom-color: #167E9E;\
+            background-image: url('" + GM_getResourceURL("vimeo") + "');\
+            background-position: 0px -1px;\
+        }\
+        [data-media-id='dailymotion'] {\
+            background-color: #0072AF;\
+            border-bottom-color: #002438;\
+            background-image: url('" + GM_getResourceURL("dailymotion") + "');\
+            background-position: 0px -1px;\
+        }\
+        [data-media-id='pixule'] {\
+            background-color: #B9E04E;\
+            border-bottom-color: #809B36;\
+            background-image: url('" + GM_getResourceURL("sondageio") + "');\
+            background-position: 0px 0px;\
+        }\
+        [data-media-id='vocaroo'] {\
+            background-color: #B1DB69;\
+            border-bottom-color: #789346;\
+            background-image: url('" + GM_getResourceURL("vocaroo") + "');\
+            background-position: 0px -1px;\
+        }\
+        [data-media-id='sondageio'] {\
+            background-image: url('" + GM_getResourceURL("sondageio") + "');\
+            background-position: 0px 0px;\
+        }\
         .sk-button-content[data-action=show] {\
             background-color: #A3A3A3;\
             border-bottom-color: #525252;\

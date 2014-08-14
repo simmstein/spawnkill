@@ -1,8 +1,7 @@
 v1.8	
 	
 	- Dessiner les icones des images
-	- Sauvegarde du masquage du media dans le localstorage
-
+	
 	OK - Images
 		OK - jpg, png, noelshack, jpeg, gif
 		OK - Prendre en compte hapshack

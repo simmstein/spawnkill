@@ -46,6 +46,12 @@
 // @resource    calendar    images/calendar.png
 // @resource    clock       images/clock.png
 // @resource    settings    images/settings.png
+// @resource    youtube     images/youtube.png
+// @resource    vimeo       images/vimeo.png
+// @resource    dailymotion images/dailymotion.png
+// @resource    sondageio   images/sondageio.png
+// @resource    image       images/image.png
+// @resource    vocaroo     images/vocaroo.png
 // @resource    loader      images/loader.gif
 // @grant       GM_xmlhttpRequest
 // @grant       GM_getResourceURL
