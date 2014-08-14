@@ -20,6 +20,17 @@ SK.moduleConstructors.EmbedMedia.prototype.init = function() {
         this.embedMedia();
     }.bind(this));
 
+    this.userSettings = {};
+
+    //On récupère le paramètre optin
+    this.userSettings.optinEmbed = this.getSetting("optinEmbed");
+
+    //Et les paramètres de chaque type de media pour éviter les appels trop fréquents au localStorage
+    this.userSettings.embedVideos = this.getSetting("embedVideos");
+    this.userSettings.embedImages = this.getSetting("embedImages");
+    this.userSettings.embedRecords = this.getSetting("embedRecords");
+    this.userSettings.embedSurveys = this.getSetting("embedSurveys");
+
 };
 
 /* options : {
@@ -50,6 +61,46 @@ SK.moduleConstructors.EmbedMedia.prototype.mediaTypes = [];
  * Prépare les styles de media supportés
  */
 SK.moduleConstructors.EmbedMedia.prototype.initMediaTypes = function() {
+
+    //Images
+    this.mediaTypes.push(new SK.moduleConstructors.EmbedMedia.MediaType({
+
+        id: "image",
+        settingId: "embedImages",
+
+        regex: /^(?:(http:\/\/www\.hapshack\.com\/\?v=)|(http:\/\/www\.noelshack\.com\/([\d]{4})-([\d]{2})-))?(.*.(jpe?g|png|gif))$/,
+
+        addHideButton: true,
+        showButtonText: "Afficher les images",
+        hideButtonText: "Masquer les images",
+
+        getEmbeddedMedia: function($a, match) {
+
+            var imageLink = match[0];
+
+            //Prise en compte des images Noelshack
+            if(typeof match[2] != "undefined") {
+                imageLink = "http://image.noelshack.com/fichiers/" + match[3] + "/" + match[4] + "/" + match[5];
+            }
+
+            //Prise en compte d'Hapshack
+            else if(typeof match[1] != "undefined") {
+                imageLink = "http://www.hapshack.com/images/" + match[5];
+            }
+
+            var $el = $("<a>", {
+                href: imageLink,
+                target: "_blank"
+            });
+
+            $el.html($("<img>", {
+                src: imageLink
+            }));
+
+            return $el;
+        }
+
+    }));
 
     //Youtube
     this.mediaTypes.push(new SK.moduleConstructors.EmbedMedia.MediaType({
@@ -100,40 +151,6 @@ SK.moduleConstructors.EmbedMedia.prototype.initMediaTypes = function() {
             else {
                 return null;
             }
-        }
-
-    }));
-
-    //Images
-    this.mediaTypes.push(new SK.moduleConstructors.EmbedMedia.MediaType({
-
-        id: "image",
-        settingId: "embedImages",
-
-        regex: /^(http:\/\/www\.noelshack\.com\/([\d]{4})-([\d]{2})-)?(.*.(jpe?g|png|gif))$/,
-
-        addHideButton: true,
-        showButtonText: "Afficher les images",
-        hideButtonText: "Masquer les images",
-
-        getEmbeddedMedia: function($a, match) {
-
-            var imageLink = match[0];
-
-            //Prise en compte des images Noelshack
-            if(typeof match[1] != "undefined") {
-                imageLink = "http://image.noelshack.com/fichiers/" + match[2] + "/" + match[3] + "/" + match[4];
-            }
-            var $el = $("<a>", {
-                href: imageLink,
-                target: "_blank"
-            });
-
-            $el.html($("<img>", {
-                src: imageLink
-            }));
-
-            return $el;
         }
 
     }));
@@ -218,12 +235,15 @@ SK.moduleConstructors.EmbedMedia.prototype.embedMedia = function() {
      */
     var addToggleMediaButton = function($msg, mediaType) {
 
+        var dataAction = self.userSettings.optinEmbed ? "show" : "hide";
+        var tooltipText = self.userSettings.optinEmbed ? mediaType.showButtonText : mediaType.hideButtonText;
+
         SK.Util.addButton($msg, {
             location: "right",
             "data-media-id": mediaType.id,
-            "data-action": "hide",
+            "data-action": dataAction,
             tooltip: {
-                text: mediaType.hideButtonText,
+                text: tooltipText,
                 position: "top"
             },
             click: function() {
@@ -248,27 +268,19 @@ SK.moduleConstructors.EmbedMedia.prototype.embedMedia = function() {
         });
     };
         
-        
     /**
-     * Parcourt des posts à la recherche de medias à intégrer,
-     * remplacement des liens pas l'intégration du media correspondant
-     *  et ajout d'un bouton masquer/afficher au post si nécessaire.
+     * Lie un contenu au lien s'il match un type de media
      */
-    $(".msg").each(function(id, msg) {
-        var $msg = $(msg);
+    var queueCheckLinkForMedia = function($msg, $a) {
 
-        //On parcourt tous les liens du post
-        $msg.find(".post a").each(function(id, a) {
+        self.queueFunction(function() {
 
-            var $a = $(a);
-
-            //Et on cherche chaque type de media
             for(var i in self.mediaTypes) {
 
                 var mediaType = self.mediaTypes[i];
 
                 //On intégre seulement les medias activés
-                if(self.getSetting(mediaType.settingId)) {
+                if(self.userSettings[mediaType.settingId]) {
 
                     var matchMedia = $a.attr("href").match(mediaType.regex);
 
@@ -282,16 +294,44 @@ SK.moduleConstructors.EmbedMedia.prototype.embedMedia = function() {
                             $a.after($mediaElement);
                             $mediaElement.addClass(mediaType.id + "-media-element");
                             $a.addClass(mediaType.id + "-media-link");
-                            $a.hide();
 
-                            //Si besoin, on ajouteune seule fois  un bouton pour masquer/afficher le media
+                            if(self.userSettings.optinEmbed) {
+                                $mediaElement.hide();
+                            }
+                            else {
+                                $a.hide();
+                            }
+
+                            //Si besoin, on ajoute une seule fois  un bouton pour masquer/afficher le media
                             if(mediaType.addHideButton && $msg.find("[data-media-id='" + mediaType.id + "']").length === 0) {
                                 addToggleMediaButton($msg, mediaType);
                             }
                         }
+
+                        break;
                     }
                 }
             }
+
+        }, this);
+
+    };
+
+    /**
+     * Parcourt des posts à la recherche de medias à intégrer,
+     * remplacement des liens pas l'intégration du media correspondant
+     *  et ajout d'un bouton masquer/afficher au post si nécessaire.
+     */
+    $(".msg").each(function(id, msg) {
+
+        var $msg = $(msg);
+
+        //On parcourt tous les liens du post
+        $msg.find(".post a").each(function(id, a) {
+
+            //Et on cherche chaque type de media
+            queueCheckLinkForMedia($msg, $(a));
+            
         });
     });
 };
@@ -301,6 +341,11 @@ SK.moduleConstructors.EmbedMedia.prototype.shouldBeActivated = function() {
 };
 
 SK.moduleConstructors.EmbedMedia.prototype.settings = {
+    optinEmbed: {
+        title: "Masquer par défaut",
+        description: "Cache le contenu par défaut, il faut d'abord clicker sur le bouton pour le faire apparaître.",
+        default: false,
+    },
     embedVideos: {
         title: "Intégration des vidéos",
         description: "Intégre les vidéos Youtube, DailyMotion et Vimeo aux posts.",

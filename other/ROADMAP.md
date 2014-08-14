@@ -57,3 +57,4 @@ Roadmap - SpawnKill
 - Réduire la taille des options
 - Ajouter des tooltips facilement (slidetoggle, lastpage, ...)
 - Ajout de hooks au chargement des données
+- Réduire les appels au localStorage

@@ -1,7 +1,6 @@
 v1.8	
 
 	mettre en file les fonctions
-	option caché par défaut
 
 	- modales centrales
 		- Passage d'un élément html
@@ -18,10 +17,13 @@ v1.8
 	- Images
 		Remplacer les liens par des <img> (wrappées dans des <a>) avec attribut data-oppin
 		jpg, png, noelshack, jpeg, gif
+		Prendre en compte hapshack
 
 	- Vidéos
 		Remplacer les liens par des embeds
-		youtube, dailymotion, vimeo
+		OK - youtube
+		OK - dailymotion
+		OK - vimeo
 		Adapter la largeur aux posts
 
 	- Sondages
