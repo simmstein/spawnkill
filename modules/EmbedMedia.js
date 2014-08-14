@@ -7,13 +7,19 @@
  */
 SK.moduleConstructors.EmbedMedia = SK.Module.new();
 
+SK.moduleConstructors.EmbedMedia.prototype.id = "EmbedMedia";
 SK.moduleConstructors.EmbedMedia.prototype.title = "Intégration de contenus";
 SK.moduleConstructors.EmbedMedia.prototype.description = "Remplace les liens vers les images, vidéos, sondages ou vocaroo par le contenu lui-même.";
 
 SK.moduleConstructors.EmbedMedia.prototype.init = function() {
-
     this.initMediaTypes();
-    this.embedMedia();
+
+    //Si htmlQuote est activé, on a besoin que les citations soient chargées pour calculer la taille des vidéos
+    var mustWaitQuote = SK.modules.Quote.activated && SK.modules.Quote.getSetting("htmlQuote");
+    SK.Util.bindOrExecute(mustWaitQuote, "htmlQuoteLoaded", function() {
+        this.embedMedia();
+    }.bind(this));
+
 };
 
 /* options : {
@@ -71,7 +77,6 @@ SK.moduleConstructors.EmbedMedia.prototype.initMediaTypes = function() {
             var createVideoElement = function (youtubeLink) {
                 var ratio = 16 / 9;
                 var videoWidth = $a.closest(".quote-message, .post").width() - 10;
-                console.log($a.closest(".quote-bloc, .post"));
                 var videoHeight = videoWidth / ratio;
 
                 var $el = $("<iframe>", {

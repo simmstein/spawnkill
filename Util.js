@@ -118,23 +118,6 @@ SK.Util = {
         return xmlString.replace(NOT_SAFE_IN_XML_1_0, "");
     },
 
-    /* Permet de précharger des images */
-    preload: function($img) {
-        var $preload = $("#preloaded-images");
-        if($preload.length === 0) {
-
-            $preload = $("<div>", {
-                id: "preloaded-images",
-                css: {
-                    display: "none"
-                }
-            });
-            $("body").prepend($preload);
-        }
-
-        $preload.append($img);
-    },
-
     //Force le navigateur à recalculer le CSS pour les animations
     fetchStyle: function(element) {
             
@@ -173,39 +156,19 @@ SK.Util = {
         return nbspString;
     },
 
-    //  queue: {
-    //     _timer: null,
-    //     _queue: [],
-    //     add: function(fn, context, time) {
+    /** Dispatch un evenement sur <body> */
+    dispatch: function(eventName) {
+        $("body").get(0).dispatchEvent(new Event(eventName));
+    },
 
-    //         var setTimer = function(time) {
-    //             SK.Util.queue._timer = setTimeout(function() {
-    //                 time = SK.Util.queue.add();
-    //                 if (SK.Util.queue._queue.length) {
-    //                     setTimer(time);
-    //                 }
-    //             }, time || 0);
-    //         };
+    /** Bind une fonction à un événement si la condition est vraie, sinon exécute la fonction */
+    bindOrExecute: function(condition, event, fn) {
+        if(condition) {
+            $("body").on(event, fn);
+        }
+        else {
+           fn();
+        }
+    }
 
-    //         if (fn) {
-    //             SK.Util.queue._queue.push([fn, context, time]);
-    //             if (SK.Util.queue._queue.length == 1) {
-    //                 setTimer(time);
-    //             }
-    //             return;
-    //         }
-
-    //         var next = SK.Util.queue._queue.shift();
-    //         if (!next) {
-    //             return 0;
-    //         }
-    //         next[0].call(next[1] || window);
-    //         console.log("util");
-    //         return next[2];
-    //     },
-    //     clear: function() {
-    //         clearTimeout(SK.Util.queue._timer);
-    //         SK.Util.queue._queue = [];
-    //     }
-    // }
 };

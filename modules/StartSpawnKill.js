@@ -8,6 +8,7 @@
  */
 SK.moduleConstructors.StartSpawnKill = SK.Module.new();
 
+SK.moduleConstructors.StartSpawnKill.prototype.id = "StartSpawnKill";
 SK.moduleConstructors.StartSpawnKill.prototype.title = "Module Principal";
 SK.moduleConstructors.StartSpawnKill.prototype.description = "Permet de mettre en place la structure générale de SpawnKill.";
 SK.moduleConstructors.StartSpawnKill.prototype.required = true;

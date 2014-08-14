@@ -14,6 +14,7 @@
  */
 SK.moduleConstructors.Quote = SK.Module.new();
 
+SK.moduleConstructors.Quote.prototype.id = "Quote";
 SK.moduleConstructors.Quote.prototype.title = "Citations";
 SK.moduleConstructors.Quote.prototype.description = "Permet de citer un message de manière propre simplement en cliquant sur un bouton \"citer\".";
 
@@ -39,6 +40,7 @@ SK.moduleConstructors.Quote.prototype.init = function() {
             SK.Util.deleteValue("responseContent");
         }
 
+        //On veut que le bouton soit inséré après le lien
         this.addQuoteButtons();
     }
 };
@@ -53,7 +55,6 @@ SK.moduleConstructors.Quote.prototype.addQuoteButtons = function() {
     var queueQuoteButton = function($msg) {
 
         self.queueFunction(function() {
-
             SK.Util.addButton($msg, {
                 class: "quote",
                 location: "bottom",
@@ -355,12 +356,14 @@ SK.moduleConstructors.Quote.prototype.htmlizeQuote = function(postText) {
 SK.moduleConstructors.Quote.prototype.htmlizeAllQuotes = function() {
 
     var self = this;
+    var $posts = $(".post");
+    var postCount = $posts.length;
 
     //On remplace les citations textes par de l'Html dans tous les posts
-    $(".post").each(function() {
 
-        var $post = $(this);
+    $posts.each(function(i, post) {
 
+        var $post = $(post);
         self.queueFunction(function() {
             //On retire les <br> pour le parsing, on les ajoutera par la suite
             var postText = $post.html().replace(/\n/g, "").replace(/[ ]*<br>/g, "\n");
@@ -370,6 +373,10 @@ SK.moduleConstructors.Quote.prototype.htmlizeAllQuotes = function() {
 
             //On remet les <br>
             $post.html(postText.replace(/\n/g, "\n<br>"));
+
+            if(i === postCount - 1) {
+                SK.Util.dispatch("htmlQuoteLoaded");
+            }
         }, this);
     });
 };

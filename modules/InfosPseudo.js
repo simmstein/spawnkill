@@ -8,6 +8,7 @@
 */
 SK.moduleConstructors.InfosPseudo = SK.Module.new();
 
+SK.moduleConstructors.InfosPseudo.prototype.id = "InfosPseudo";
 SK.moduleConstructors.InfosPseudo.prototype.title = "Avatars et autres infos";
 SK.moduleConstructors.InfosPseudo.prototype.description = "Affiche les avatars des membres à gauche des posts ainsi que leur rangs et leur sexe. Ajoute aussi des boutons pour envoyer un MP ou copier le lien permanent.";
 
@@ -78,7 +79,7 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostInfos = function() {
 
         self.queueFunction(function() {
             var queueInitAuthor = function(author, $cdv) {
-                self.queueFunction(function() {
+                setTimeout(function() {
 
                     author.initFromCdv($cdv);
                     //On enregistre les données dans le localStorage
@@ -87,7 +88,7 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostInfos = function() {
                     for(var message in author.messages) {
                         self.showMessageInfos(author.messages[message]);
                     }
-                }, this);
+                }, 0);
             };
 
             //On récupère les infos des auteurs périmées ou qu'on n'a pas encore dans le localStorage
@@ -111,15 +112,13 @@ SK.moduleConstructors.InfosPseudo.prototype.showMessageInfos = function(message)
 
     var self = this;
 
-    // self.queueFunction(function() {
-        if(self.getSetting("enableAvatar")) {
-            self.addAvatar(message);
-        }
-        if(self.getSetting("enableRank")) {
-            self.addRank(message);
-        }
-        self.addPostButtons(message);
-    // }, this);
+    if(self.getSetting("enableAvatar")) {
+        self.addAvatar(message);
+    }
+    if(self.getSetting("enableRank")) {
+        self.addRank(message);
+    }
+    self.addPostButtons(message);
 };
 
 

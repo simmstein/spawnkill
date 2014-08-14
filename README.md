@@ -20,6 +20,7 @@ Pour mettre en place un nouveau module, la première chose à faire est de crée
  */
 SK.moduleConstructors.LastPage = SK.Module.new();
 
+SK.moduleConstructors.LastPage.prototype.id = "LastPage";
 SK.moduleConstructors.LastPage.prototype.title = "Dernière page";
 SK.moduleConstructors.LastPage.prototype.description = "Permet d'accéder à la dernière page d'un topic directement depuis la liste des sujets";
 

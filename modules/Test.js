@@ -8,6 +8,7 @@
  */
 SK.moduleConstructors.Test = SK.Module.new();
 
+SK.moduleConstructors.Test.prototype.id = "Test";
 SK.moduleConstructors.Test.prototype.title = "Module de test";
 SK.moduleConstructors.Test.prototype.description = "Permet de développer plus facilement";
 

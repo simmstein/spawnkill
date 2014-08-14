@@ -7,6 +7,7 @@
  */
 SK.moduleConstructors.Settings = SK.Module.new();
 
+SK.moduleConstructors.Settings.prototype.id = "Settings";
 SK.moduleConstructors.Settings.prototype.title = "Configuration";
 SK.moduleConstructors.Settings.prototype.description = "Permet d'ajouter une fenêtre de configuration pour SpawnKill.";
 SK.moduleConstructors.Settings.prototype.required = true;

@@ -10,6 +10,7 @@
  */
 SK.moduleConstructors.QuickResponse = SK.Module.new();
 
+SK.moduleConstructors.QuickResponse.prototype.id = "QuickResponse";
 SK.moduleConstructors.QuickResponse.prototype.title = "Réponse Rapide";
 SK.moduleConstructors.QuickResponse.prototype.description = "Permet de répondre à un topic sans avoir à cliquer sur \"Répondre\". Le formulaire de réponse est présent sur toutes les pages.";
 

@@ -6,7 +6,10 @@
  * Objet parent de tous les modules de SpawnKill
  * 
  */
-SK.Module = function() {};
+SK.Module = function() {
+    /** File de fonctions à exécuter */
+    this.internal_queue = [];
+};
 
 //MÉTHODES ET ATTRIBUTS POUVANT ÊTRE REDÉFINIES DANS LES MODULES ENFANTS
 
@@ -14,6 +17,11 @@ SK.Module = function() {};
  * true si le module ne peut pas être désactivé.
  */
 SK.Module.prototype.required = false;
+
+/**
+ * Id du module
+ */
+SK.Module.prototype.id = "";
 
 /**
  * Titre du module
@@ -100,10 +108,6 @@ SK.Module.prototype.internal_getCss = function() {
     }
 };
 
-
-/** File de fonctions à exécuter */
-SK.Module.prototype.internal_queue = [];
-
 /** Timer de la file de fonctions */
 SK.Module.prototype.internal_timer = null;
 
@@ -121,7 +125,6 @@ SK.Module.prototype.internal_clearFunction = function() {
  * délai entre chaque.
  */
 SK.Module.prototype.queueFunction = function(fn, context, time) {
-
     var self = this;
 
     var setTimer = function(time) {
@@ -146,5 +149,6 @@ SK.Module.prototype.queueFunction = function(fn, context, time) {
         return 0;
     }
     next[0].call(next[1] || window);
+
     return next[2];
 };

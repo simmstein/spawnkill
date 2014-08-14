@@ -8,6 +8,7 @@
  */
 SK.moduleConstructors.HilightNewTopic = SK.Module.new();
 
+SK.moduleConstructors.HilightNewTopic.prototype.id = "HilightNewTopic";
 SK.moduleConstructors.HilightNewTopic.prototype.title = "Mise en avant des nouveaux topics";
 SK.moduleConstructors.HilightNewTopic.prototype.description = "Permet de voir facilement les nouveaux topics dans la liste des sujets";
 
