@@ -63,6 +63,7 @@ SK.moduleConstructors.Raccourcis.prototype.init = function() {
      * Analyse des touches utilisées par l'utilisateur et appel de la fonction suivant le raccourci utilisé
      */
 		$(window).keydown(function(event) {
+			console.log(event.keyCode);
 			//Ctrl + fleche gauche -> page précedente
 			if (event.ctrlKey && event.keyCode == 37) {
 				pPrecedente();
