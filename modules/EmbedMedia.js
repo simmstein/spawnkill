@@ -184,6 +184,44 @@ SK.moduleConstructors.EmbedMedia.prototype.initMediaTypes = function() {
 
     }));
 
+    //Pixule
+    this.mediaTypes.push(new SK.moduleConstructors.EmbedMedia.MediaType({
+
+        id: "pixule",
+        settingId: "embedSurveys",
+
+        regex: /^http:\/\/www\.pixule\.com\/([\d]*).*$/,
+
+        addHideButton: true,
+        showButtonText: "Afficher les sondages Pixule",
+        hideButtonText: "Masquer les sondages Pixule",
+
+        getEmbeddedMedia: function($a, match) {
+
+            //On ne remplace pas les sondages dans les citations
+            if($a.parents(".quote-message").length > 0) {
+                return null;
+            }
+            else {
+                var pixuleId = match[1];
+                var sondageLink = "http://www.pixule.com/widget" + pixuleId;
+
+                var $el = $("<iframe>", {
+                   src: sondageLink,
+                   "data-key": pixuleId,
+                   width: 370,
+                   height: 365,
+                   frameborder: 0,
+                   scrolling: "no",
+                   allowtransparency: "true",
+                });
+
+                return $el;
+            }
+        }
+
+    }));
+
     //Sondage.io
     this.mediaTypes.push(new SK.moduleConstructors.EmbedMedia.MediaType({
 
