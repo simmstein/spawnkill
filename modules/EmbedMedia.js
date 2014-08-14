@@ -243,7 +243,7 @@ SK.moduleConstructors.EmbedMedia.prototype.initMediaTypes = function() {
             }
             else {
                 var sondageLink = match[0];
-                var sondageWidth = $a.parents(".post").width() - 5;
+                var sondageWidth = Math.min(400, $a.parents(".post").width() - 5);
                 var sondageHeight = 300;
 
                 var $el = $("<iframe>", {
@@ -255,6 +255,38 @@ SK.moduleConstructors.EmbedMedia.prototype.initMediaTypes = function() {
 
                 return $el;
             }
+        }
+
+    }));
+
+    //Vimeo
+    this.mediaTypes.push(new SK.moduleConstructors.EmbedMedia.MediaType({
+
+        id: "vimeo",
+        settingId: "embedVideos",
+
+        regex: /^http:\/\/vimeo.com\/(\d*)/,
+
+        addHideButton: true,
+        showButtonText: "Afficher les vidéos Vimeo",
+        hideButtonText: "Masquer les vidéos Vimeo",
+
+        getEmbeddedMedia: function($a, match) {
+            var vimeoId = match[1];
+            var vimeoLink = "http://player.vimeo.com/video/" + vimeoId + "?title=0&byline=0&portrait=0&color=FF7B3B";
+            var ratio = 16 / 9;
+            var videoWidth = $a.closest(".quote-message, .post").width() - 5;
+            var videoHeight = videoWidth / ratio;
+
+            var $el = $("<iframe>", {
+               src: vimeoLink,
+               width: videoWidth,
+               height: videoHeight,
+               allowfullscreen: 1,
+               frameborder: 0,
+            });
+
+            return $el;
         }
 
     }));
@@ -418,7 +450,9 @@ SK.moduleConstructors.EmbedMedia.prototype.getCss = function() {
             border: solid 1px #CCC;\
             border-radius: 5px;\
         }\
-        .youtube-media-element {\
+        .youtube-media-element,\
+        .vimeo-media-element,\
+        .dailymotion-media-element {\
             margin: 5px;\
             margin-left: 0px;\
         }\

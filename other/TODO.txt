@@ -1,7 +1,32 @@
 v1.8	
+	
+	- Dessiner les icones des images
+	- Sauvegarde du masquage du media dans le localstorage
 
-	mettre en file les fonctions
+	OK - Images
+		OK - jpg, png, noelshack, jpeg, gif
+		OK - Prendre en compte hapshack
 
+	- Vidéos
+		OK - Remplacer les liens par des embeds
+		OK - youtube
+		dailymotion
+		vimeo
+		OK - Adapter la largeur aux posts
+
+	- Sondages
+		bug page remonte au click
+		OK - Remplacer les liens par des embeds
+		OK - sondage.io
+		OK - pixule
+		Prendre en compte mon sondage
+		
+	OK - Vocaroo
+		OK - Remplacer les liens par des embeds
+
+
+
+v1.8.1
 	- modales centrales
 		- Passage d'un élément html
 		- Centrage de l'élément en gardant des marges
@@ -11,31 +36,8 @@ v1.8
 		- Ouverture dans une modale centrée
 		- Url paramètrable
 
-	- Remplacer le lien avatar vers un agrandissement de l'avatar.
-		- Ajouter une classe 'data-popin="url"' sur l'image
-
 	- Images
 		Remplacer les liens par des <img> (wrappées dans des <a>) avec attribut data-oppin
-		jpg, png, noelshack, jpeg, gif
-		Prendre en compte hapshack
 
-	- Vidéos
-		Remplacer les liens par des embeds
-		OK - youtube
-		OK - dailymotion
-		OK - vimeo
-		Adapter la largeur aux posts
-
-	- Sondages
-		Remplacer les liens par des embeds
-		sondage.io, pixule
-		Prendre en compte mon sondage
-		bug page remonte au click
-		
-	- Vocaroo
-		Remplacer les liens par des embeds
-
-	- Sauvegarde du masquage du media dans le localstorage
-
-	- Ajouter une option de choix pour la position du rang
-		- Ajouter les types de paramètres dans la config
+	- Remplacer le lien avatar vers un agrandissement de l'avatar.
+		- Ajouter une classe 'data-popin="url"' sur l'image

@@ -8,6 +8,12 @@ Roadmap - SpawnKill
 - Ajouter une option de choix pour la position du rang
 - Virer les commentaires du fichier de base
 
+### v1.8.1
+- Ajouter une option de choix pour la position du rang
+- Ajouter les types de paramètres dans la config
+- Ajout de fenêtres modales centrées
+- Affichage de l'avatar dans une popin centrée
+
 ### v1.9
 - Ajouter un AutoUpdater
 - Faire des icones pour améliorer les citations
