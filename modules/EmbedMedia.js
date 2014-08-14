@@ -259,7 +259,38 @@ SK.moduleConstructors.EmbedMedia.prototype.initMediaTypes = function() {
 
     }));
 
-    //Vimeo
+    //DailyMotion
+    this.mediaTypes.push(new SK.moduleConstructors.EmbedMedia.MediaType({
+
+        id: "dailymotion",
+        settingId: "embedVideos",
+
+        regex: /^http:\/\/www\.dailymotion\.com\/video\/([^_]*)/,
+
+        addHideButton: true,
+        showButtonText: "Afficher les vidéos DailyMotion",
+        hideButtonText: "Masquer les vidéos DailyMotion",
+
+        getEmbeddedMedia: function($a, match) {
+            var dailymotionId = match[1];
+            var dailymotionLink = "http://www.dailymotion.com/embed/video/" + dailymotionId;
+            var ratio = 16 / 9;
+            var videoWidth = $a.closest(".quote-message, .post").width() - 5;
+            var videoHeight = videoWidth / ratio;
+
+            var $el = $("<iframe>", {
+               src: dailymotionLink,
+               width: videoWidth,
+               height: videoHeight,
+               allowfullscreen: 1,
+               frameborder: 0,
+            });
+
+            return $el;
+        }
+
+    }));
+
     this.mediaTypes.push(new SK.moduleConstructors.EmbedMedia.MediaType({
 
         id: "vimeo",
@@ -303,10 +334,10 @@ SK.moduleConstructors.EmbedMedia.prototype.embedMedia = function() {
     /**
      * Fonction qui ajoute le bouton afficher/masquer les media d'un post.
      */
-    var addToggleMediaButton = function($msg, mediaType) {
+    var addToggleMediaButton = function($msg, mediaType, actionShow) {
 
-        var dataAction = self.userSettings.optinEmbed ? "show" : "hide";
-        var tooltipText = self.userSettings.optinEmbed ? mediaType.showButtonText : mediaType.hideButtonText;
+        var dataAction = actionShow ? "show" : "hide";
+        var tooltipText = actionShow ? mediaType.showButtonText : mediaType.hideButtonText;
 
         SK.Util.addButton($msg, {
             location: "right",
@@ -319,9 +350,10 @@ SK.moduleConstructors.EmbedMedia.prototype.embedMedia = function() {
             click: function() {
                 var $button = $(this);
                 var mediaId = $button.attr("data-media-id");
+                var show = $button.attr("data-action") === "show";
 
                 //On change l'état du bouton
-                if($button.attr("data-action") === "show") {
+                if(show) {
                     $button.attr("data-action", "hide")
                            .siblings(".tooltip").html(mediaType.hideButtonText);
                 }
@@ -334,6 +366,9 @@ SK.moduleConstructors.EmbedMedia.prototype.embedMedia = function() {
                 $msg.find("." + mediaId + "-media-element").toggle();
                 $msg.find("." + mediaId + "-media-link").toggle();
 
+                //On enregistre l'état dans le localStorage
+                SK.Util.setValue($msg.attr("id") + "." + mediaId +".show", show);
+
             }
         });
     };
@@ -345,6 +380,8 @@ SK.moduleConstructors.EmbedMedia.prototype.embedMedia = function() {
 
         self.queueFunction(function() {
 
+            var messageId = $msg.attr("id");
+
             for(var i in self.mediaTypes) {
 
                 var mediaType = self.mediaTypes[i];
@@ -353,6 +390,13 @@ SK.moduleConstructors.EmbedMedia.prototype.embedMedia = function() {
                 if(self.userSettings[mediaType.settingId]) {
 
                     var matchMedia = $a.attr("href").match(mediaType.regex);
+
+                    // Vrai si le media doit être affiché au chargement, on récupère les infos dans le localStorage
+                    var showMedia = SK.Util.getValue(messageId + "." + mediaType.id +".show");
+
+                    if(showMedia === null) {
+                        showMedia = !self.userSettings.optinEmbed;
+                    }
 
                     if (matchMedia) {
                         
@@ -365,16 +409,16 @@ SK.moduleConstructors.EmbedMedia.prototype.embedMedia = function() {
                             $mediaElement.addClass(mediaType.id + "-media-element");
                             $a.addClass(mediaType.id + "-media-link");
 
-                            if(self.userSettings.optinEmbed) {
-                                $mediaElement.hide();
+                            if(showMedia) {
+                                $a.hide();
                             }
                             else {
-                                $a.hide();
+                                $mediaElement.hide();
                             }
 
                             //Si besoin, on ajoute une seule fois  un bouton pour masquer/afficher le media
                             if(mediaType.addHideButton && $msg.find("[data-media-id='" + mediaType.id + "']").length === 0) {
-                                addToggleMediaButton($msg, mediaType);
+                                addToggleMediaButton($msg, mediaType, !showMedia);
                             }
                         }
 

@@ -7,15 +7,15 @@ v1.8
 		OK - jpg, png, noelshack, jpeg, gif
 		OK - Prendre en compte hapshack
 
-	- Vidéos
+	OK - Vidéos
 		OK - Remplacer les liens par des embeds
 		OK - youtube
-		dailymotion
-		vimeo
+		OK- dailymotion
+		OK- vimeo
 		OK - Adapter la largeur aux posts
 
 	- Sondages
-		bug page remonte au click
+		OK - bug page remonte au click
 		OK - Remplacer les liens par des embeds
 		OK - sondage.io
 		OK - pixule
