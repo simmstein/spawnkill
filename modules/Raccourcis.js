@@ -29,6 +29,24 @@ SK.moduleConstructors.Raccourcis.prototype.init = function() {
 			return null;
 		}
     }
+	/**
+	*Fonction de passage à la page précedente
+	*/
+	function pPrecedente(){
+		alert('pPrecedente in fct');
+		var path=window.location.href;
+		var splitLoca=path.split('-');
+		if(splitLoca[3]>1){
+			splitLoca[3]=parseInt(splitLoca[3])-1;
+			splitLoca[3]=splitLoca[3].toString();
+			var nbSegment=splitLoca.length;
+			var urlFinale="";
+			for(var i=0;i<nbSegment;i++){
+				urlFinale+=splitLoca[i];
+			}
+			window.location.href=urlFinale;
+		}
+	}
     /**
      * Fonction qui crée l'élément à intégrer à la page.
      */
@@ -64,8 +82,15 @@ SK.moduleConstructors.Raccourcis.prototype.init = function() {
      * Analyse des touches utilisées par l'utilisateur et appel de la fonction suivant le raccourci utilisé
      */
 		$(window).keydown(function(event) {
-			if (event.ctrlKey && event.keyCode == 90) {
-				alert('TEST');
+			//Ctrl + fleche gauche -> page précedente
+			if (event.ctrlKey && event.keyCode == 37) {
+				alert('pPrecedente');
+				pPrecedente();
+				event.preventDefault();
+			}
+			//Ctrl + fleche gauche -> page suivante
+			if (event.ctrlKey && event.keyCode == 39) {
+				pSuivante();
 				event.preventDefault();
 			}
 		});
