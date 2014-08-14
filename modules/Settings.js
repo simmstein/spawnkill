@@ -139,7 +139,8 @@ SK.moduleConstructors.Settings.prototype.getSettingsUI = function() {
         var $settingButton = new SK.Button({
             class: "settings",
             tooltip: {
-                text: "Afficher/Masquer les options du module"
+                text: "Afficher/Masquer les options du module",
+                position: "right"
             },
             wrapper: {
                 class: "subsettings-button"

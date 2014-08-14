@@ -1,18 +1,7 @@
 v1.8	
 
 	mettre en file les fonctions
-	ajout des options
-	citations de video
 	option caché par défaut
-	vidéos chargées après citations
-	Ajouter des événements sur la fin de chargement des modules
-		var event = new Event('build');
-
-		// Listen for the event.
-		elem.addEventListener('build', function (e) { ... }, false);
-
-		// Dispatch the event.
-		elem.dispatchEvent(event);
 
 	- modales centrales
 		- Passage d'un élément html
@@ -38,6 +27,8 @@ v1.8
 	- Sondages
 		Remplacer les liens par des embeds
 		sondage.io, pixule
+		Prendre en compte mon sondage
+		bug page remonte au click
 		
 	- Vocaroo
 		Remplacer les liens par des embeds

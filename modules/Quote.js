@@ -121,14 +121,6 @@ SK.moduleConstructors.Quote.prototype.createCitationBlock = function(message) {
         for(var i = 0; i < lines.length; i++) {
             if(lines[i].length > this.maxLength) {
 
-                //On passe les liens à la ligne
-                var httpIndex = lines[i].indexOf("http");
-
-                if(httpIndex > 1) { // > 1 et pas !== -1 pour éviter une boucle infini
-                    lines.splice(i, 0, lines[i].substr(0, httpIndex));
-                    lines.splice(i + 1, 1, lines[i + 1].substr(httpIndex));
-                } 
-
                 //On coupe les lignes trop longues au niveau des espaces (pour éviter de tronquer les mots)
                 var cutIndex = lines[i].substr(this.maxLength).indexOf(" ");
 

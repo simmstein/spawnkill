@@ -51,16 +51,19 @@ SK.moduleConstructors.EmbedMedia.prototype.mediaTypes = [];
  */
 SK.moduleConstructors.EmbedMedia.prototype.initMediaTypes = function() {
 
+    //Youtube
     this.mediaTypes.push(new SK.moduleConstructors.EmbedMedia.MediaType({
 
         id: "youtube",
+        settingId: "embedVideos",
+
         // http://stackoverflow.com/questions/3452546/javascript-regex-how-to-get-youtube-video-id-from-url
         /* $1: youtubeId */
         regex: /^.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/,
 
         addHideButton: true,
-        showButtonText: "Afficher les vidéos Youtube de ce post",
-        hideButtonText: "Masquer les vidéos Youtube de ce post",
+        showButtonText: "Afficher les vidéos Youtube",
+        hideButtonText: "Masquer les vidéos Youtube",
 
         getEmbeddedMedia: function($a, match) {
 
@@ -76,7 +79,7 @@ SK.moduleConstructors.EmbedMedia.prototype.initMediaTypes = function() {
              */
             var createVideoElement = function (youtubeLink) {
                 var ratio = 16 / 9;
-                var videoWidth = $a.closest(".quote-message, .post").width() - 10;
+                var videoWidth = $a.closest(".quote-message, .post").width() - 5;
                 var videoHeight = videoWidth / ratio;
 
                 var $el = $("<iframe>", {
@@ -101,15 +104,17 @@ SK.moduleConstructors.EmbedMedia.prototype.initMediaTypes = function() {
 
     }));
 
+    //Images
     this.mediaTypes.push(new SK.moduleConstructors.EmbedMedia.MediaType({
 
         id: "image",
+        settingId: "embedImages",
 
         regex: /^(http:\/\/www\.noelshack\.com\/([\d]{4})-([\d]{2})-)?(.*.(jpe?g|png|gif))$/,
 
         addHideButton: true,
-        showButtonText: "Afficher les images de ce post",
-        hideButtonText: "Masquer les images de ce post",
+        showButtonText: "Afficher les images",
+        hideButtonText: "Masquer les images",
 
         getEmbeddedMedia: function($a, match) {
 
@@ -129,6 +134,72 @@ SK.moduleConstructors.EmbedMedia.prototype.initMediaTypes = function() {
             }));
 
             return $el;
+        }
+
+    }));
+
+    //Vocaroo
+    this.mediaTypes.push(new SK.moduleConstructors.EmbedMedia.MediaType({
+
+        id: "vocaroo",
+        settingId: "embedRecords",
+
+        regex: /^http:\/\/vocaroo\.com\/i\/(.*)$/,
+
+        addHideButton: true,
+        showButtonText: "Afficher les Vocaroos",
+        hideButtonText: "Masquer les Vocaroos",
+
+        getEmbeddedMedia: function($a, match) {
+
+            var vocarooId = match[1];
+            var $el = $("\
+                <object width='148' height='44'>\
+                    <param name='movie' value='http://vocaroo.com/player.swf?playMediaID=" + vocarooId + "&autoplay=0'></param>\
+                    <param name='wmode' value='transparent'></param>\
+                    <embed src='http://vocaroo.com/player.swf?playMediaID=" + vocarooId + "&autoplay=0' width='148' height='44'\
+                        wmode='transparent' type='application/x-shockwave-flash'>\
+                    </embed>\
+                </object>\
+            ");
+            return $el;
+        }
+
+    }));
+
+    //Sondage.io
+    this.mediaTypes.push(new SK.moduleConstructors.EmbedMedia.MediaType({
+
+        id: "sondageio",
+        settingId: "embedSurveys",
+
+        regex: /^http:\/\/sondage\.io\/([\d]*).*$/,
+
+        addHideButton: true,
+        showButtonText: "Afficher les sondages Sondage.io",
+        hideButtonText: "Masquer les sondages Sondage.io",
+
+        getEmbeddedMedia: function($a, match) {
+
+
+            //On ne remplace pas les sondages dans les citations
+            if($a.parents(".quote-message").length > 0) {
+                return null;
+            }
+            else {
+                var sondageLink = match[0];
+                var sondageWidth = $a.parents(".post").width() - 5;
+                var sondageHeight = 300;
+
+                var $el = $("<iframe>", {
+                   src: sondageLink,
+                   width: sondageWidth,
+                   height: sondageHeight,
+                   frameborder: 0,
+                });
+
+                return $el;
+            }
         }
 
     }));
@@ -193,25 +264,30 @@ SK.moduleConstructors.EmbedMedia.prototype.embedMedia = function() {
 
             //Et on cherche chaque type de media
             for(var i in self.mediaTypes) {
+
                 var mediaType = self.mediaTypes[i];
 
-                var matchMedia = $a.attr("href").match(mediaType.regex);
+                //On intégre seulement les medias activés
+                if(self.getSetting(mediaType.settingId)) {
 
-                if (matchMedia) {
-                    
-                    //On remplace le lien par l'élément du media
-                    var $mediaElement = mediaType.getEmbeddedMedia($a, matchMedia);
+                    var matchMedia = $a.attr("href").match(mediaType.regex);
 
-                    if($mediaElement !== null) {
+                    if (matchMedia) {
+                        
+                        //On remplace le lien par l'élément du media
+                        var $mediaElement = mediaType.getEmbeddedMedia($a, matchMedia);
 
-                        $a.after($mediaElement);
-                        $mediaElement.addClass(mediaType.id + "-media-element");
-                        $a.addClass(mediaType.id + "-media-link");
-                        $a.hide();
+                        if($mediaElement !== null) {
 
-                        //Si besoin, on ajouteune seule fois  un bouton pour masquer/afficher le media
-                        if(mediaType.addHideButton && $msg.find("[data-media-id='" + mediaType.id + "']").length === 0) {
-                            addToggleMediaButton($msg, mediaType);
+                            $a.after($mediaElement);
+                            $mediaElement.addClass(mediaType.id + "-media-element");
+                            $a.addClass(mediaType.id + "-media-link");
+                            $a.hide();
+
+                            //Si besoin, on ajouteune seule fois  un bouton pour masquer/afficher le media
+                            if(mediaType.addHideButton && $msg.find("[data-media-id='" + mediaType.id + "']").length === 0) {
+                                addToggleMediaButton($msg, mediaType);
+                            }
                         }
                     }
                 }
@@ -224,19 +300,50 @@ SK.moduleConstructors.EmbedMedia.prototype.shouldBeActivated = function() {
     return window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/(1|3)/);
 };
 
+SK.moduleConstructors.EmbedMedia.prototype.settings = {
+    embedVideos: {
+        title: "Intégration des vidéos",
+        description: "Intégre les vidéos Youtube, DailyMotion et Vimeo aux posts.",
+        default: true,
+    },
+    embedImages: {
+        title: "Intégration des images",
+        description: "Intégre les images PNG, JPG et GIF aux posts.",
+        default: true,
+    },
+    embedSurveys: {
+        title: "Intégration des sondages",
+        description: "Intégre les sondages Pixule et Sondage.io aux posts.",
+        default: true,
+    },
+    embedRecords: {
+        title: "Intégration des Vocaroos",
+        description: "Intégre les enregistrement Vocaroo aux posts.",
+        default: true,
+    }
+};
+
 SK.moduleConstructors.EmbedMedia.prototype.getCss = function() {
     var css = "\
         .sk-button-content[data-action=show] {\
             background-color: #A3A3A3;\
             border-bottom-color: #525252;\
         }\
+        .sondageio-media-element {\
+            margin: 5px;\
+            margin-left: 0px;\
+            border: solid 1px #CCC;\
+            border-radius: 5px;\
+        }\
         .youtube-media-element {\
             margin: 5px;\
+            margin-left: 0px;\
         }\
         .image-media-element {\
             display: block;\
-            width: calc(100% - 10px);\
+            width: calc(100% - 5px);\
             margin: 5px;\
+            margin-left: 0px;\
         }\
         .image-media-element img {\
             max-width: 100%;\
