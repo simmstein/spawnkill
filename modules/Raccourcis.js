@@ -39,7 +39,16 @@ SK.moduleConstructors.Raccourcis.prototype.init = function() {
 	function pSuivante(){
 		var path=window.location.href;
 		var splitLoca=path.split('-');
-		var nbPageMax=parseInt($('.pagination').eq(0).find('a').eq($('.pagination').eq(0).find('a').length-1)[0].innerHTML);
+		var nbPageMax="";
+		
+		//Permet de récupérer le nombre de page sur les gros topics
+		if($('.pagination').eq(0).find('a').eq($('.pagination').eq(0).find('a').length-1)[0].innerHTML!="»"){
+			nbPageMax=parseInt($('.pagination').eq(0).find('a').eq($('.pagination').eq(0).find('a').length-1)[0].innerHTML);
+		}
+		else{
+			nbPageMax=parseInt($('.pagination').eq(0).find('a').eq($('.pagination').eq(0).find('a').length-2)[0].innerHTML);
+		}
+		
 		if(splitLoca[3]<nbPageMax){
 			splitLoca[3]=parseInt(splitLoca[3])+1;
 			splitLoca[3]=splitLoca[3].toString();
