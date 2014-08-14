@@ -522,6 +522,8 @@ SK.moduleConstructors.EmbedMedia.prototype.getCss = function() {
             background-position: 0px -1px;\
         }\
         [data-media-id='sondageio'] {\
+            background-color: #FF7B3B;\
+            border-bottom: solid 2px #BC3800;\
             background-image: url('" + GM_getResourceURL("sondageio") + "');\
             background-position: 0px 0px;\
         }\
