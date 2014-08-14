@@ -19,6 +19,7 @@
 // @require     modules/Settings.js?v1.8
 // @require     modules/QuickResponse.js?v1.8
 // @require     modules/Quote.js?v1.8
+// @require     modules/Raccourcis.js?v1.8
 // @require     modules/InfosPseudo.js?v1.8
 // @require     modules/HilightNewTopic.js?v1.8
 // @require     modules/LastPage.js?v1.8
