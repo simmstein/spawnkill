@@ -46,13 +46,14 @@ SK.moduleConstructors.Shortcuts.prototype.init = function() {
 		var path = window.location.href;
 		var splitLoca = path.split("-");
 		var nbPageMax = "";
-		
+		var $paginationLinks = $(".pagination").eq(0).find("a");
+
 		//Permet de récupérer le nombre de page sur les gros topics
-		if($(".pagination").eq(0).find("a").eq($(".pagination").eq(0).find("a").length-1)[0].innerHTML != "»") {
-			nbPageMax = parseInt($(".pagination").eq(0).find("a").eq($(".pagination").eq(0).find("a").length-1)[0].innerHTML);
+		if($paginationLinks.last().html() === "»") {
+			nbPageMax = parseInt($paginationLinks.eq($paginationLinks.length - 2).html());
 		}
 		else {
-			nbPageMax = parseInt($(".pagination").eq(0).find("a").eq($(".pagination").eq(0).find("a").length-2)[0].innerHTML);
+			nbPageMax = parseInt($paginationLinks.last().html());
 		}
 		
 		if(splitLoca[3] < nbPageMax) {
