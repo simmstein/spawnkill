@@ -10,12 +10,14 @@
 				si différent du nombre de base
 					update du title avec la différence dans le titre + le titre de base
 
+
+
+v1.10.0.4
 - Ajout de regex pour les pages
 - Mettre à jour le guide
-
+- Réparer l'API pour le nombre de posts 
 - Mise à jour de get-spawnkill
 
-v1.10.1
 	- modales centrales
 		- Passage d'un élément html
 		- Centrage de l'élément en gardant des marges

@@ -183,7 +183,13 @@ switch($action) {
 		
 		$last_page_post_count = intval(count($matches[0]));
 
-		$post_count = (($page_count - 1) * 20) + $last_page_post_count;
+		//Si $last_page_post_count ou $page_count = 0, il y a eu un problème à la récupération des infos
+		if($last_page_post_count === 0 || $page_count === 0) {
+			$post_count = -1;
+		}
+		else {
+			$post_count = (($page_count - 1) * 20) + $last_page_post_count;
+		}
 
 		?>
 		<api>
