@@ -14,6 +14,7 @@ ln -sv /media/data/www/spawnkill/modules/Module.js /home/dorian/.mozilla/firefox
 ln -sv /media/data/www/spawnkill/modules/StartSpawnKill.js /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
 ln -sv /media/data/www/spawnkill/modules/QuickResponse.js /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
 ln -sv /media/data/www/spawnkill/modules/Quote.js /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
+ln -sv /media/data/www/spawnkill/modules/Shortcuts.js /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
 ln -sv /media/data/www/spawnkill/modules/InfosPseudo.js /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
 ln -sv /media/data/www/spawnkill/modules/HilightNewTopic.js /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
 ln -sv /media/data/www/spawnkill/modules/LastPage.js /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/

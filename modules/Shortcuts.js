@@ -93,6 +93,6 @@ SK.moduleConstructors.Shortcuts.prototype.init = function() {
 		});
 };
 
-SK.moduleConstructors.Raccourcis.prototype.shouldBeActivated = function() {
+SK.moduleConstructors.Shortcuts.prototype.shouldBeActivated = function() {
     return window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/1/);
 };
