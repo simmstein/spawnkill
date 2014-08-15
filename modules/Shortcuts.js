@@ -19,7 +19,7 @@ SK.moduleConstructors.Shortcuts.prototype.init = function() {
 	*/
 	function previousPage() {
 		var path = window.location.href;
-		var splitLoca=path.split("-");
+		var splitLoca = path.split("-");
 
 		if(splitLoca[3] > 1) {
 
@@ -36,9 +36,10 @@ SK.moduleConstructors.Shortcuts.prototype.init = function() {
 					urlFinale += splitLoca[i];
 				}
 			}
-			window.location.href=urlFinale;
+			window.location.href = urlFinale;
 		}
 	}
+
 	/**
 	*Fonction de passage à la page suivante
 	*/
@@ -63,7 +64,7 @@ SK.moduleConstructors.Shortcuts.prototype.init = function() {
 			var nbSegment = splitLoca.length;
 			var urlFinale = "";
 			for(var i = 0; i < nbSegment; i++) {
-				if(i != nbSegment-1) {
+				if(i != nbSegment - 1) {
 					urlFinale += splitLoca[i] + "-";
 				}
 				else {
@@ -82,12 +83,12 @@ SK.moduleConstructors.Shortcuts.prototype.init = function() {
 		$(window).keydown(function(event) {
 
 			//Ctrl + fleche gauche -> page précedente
-			if (event.ctrlKey && event.keyCode == 37) {
+			if (event.ctrlKey && event.keyCode === 37) {
 				previousPage();
 				event.preventDefault();
 			}
 			//Ctrl + fleche doite -> page suivante
-			if (event.ctrlKey && event.keyCode == 39) {
+			if (event.ctrlKey && event.keyCode === 39) {
 				nextPage();
 				event.preventDefault();
 			}

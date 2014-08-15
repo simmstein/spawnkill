@@ -1,3 +1,18 @@
+### v1.10
+- Ajout d'un avertissement quand de nouveaux messages sont postés dans un topic dans le titre de l'onglet
+	- Créer module
+	- Au chargement
+		timout 2s
+			Récupérer le nombre de messages du topic
+			Récupération du titre de base
+			lancer un interval toutes les X secondes
+				combien de messages dans le topic
+				si différent du nombre de base
+					update du title avec la différence dans le titre + le titre de base
+
+- Ajout de regex pour les pages
+- Mettre à jour le guide
+
 v1.10.1
 	- modales centrales
 		- Passage d'un élément html

@@ -3,6 +3,7 @@ Roadmap - SpawnKill
 
 ### v1.10
 - Ajout d'un avertissement quand de nouveaux messages sont postés dans un topic dans le titre de l'onglet
+- Ajout de regex pour les pages
 
 ### v1.10.1
 - Remplacer le lien avatar vers un agrandissement de l'avatar.
@@ -26,7 +27,7 @@ Roadmap - SpawnKill
 - Bugs avec "aujourd'hui" dans les citations Turboforum
 
 ### v1.12.1
-- Ajouter d'autres types d'options pour les plugins (string, text, int, bool, float, color, select,...)
+- Ajouter d'autres types d'options pour les plugins (string, text, int, bool, float, color, select, bouton action...)
 - Ajouter option type de citations
 - Possibilité de citer seulement une partie du message
 - Ajouter un helper pour les regex de pages
