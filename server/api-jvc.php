@@ -7,7 +7,7 @@
  * Par exemple ["/profile/spixel_.xml", "/profile/cisla.xml"]
  */
 
-include "config.php";
+include "../no-git/config.php";
 
 header('Content-Type: application/xml; charset=utf-8');
 
@@ -18,16 +18,20 @@ if(!empty($_GET['pseudos'])) {
 }
 
 $action = $_GET['action'];
-$data = $_GET['data'];
+$data = json_decode($_GET['data']);
 
 /**
  * Permet d'effectuer plusieurs requêtes vers l'API de JVC en parallèle.
  * Récupère les données du cache si elles existent et sont valides
  */
-function getApiData($urls) {
+function getApiData($urls, $cache_result = true) {
 
 	//Crade mais pratique
 	global $dbh;
+
+	if(!is_array($urls)) {
+		$urls = array($urls);
+	}
 
 	//On calcule le timestamp des dernières données valides
 	$now = time();
@@ -55,15 +59,18 @@ function getApiData($urls) {
 
 	foreach ($urls as $id => $url) {
 
-		//On récupère les données dans le cache ou via l'API
-		$rows = $dbh->query("SELECT *
-			FROM api_cache_data
-			WHERE url = '$url'
-			AND timestamp > $lastValidDataTimestamp
-		");
 
-		$cache_data = current($rows->fetchAll(PDO::FETCH_ASSOC));
-		$data_from_cache[] = $cache_data;
+		//On récupère les données dans le cache ou via l'API
+		if($cache_result) {
+			$rows = $dbh->query("SELECT *
+				FROM api_cache_data
+				WHERE url = '$url'
+				AND timestamp > $lastValidDataTimestamp
+			");
+
+			$cache_data = current($rows->fetchAll(PDO::FETCH_ASSOC));
+			$data_from_cache[] = $cache_data;
+		}
 
 		//les données ne sont pas en cache, on les récupère depuis l'API
 		if(empty($cache_data)) {
@@ -92,12 +99,14 @@ function getApiData($urls) {
 		$data = curl_multi_getcontent($c);
 
 		//On insère les données récupérées en cache
-		$dbh->query("INSERT INTO api_cache_data(url, data, timestamp)
-			VALUES('" . $dbh->quote($urls_from_api[$id]) . "', " . $dbh->quote($data) . ", $now)
-			ON DUPLICATE KEY UPDATE
-			    data = " . $dbh->quote($data) . ",
-			    timestamp = $now
-		");
+		if($cache_result) {
+			$dbh->query("INSERT INTO api_cache_data(url, data, timestamp)
+				VALUES(" . $dbh->quote($urls_from_api[$id]) . ", " . $dbh->quote($data) . ", $now)
+				ON DUPLICATE KEY UPDATE
+				    data = " . $dbh->quote($data) . ",
+				    timestamp = $now
+			");
+		}
 
 		$data_from_api[$id] = $data;
 		curl_multi_remove_handle($mh, $c);
@@ -115,6 +124,11 @@ function getApiData($urls) {
 	}
 
 	curl_multi_close($mh);
+
+	if(count($result) === 1) {
+		$result = $result[0];
+	}
+
 	return $result;
 }
 
@@ -136,7 +150,7 @@ switch($action) {
 	case "pseudos" :
 
 		$base_url = 'http://ws.jeuxvideo.com/';
-		$pseudos = json_decode($data);
+		$pseudos = $data;
 		$urls = array();
 
 		foreach($pseudos as $pseudo) {
@@ -146,19 +160,44 @@ switch($action) {
 		$results = getApiData($urls);
 		$pseudosCount = count($pseudos);
 
-		?><api>
+		?>
+		<api>
 		<?php for($i = 0; $i < $pseudosCount; $i++): ?>
 			<author pseudo="<?php echo $pseudos[$i]; ?>" >
 				<?php echo $results[$i]; ?>
 			</author>
 		<?php endfor; ?>
-		</api><?php
+		</api>
+		<?php
 
 		break;
 
 	//Infos d'un topic
 	case "topic" :
-		//http://ws.jeuxvideo.com/forums/1-" + data + "-7-0-1-0-0.xml
+		$topic_url = "http://ws.jeuxvideo.com/forums/1-$data-1-0-1-0-0.xml";
+		$result = getApiData($topic_url, false);
+
+		preg_match('/<count_page>(\\d*)<\\/count_page>/', $result, $matches);
+
+		$page_count = intval($matches[1]);
+
+		$last_page_url = "http://ws.jeuxvideo.com/forums/1-$data-$page_count-0-1-0-0.xml";
+		$result = getApiData($last_page_url, false);
+		preg_match_all('/<b class=\\"cdv\\">/', $result, $matches);
+		
+		$last_page_post_count = intval(count($matches[0]));
+
+		$post_count = (($page_count - 1) * 20) + $last_page_post_count;
+
+		?>
+		<api>
+			<topic>
+				<pagecount><?php echo $page_count; ?></pagecount>
+				<postcount><?php echo $post_count; ?></postcount>
+			</topic>
+		</api>
+		<?php
+
 		break;
 
 }

@@ -31,7 +31,7 @@ SK.Util = {
      */
     api: function(requestAction, data, callback) {
 
-        var url = "http://dl.spixel.fr/greasemonkey/jvc-spawnkill/server/api-jvc.php?action=" + requestAction + "&data=" + JSON.stringify(data);
+        var url = "http://dl.spixel.fr/greasemonkey/jvc-spawnkill/server/api-jvc.php?action=" + requestAction + "&data=" + encodeURIComponent(JSON.stringify(data));
 
         GM_xmlhttpRequest({
             url: url,
