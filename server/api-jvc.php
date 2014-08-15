@@ -11,19 +11,25 @@ include "config.php";
 
 header('Content-Type: application/xml; charset=utf-8');
 
+//Permet de supporter les version antérieures à la 1.10
+if(!empty($_GET['pseudos'])) {
+	$_GET['action'] = "pseudos";
+	$_GET['data'] = $_GET['pseudos'];
+}
+
+$action = $_GET['action'];
+$data = $_GET['data'];
+
 /**
  * Permet d'effectuer plusieurs requêtes vers l'API de JVC en parallèle.
  * Récupère les données du cache si elles existent et sont valides
  */
 function getApiData($urls) {
 
-	try {
-		$options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'); 
-		$dbh = new PDO("mysql:host=" . HOST . ";dbname=" . DATABASE . ";", LOGIN, PASS, $options);
-	}
-	catch (Exception $e) {
-	}
+	//Crade mais pratique
+	global $dbh;
 
+	//On calcule le timestamp des dernières données valides
 	$now = time();
 	$lastValidDataTimestamp = $now - (CACHE_TTL * 3600);
 
@@ -33,10 +39,15 @@ function getApiData($urls) {
 	$urls_from_api = array();
 	//Données récupérées depuis le cache
 	$data_from_cache = array();
+	//Données récupérées depuis l'API
 	$data_from_api = array();
+	//Retour de la fonction
 	$result = array();
+
+	//Nombre de ressources à récupérer
 	$url_count = count($urls);
 
+	//Pass de l'API JVC
 	$username = 'appandr';
 	$password = 'e32!cdf';
 
@@ -52,9 +63,9 @@ function getApiData($urls) {
 		");
 
 		$cache_data = current($rows->fetchAll(PDO::FETCH_ASSOC));
-
-		//Des données du cache on été récupérées
 		$data_from_cache[] = $cache_data;
+
+		//les données ne sont pas en cache, on les récupère depuis l'API
 		if(empty($cache_data)) {
 			$urls_from_api[$id] = $url;
 			$curly[$id] = curl_init();
@@ -80,8 +91,9 @@ function getApiData($urls) {
 	foreach($curly as $id => $c) {
 		$data = curl_multi_getcontent($c);
 
+		//On insère les données récupérées en cache
 		$dbh->query("INSERT INTO api_cache_data(url, data, timestamp)
-			VALUES('" . $urls_from_api[$id] . "', " . $dbh->quote($data) . ", $now)
+			VALUES('" . $dbh->quote($urls_from_api[$id]) . "', " . $dbh->quote($data) . ", $now)
 			ON DUPLICATE KEY UPDATE
 			    data = " . $dbh->quote($data) . ",
 			    timestamp = $now
@@ -91,7 +103,7 @@ function getApiData($urls) {
 		curl_multi_remove_handle($mh, $c);
 	}
 
-	//On mixe le résultat du cache et des appels
+	//On mixe le résultat du cache et des appels à l'API
 	for($i = 0; $i < $url_count; $i++) {
 
 		if(empty($data_from_cache[$i])) {
@@ -106,30 +118,47 @@ function getApiData($urls) {
 	return $result;
 }
 
-//Requêtes sur des pseudos
-if(!empty($_GET['pseudos'])) {
-
-	$base_url = 'http://ws.jeuxvideo.com/';
-	$pseudos = json_decode($_GET['pseudos']);
-	$urls = array();
-
-	foreach($pseudos as $pseudo) {
-		$urls[] = $base_url . 'profil/' . $pseudo . '.xml';
-	}
-
-	$results = getApiData($urls);
-	$pseudosCount = count($pseudos);
-
-	?><api>
-	<?php for($i = 0; $i < $pseudosCount; $i++): ?>
-		<author pseudo="<?php echo $pseudos[$i]; ?>" >
-			<?php echo $results[$i]; ?>
-		</author>
-	<?php endfor; ?>
-	</api><?php
+try {
+	$options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'); 
+	$dbh = new PDO("mysql:host=" . HOST . ";dbname=" . DATABASE . ";", LOGIN, PASS, $options);
+}
+catch (Exception $e) {
 }
 
-//Infos d'un topic
-else if(!empty($_GET['topic'])) {
-	//http://ws.jeuxvideo.com/forums/1-" + data + "-7-0-1-0-0.xml
+//Simple enregistrement d'une ligne pour voir la fréquentation du script
+$dbh->query("INSERT INTO api_calls(ip, action)
+	VALUES(" . $dbh->quote($_SERVER['REMOTE_ADDR']) . ", " . $dbh->quote($action) . ")
+");
+
+switch($action) {
+
+	//Requêtes sur des pseudos
+	case "pseudos" :
+
+		$base_url = 'http://ws.jeuxvideo.com/';
+		$pseudos = json_decode($data);
+		$urls = array();
+
+		foreach($pseudos as $pseudo) {
+			$urls[] = $base_url . 'profil/' . $pseudo . '.xml';
+		}
+
+		$results = getApiData($urls);
+		$pseudosCount = count($pseudos);
+
+		?><api>
+		<?php for($i = 0; $i < $pseudosCount; $i++): ?>
+			<author pseudo="<?php echo $pseudos[$i]; ?>" >
+				<?php echo $results[$i]; ?>
+			</author>
+		<?php endfor; ?>
+		</api><?php
+
+		break;
+
+	//Infos d'un topic
+	case "topic" :
+		//http://ws.jeuxvideo.com/forums/1-" + data + "-7-0-1-0-0.xml
+		break;
+
 }

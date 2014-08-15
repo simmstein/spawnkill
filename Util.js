@@ -22,24 +22,17 @@ SK.Util = {
 
     /**
      * Wrapper de l'API JVC permettant de faire des requpetes simplifiées via un serveur distant.
-     * requestType (string) : Type de requête à exécuter : "pseudos" ou "topic"
+     * requestAction (string) : Type de requête à exécuter : "pseudos" ou "topic"
      * data (mix) : données de la requête
      *    pseudos : [ "pseudo1",  "pseudo2", "pseudo3"]
      *    topic : la chaine d'id du topic. Ce qui est entre paraenthèses dans l'url suivante :
      *       http://www.jeuxvideo.com/forums/1-(51-65175198)-7-0-1-0-script-jvc-spawnkill-avant-respawn.htm
      * callback : fonction appelée avec un objet jQuery contenant les infos récupérées
      */
-    api: function(requestType, data, callback) {
+    api: function(requestAction, data, callback) {
 
-        var url = "";
-        switch(requestType) {
-            case "pseudos" :
-                url = "http://dl.spixel.fr/greasemonkey/jvc-spawnkill/server/api-jvc.php?pseudos=" + JSON.stringify(data);
-                break;
-            case "topic" :
-                url = "http://dl.spixel.fr/greasemonkey/jvc-spawnkill/server/api-jvc.php?topic=" + data;
-                break;
-        }
+        var url = "http://dl.spixel.fr/greasemonkey/jvc-spawnkill/server/api-jvc.php?action=" + requestAction + "&data=" + JSON.stringify(data);
+
         GM_xmlhttpRequest({
             url: url,
             method: "GET",
