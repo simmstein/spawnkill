@@ -4,26 +4,26 @@
 // @author      Spixel_
 // @namespace   http://www.spixel.fr
 // @include     http://*.jeuxvideo.com*
-// @version     1.8
-// @require     jquery-1.11.1.min.js?v1.8
-// @require     jquery-plugins.js?v1.8
-// @require     base.js?v1.8
-// @require     Util.js?v1.8
-// @require     Message.js?v1.8
-// @require     Author.js?v1.8
-// @require     Button.js?v1.8
-// @require     SlideToggle.js?v1.8
-// @require     Modal.js?v1.8
-// @require     modules/Module.js?v1.8
-// @require     modules/StartSpawnKill.js?v1.8
-// @require     modules/Settings.js?v1.8
-// @require     modules/QuickResponse.js?v1.8
-// @require     modules/Quote.js?v1.8
-// @require     modules/Raccourcis.js?v1.8
-// @require     modules/InfosPseudo.js?v1.8
-// @require     modules/HilightNewTopic.js?v1.8
-// @require     modules/LastPage.js?v1.8
-// @require     modules/EmbedMedia.js?v1.8
+// @version     1.9
+// @require     jquery-1.11.1.min.js?v1.9
+// @require     jquery-plugins.js?v1.9
+// @require     base.js?v1.9
+// @require     Util.js?v1.9
+// @require     Message.js?v1.9
+// @require     Author.js?v1.9
+// @require     Button.js?v1.9
+// @require     SlideToggle.js?v1.9
+// @require     Modal.js?v1.9
+// @require     modules/Module.js?v1.9
+// @require     modules/StartSpawnKill.js?v1.9
+// @require     modules/Settings.js?v1.9
+// @require     modules/QuickResponse.js?v1.9
+// @require     modules/Quote.js?v1.9
+// @require     modules/Shortcuts.js?v1.9
+// @require     modules/InfosPseudo.js?v1.9
+// @require     modules/HilightNewTopic.js?v1.9
+// @require     modules/LastPage.js?v1.9
+// @require     modules/EmbedMedia.js?v1.9
 // @resource    banImage    images/ban.png
 // @resource    newTopic    images/topic_new.gif
 // @resource    carton      images/carton.png
