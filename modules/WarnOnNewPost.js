@@ -30,13 +30,11 @@ SK.moduleConstructors.WarnOnNewPost.prototype.init = function() {
 
     		initialTitle = $("title").html();
     		initialPostCount = postCount;
-    		console.log(initialPostCount);
 
     		//On récupère de nouveau les infos du topic à intervale régulier
     		setInterval(function() {
 
     			self.getPostCount(function(newPostCount) {
-    				console.log(initialPostCount, newPostCount);
     				//Si le nombre de posts est différent, on met à jour le titre de la page
     				var newTitle = "";
 
