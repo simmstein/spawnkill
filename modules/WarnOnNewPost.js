@@ -63,5 +63,5 @@ SK.moduleConstructors.WarnOnNewPost.prototype.getPostCount = function(callback) 
 };
 
 SK.moduleConstructors.WarnOnNewPost.prototype.shouldBeActivated = function() {
-    return true;
+    return window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/1/);
 };
