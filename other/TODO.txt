@@ -13,6 +13,8 @@
 - Ajout de regex pour les pages
 - Mettre à jour le guide
 
+- Mise à jour de get-spawnkill
+
 v1.10.1
 	- modales centrales
 		- Passage d'un élément html
@@ -28,3 +30,4 @@ v1.10.1
 
 	- Remplacer le lien avatar vers un agrandissement de l'avatar.
 		- Ajouter une classe 'data-popin="url"' sur l'image
+

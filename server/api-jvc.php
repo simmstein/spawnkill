@@ -7,7 +7,7 @@
  * Par exemple ["/profile/spixel_.xml", "/profile/cisla.xml"]
  */
 
-include "../no-git/config.php";
+include "config.php";
 
 header('Content-Type: application/xml; charset=utf-8');
 

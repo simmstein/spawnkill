@@ -12,15 +12,54 @@ SK.moduleConstructors.WarnOnNewPost.prototype.title = "Indiquer les nouveaux pos
 SK.moduleConstructors.WarnOnNewPost.prototype.description = "Indique le nombre de nouveaux messages postés depuis que la page a chargé dans le titre de l'onglet";
 
 SK.moduleConstructors.WarnOnNewPost.prototype.init = function() {
-    //Timeout de 2 secondes pour éviter que le script retarde le chargement de la page
+
+	var self = this;
+	var startTimeout = 3000;
+	var checkInterval = 3000;
+
+	//Nombre de posts au chargement
+	var initialPostCount = 0;
+	//Titre de l'onglet au chargement
+	var initialTitle = "";
+
+
+    //Timeout de 3 secondes pour éviter que le script ne retarde le chargement de la page
     setTimeout(function() {
-    	this.getTopicInfos();
-    }.bind(this), 2000);
+    	//On récupère les infos initiales du topic
+    	self.getPostCount(function(postCount) {
+
+    		initialTitle = $("title").html();
+    		initialPostCount = postCount;
+
+    		//On récupère de nouveau les infos du topic à intervale régulier
+    		setInterval(function() {
+
+    			self.getPostCount(function(postCount) {
+
+    				//Si le nombre de posts est différent, on met à jour le titre de la page
+    				if(initialPostCount !== postCount) {
+    					$("title").html("(" + (postCount - initialPostCount) + ") " + initialTitle);
+    				}
+
+    			});
+
+    		}, checkInterval);
+    	});
+    }, startTimeout);
 };
 
-SK.moduleConstructors.WarnOnNewPost.prototype.getTopicInfos = function(callback) {
+/**
+ * Récupère le nombre de posts du topic via l'API JVC.
+ * Appelle la fonction de callback avec le nombre de posts en arguments.
+ */
+SK.moduleConstructors.WarnOnNewPost.prototype.getPostCount = function(callback) {
 
-    callback();
+	var match = window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/1-(\d*-\d*).*/);
+	var topicId = match[1];
+	SK.Util.api("topic", topicId, function($api) {
+		callback(parseInt($api.find("postcount").html()));
+	});
+    
 };
 
 SK.moduleConstructors.WarnOnNewPost.prototype.shouldBeActivated = function() {
