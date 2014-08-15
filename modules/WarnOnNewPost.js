@@ -14,12 +14,11 @@ SK.moduleConstructors.WarnOnNewPost.prototype.description = "Indique le nombre d
 SK.moduleConstructors.WarnOnNewPost.prototype.init = function() {
     //Timeout de 2 secondes pour éviter que le script retarde le chargement de la page
     setTimeout(function() {
-    	this.getCurrentTopicInfos();
+    	this.getTopicInfos();
     }.bind(this), 2000);
 };
 
-SK.moduleConstructors.WarnOnNewPost.prototype.getCurrentTopicInfos = function(callback) {
-    //Ma méthode
+SK.moduleConstructors.WarnOnNewPost.prototype.getTopicInfos = function(callback) {
 
     callback();
 };

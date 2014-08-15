@@ -4,6 +4,8 @@ Roadmap - SpawnKill
 ### v1.10
 - Ajout d'un avertissement quand de nouveaux messages sont postés dans un topic dans le titre de l'onglet
 - Ajout de regex pour les pages
+- Mise en cache des données côté serveur (pendant 12 heures)
+- Correction d'un bug avec l'intégration Pixule : http://www.jeuxvideo.com/forums/1-50-168545013-1-0-1-0-le-starter-le-plus-nul.htm
 
 ### v1.10.1
 - Remplacer le lien avatar vers un agrandissement de l'avatar.
@@ -36,6 +38,7 @@ Roadmap - SpawnKill
 
 ### Plus tard
 #### Fonctionnalités :
+- Hilight des posts de l'auteur
 - Topics préférés
 - Prévenir en cas de nouveau message (+ notifications)
 - Bookmark dernière page d'un topic
