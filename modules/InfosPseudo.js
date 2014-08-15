@@ -93,8 +93,8 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostInfos = function() {
 
             //On récupère les infos des auteurs périmées ou qu'on n'a pas encore dans le localStorage
             if(toLoadAuthorPseudos.length > 0) {
-                SK.Util.jvcs(toLoadAuthorPseudos, function($jvcs) {
-                    $jvcs.find("author").each(function() {
+                SK.Util.api(toLoadAuthorPseudos, function($api) {
+                    $api.find("author").each(function() {
                         var $author = $(this);
                         var pseudo = $author.attr("pseudo");
                         var $cdv = $author.find("cdv");

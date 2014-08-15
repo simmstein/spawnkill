@@ -20,10 +20,28 @@ SK.Util = {
         });
     },
 
-    /** Effectue un ensemble de requêtes cdv sur l'API de JVC via un agregateur maison. */
-    jvcs: function(pseudos, callback) {
+    /**
+     * Wrapper de l'API JVC permettant de faire des requpetes simplifiées via un serveur distant.
+     * requestType (string) : Type de requête à exécuter : "pseudos" ou "topic"
+     * data (mix) : données de la requête
+     *    pseudos : [ "pseudo1",  "pseudo2", "pseudo3"]
+     *    topic : la chaine d'id du topic. Ce qui est entre paraenthèses dans l'url suivante :
+     *       http://www.jeuxvideo.com/forums/1-(51-65175198)-7-0-1-0-script-jvc-spawnkill-avant-respawn.htm
+     * callback : fonction appelée avec un objet jQuery contenant les infos récupérées
+     */
+    api: function(requestType, data, callback) {
+
+        var url = "";
+        switch(requestType) {
+            case "pseudos" :
+                url = "http://dl.spixel.fr/greasemonkey/jvc-spawnkill/server/api-jvc.php?pseudos=" + JSON.stringify(data);
+                break;
+            case "topic" :
+                url = "http://dl.spixel.fr/greasemonkey/jvc-spawnkill/server/api-jvc.php?topic=" + data;
+                break;
+        }
         GM_xmlhttpRequest({
-            url: "http://dl.spixel.fr/greasemonkey/jvc-spawnkill/server/api-jvc.php?pseudos=" + JSON.stringify(pseudos),
+            url: url,
             method: "GET",
             onload: function(response) {
                 callback($($.parseXML(SK.Util.sanitizeXML(response.responseText))));

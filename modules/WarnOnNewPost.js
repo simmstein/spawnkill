@@ -11,16 +11,17 @@ SK.moduleConstructors.WarnOnNewPost.prototype.id = "WarnOnNewPost";
 SK.moduleConstructors.WarnOnNewPost.prototype.title = "Indiquer les nouveaux posts";
 SK.moduleConstructors.WarnOnNewPost.prototype.description = "Indique le nombre de nouveaux messages postés depuis que la page a chargé dans le titre de l'onglet";
 
-/**
- * Initialise le module, fonction appelée quand le module est chargé
- */
 SK.moduleConstructors.WarnOnNewPost.prototype.init = function() {
-    //Méthode du modules
-    this.uneMethodeExemple();
+    //Timeout de 2 secondes pour éviter que le script retarde le chargement de la page
+    setTimeout(function() {
+    	this.getCurrentTopicInfos();
+    }.bind(this), 2000);
 };
 
-SK.moduleConstructors.WarnOnNewPost.prototype.uneMethodeExemple = function() {
+SK.moduleConstructors.WarnOnNewPost.prototype.getCurrentTopicInfos = function(callback) {
     //Ma méthode
+
+    callback();
 };
 
 SK.moduleConstructors.WarnOnNewPost.prototype.shouldBeActivated = function() {
