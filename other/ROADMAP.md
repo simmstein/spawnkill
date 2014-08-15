@@ -1,30 +1,31 @@
 Roadmap - SpawnKill
 =====================
 
-### v1.8
+### v1.10
+- Ajout d'un avertissement quand de nouveaux messages sont postés dans un topic dans le titre de l'onglet
+
+### v1.10.1
 - Remplacer le lien avatar vers un agrandissement de l'avatar.
-- Affichage des photos/vidéos/sondages dans les posts
 - Popup pour voir les images/vidéos en grand
 - Ajouter une option de choix pour la position du rang
-- Virer les commentaires du fichier de base
 
-### v1.8.1
+### v1.10.2
 - Ajouter une option de choix pour la position du rang
 - Ajouter les types de paramètres dans la config
 - Ajout de fenêtres modales centrées
 - Affichage de l'avatar dans une popin centrée
 
-### v1.9
+### v1.11
 - Ajouter un AutoUpdater
 - Faire des icones pour améliorer les citations
 - Affichage des plugins dans la preview du message
 - Affichage de la version en grisé à droite dans les settings
 
-### v1.10
+### v1.12
 - Faire la distinction entre les bans définitifs et les ban tempo
 - Bugs avec "aujourd'hui" dans les citations Turboforum
 
-### v1.10.1
+### v1.12.1
 - Ajouter d'autres types d'options pour les plugins (string, text, int, bool, float, color, select,...)
 - Ajouter option type de citations
 - Possibilité de citer seulement une partie du message
@@ -34,6 +35,7 @@ Roadmap - SpawnKill
 
 ### Plus tard
 #### Fonctionnalités :
+- Topics préférés
 - Prévenir en cas de nouveau message (+ notifications)
 - Bookmark dernière page d'un topic
 - Ajouter un lien vers les citations de ce message

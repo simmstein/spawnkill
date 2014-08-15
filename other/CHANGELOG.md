@@ -1,6 +1,8 @@
 Changelog - SpawnKill
 =====================
 
+Les nouvelles versions sont désormais répertoriées ici : https://github.com/dorian-marchal/spawnkill/releases
+
 ### v1.7.0.1
 - Correction des rangs qui ne s'affichaient plus sur l'avatar
 
