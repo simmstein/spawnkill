@@ -125,10 +125,6 @@ function getApiData($urls, $cache_result = true) {
 
 	curl_multi_close($mh);
 
-	if(count($result) === 1) {
-		$result = $result[0];
-	}
-
 	return $result;
 }
 
@@ -175,14 +171,14 @@ switch($action) {
 	//Infos d'un topic
 	case "topic" :
 		$topic_url = "http://ws.jeuxvideo.com/forums/1-$data-1-0-1-0-0.xml";
-		$result = getApiData($topic_url, false);
+		$result = current(getApiData($topic_url, false));
 
 		preg_match('/<count_page>(\\d*)<\\/count_page>/', $result, $matches);
 
 		$page_count = intval($matches[1]);
 
 		$last_page_url = "http://ws.jeuxvideo.com/forums/1-$data-$page_count-0-1-0-0.xml";
-		$result = getApiData($last_page_url, false);
+		$result = current(getApiData($last_page_url, false));
 		preg_match_all('/<b class=\\"cdv\\">/', $result, $matches);
 		
 		$last_page_post_count = intval(count($matches[0]));
