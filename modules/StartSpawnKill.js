@@ -128,6 +128,7 @@ SK.moduleConstructors.StartSpawnKill.prototype.correctSplitPost = function() {
             color: #FFF !important;\
         }\
         .sk-button-content:focus {\
+            color: #FFF !important;\
             outline: none;\
         }\
         .sk-button-content:active {\

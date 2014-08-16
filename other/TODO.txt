@@ -1,23 +1,9 @@
-### v1.10
-- Ajout d'un avertissement quand de nouveaux messages sont postés dans un topic dans le titre de l'onglet
-	- Créer module
-	- Au chargement
-		timout 2s
-			Récupérer le nombre de messages du topic
-			Récupération du titre de base
-			lancer un interval toutes les X secondes
-				combien de messages dans le topic
-				si différent du nombre de base
-					update du title avec la différence dans le titre + le titre de base
-
-
-
 v1.10.1
-- Par défaut, cacher les  images adns les citations
-- Espaces pixules
+OK - Par défaut, cacher les  images adns les citations
+OK - Espaces pixules
+OK - Réparer l'API pour le nombre de posts 
 - Ajout de regex pour les pages
-- Mettre à jour le guide
-- Réparer l'API pour le nombre de posts 
+	- Mettre à jour le guide
 - Mise à jour de get-spawnkill
 Changer l'icone de JVC en cas de nouveaux posts
 

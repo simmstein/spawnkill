@@ -1,16 +1,13 @@
 Roadmap - SpawnKill
 =====================
 
-### v1.10
-- Ajout d'un avertissement quand de nouveaux messages sont postés dans un topic dans le titre de l'onglet
+###v1.10.1
+- Correction d'un bug avec l'intégration Pixule
 - Ajout de regex pour les pages
-- Mise en cache des données côté serveur (pendant 12 heures)
-- Correction d'un bug avec l'intégration Pixule : http://www.jeuxvideo.com/forums/1-50-168545013-1-0-1-0-le-starter-le-plus-nul.htm
-
-### v1.10.1
+- Ajout d'un bouton de téléchargement SpawnKill
 - Remplacer le lien avatar vers un agrandissement de l'avatar.
 - Popup pour voir les images/vidéos en grand
-- Ajouter une option de choix pour la position du rang
+- Les contenus sont désormais cachés par défaut dans les citations pour éviter le flood
 
 ### v1.10.2
 - Ajouter une option de choix pour la position du rang

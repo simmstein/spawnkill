@@ -26,10 +26,10 @@ SK.moduleConstructors.EmbedMedia.prototype.init = function() {
     this.userSettings.optinEmbed = this.getSetting("optinEmbed");
 
     //Et les paramètres de chaque type de media pour éviter les appels trop fréquents au localStorage
-    this.userSettings.embedVideos = this.getSetting("embedVideos");
-    this.userSettings.embedImages = this.getSetting("embedImages");
-    this.userSettings.embedRecords = this.getSetting("embedRecords");
-    this.userSettings.embedSurveys = this.getSetting("embedSurveys");
+    for(var i in this.settings) {
+        var settingId = i;
+        this.userSettings[settingId] = this.getSetting(settingId);
+    }
 
 };
 
@@ -323,6 +323,34 @@ SK.moduleConstructors.EmbedMedia.prototype.initMediaTypes = function() {
 
     }));
 
+    //Lien Télécharger SpawnKill
+    this.mediaTypes.push(new SK.moduleConstructors.EmbedMedia.MediaType({
+
+        id: "spawnkill",
+        settingId: "embedSpawnKill",
+
+        regex: /^http:\/\/dl\.spixel\.fr\/get-spawnkill\/?#download-box$/,
+
+        addHideButton: false,
+
+        getEmbeddedMedia: function() {
+
+            var $el = new SK.Button({
+                class: "spawnkill-button large",
+                text: "Télécharger SpawnKill",
+                href: "http://dl.spixel.fr/get-spawnkill/#download-box",
+                target: "_blank",
+                tooltip: {
+                    position: "right",
+                    text: "Télécharger et Installer SpawnKill"
+                }
+            });
+
+            return $el;
+        }
+
+    }));
+
 };
 
 /**
@@ -412,7 +440,7 @@ SK.moduleConstructors.EmbedMedia.prototype.embedMedia = function() {
                         if($mediaElement !== null) {
 
                             $a.after($mediaElement);
-                            $mediaElement.addClass(mediaType.id + "-media-element");
+                            $mediaElement.addClass(mediaType.id + "-media-element media-element");
                             $a.addClass(mediaType.id + "-media-link");
 
                             if(showMedia) {
@@ -485,6 +513,11 @@ SK.moduleConstructors.EmbedMedia.prototype.settings = {
         title: "Intégration des Vocaroos",
         description: "Intégre les enregistrement Vocaroo aux posts.",
         default: true,
+    },
+    embedSpawnKill: {
+        title: "Bouton de téléchargement SpawnKill",
+        description: "Affiche un bouton à la place du lien de téléchargement SpawnKill",
+        default: true,
     }
 };
 
@@ -536,16 +569,24 @@ SK.moduleConstructors.EmbedMedia.prototype.getCss = function() {
             background-color: #A3A3A3;\
             border-bottom-color: #525252;\
         }\
+        .spawnkill-media-element {\
+            display: block !important;\
+        }\
+        .spawnkill-media-element .tooltip {\
+            top: 3px;\
+            left: 150px;\
+        }\
+        .spawnkill-media-element .tooltip::after {\
+            top: 7px;\
+        }\
         .sondageio-media-element {\
             margin: 5px;\
             margin-left: 0px;\
             border: solid 1px #CCC;\
             border-radius: 5px;\
         }\
-        .youtube-media-element,\
-        .vimeo-media-element,\
-        .dailymotion-media-element {\
-            margin: 5px;\
+        .media-element {\
+            margin: 10px 5px;\
             margin-left: 0px;\
         }\
         .image-media-element {\
