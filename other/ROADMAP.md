@@ -38,6 +38,7 @@ Roadmap - SpawnKill
 
 ### Plus tard
 #### Fonctionnalités :
+- Nombre de posts manqués dans le favicon
 - Hilight des posts de l'auteur
 - Topics préférés
 - Prévenir en cas de nouveau message (+ notifications)

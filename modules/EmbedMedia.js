@@ -190,7 +190,7 @@ SK.moduleConstructors.EmbedMedia.prototype.initMediaTypes = function() {
         id: "pixule",
         settingId: "embedSurveys",
 
-        regex: /^http:\/\/www\.pixule\.com\/([\d]*).*$/,
+        regex: /^http:\/\/www\.pixule\.com\/(?:sondages\/[^\/]*\/)?([\d]*).*$/,
 
         addHideButton: true,
         showButtonText: "Afficher les sondages Pixule",
@@ -394,6 +394,11 @@ SK.moduleConstructors.EmbedMedia.prototype.embedMedia = function() {
 
                     // Vrai si le media doit être affiché au chargement, on récupère les infos dans le localStorage
                     var showMedia = SK.Util.getValue(messageId + "." + mediaType.id +".show");
+
+                    //On cache tous les medias des citations, par défaut
+                    if($a.parents(".quote-message").length > 0) {
+                        showMedia = false;
+                    }
 
                     if(showMedia === null) {
                         showMedia = !self.userSettings.optinEmbed;

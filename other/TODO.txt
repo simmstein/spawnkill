@@ -12,11 +12,14 @@
 
 
 
-v1.10.0.4
+v1.10.1
+- Par défaut, cacher les  images adns les citations
+- Espaces pixules
 - Ajout de regex pour les pages
 - Mettre à jour le guide
 - Réparer l'API pour le nombre de posts 
 - Mise à jour de get-spawnkill
+Changer l'icone de JVC en cas de nouveaux posts
 
 	- modales centrales
 		- Passage d'un élément html
