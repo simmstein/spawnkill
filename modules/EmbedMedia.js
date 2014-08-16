@@ -335,16 +335,47 @@ SK.moduleConstructors.EmbedMedia.prototype.initMediaTypes = function() {
 
         getEmbeddedMedia: function() {
 
-            var $el = new SK.Button({
+            var $el = $("<div>");
+            $el.append(new SK.Button({
                 class: "spawnkill-button large",
                 text: "Télécharger SpawnKill",
                 href: "http://dl.spixel.fr/get-spawnkill/#download-box",
                 target: "_blank",
                 tooltip: {
-                    position: "right",
+                    position: "bottom large",
                     text: "Télécharger et Installer SpawnKill"
+                },
+                wrapper: {
+                    class: "spawnkill-wrapper"
+                }
+            }));
+
+            var $donationButton = new SK.Button({
+                class: "spawnkill-button large minor",
+                text: "Me payer une bière",
+                tooltip: {
+                    position: "bottom large",
+                    text: "Faire un don de 2€ à Spixel_"
+                },
+                click: function() {
+                    $(this).parents("form").first().submit();
                 }
             });
+
+            $el.append("<span class='or' >ou</span>");
+            $el.append("<form target='_blank' class='donation-form' action='https://www.paypal.com/cgi-bin/webscr' method='post' target='_top'>\
+                <input type='hidden' name='cmd' value='_donations'>\
+                <input type='hidden' name='business' value='LHTF3GZ496X8U'>\
+                <input type='hidden' name='lc' value='FR'>\
+                <input type='hidden' name='item_name' value='Dorian Marchal'>\
+                <input type='hidden' name='amount' value='2.00'>\
+                <input type='hidden' name='currency_code' value='EUR'>\
+                <input type='hidden' name='bn' value='PP-DonationsBF:1408178230-capture-du-2014-08-16-10-33-38.jpg:NonHostedGuest'>\
+                <img alt=' border='0' src='https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif' width='1' height='1'>\
+                </form>\
+            ");
+
+            $el.find("[name=bn]").after($donationButton);
 
             return $el;
         }
@@ -565,6 +596,18 @@ SK.moduleConstructors.EmbedMedia.prototype.getCss = function() {
             background-image: url('" + GM_getResourceURL("sondageio") + "');\
             background-position: 0px 0px;\
         }\
+        .donation-form {\
+            display: inline-block;\
+        }\
+        .spawnkill-media-element .sk-button {\
+            vertical-align: top;\
+        }\
+        .spawnkill-media-element .or {\
+            margin-left: 8px;\
+            margin-right: 3px;\
+            position: relative;\
+            top: 6px;\
+        }\
         .sk-button-content[data-action=show] {\
             background-color: #A3A3A3;\
             border-bottom-color: #525252;\
@@ -572,12 +615,8 @@ SK.moduleConstructors.EmbedMedia.prototype.getCss = function() {
         .spawnkill-media-element {\
             display: block !important;\
         }\
-        .spawnkill-media-element .tooltip {\
-            top: 3px;\
-            left: 150px;\
-        }\
-        .spawnkill-media-element .tooltip::after {\
-            top: 7px;\
+        .spawnkill-wrapper {\
+            margin-left: 0px;\
         }\
         .sondageio-media-element {\
             margin: 5px;\
