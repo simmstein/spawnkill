@@ -25,36 +25,36 @@
 // @require     modules/LastPage.js?v1.10.2
 // @require     modules/EmbedMedia.js?v1.10.2
 // @require     modules/WarnOnNewPost.js?v1.10.2
-// @resource    banImage    images/ban.png
-// @resource    newTopic    images/topic_new.gif
-// @resource    carton      images/carton.png
-// @resource    bronze      images/bronze.png
-// @resource    argent      images/argent.png
-// @resource    or          images/or.png
-// @resource    rubis       images/rubis.png
-// @resource    emeraude    images/emeraude.png
-// @resource    diamant     images/diamant.png
-// @resource    saphir      images/saphir.png
-// @resource    female      images/female.png
-// @resource    male        images/male.png
-// @resource    unknown     images/unknown.png
-// @resource    plus        images/plus.png
-// @resource    minus       images/minus.png
-// @resource    link        images/link.png
-// @resource    quote       images/quote.png
-// @resource    mp          images/mp.png
-// @resource    alert       images/alert.png
-// @resource    link-gray   images/link-gray.png
-// @resource    calendar    images/calendar.png
-// @resource    clock       images/clock.png
-// @resource    settings    images/settings.png
-// @resource    youtube     images/youtube.png
-// @resource    vimeo       images/vimeo.png
-// @resource    dailymotion images/dailymotion.png
-// @resource    sondageio   images/sondageio.png
-// @resource    image       images/image.png
-// @resource    vocaroo     images/vocaroo.png
-// @resource    loader      images/loader.gif
+// @resource    banImage              images/ban.png
+// @resource    newTopic              images/topic_new.gif
+// @resource    carton                images/carton.png
+// @resource    bronze                images/bronze.png
+// @resource    argent                images/argent.png
+// @resource    or                    images/or.png
+// @resource    rubis                 images/rubis.png
+// @resource    emeraude              images/emeraude.png
+// @resource    diamant               images/diamant.png
+// @resource    saphir                images/saphir.png
+// @resource    female                images/female.png
+// @resource    male                  images/male.png
+// @resource    unknown               images/unknown.png
+// @resource    plus                  images/plus.png
+// @resource    minus                 images/minus.png
+// @resource    link                  images/link.png
+// @resource    quote                 images/quote.png
+// @resource    mp                    images/mp.png
+// @resource    alert                 images/alert.png
+// @resource    link-gray             images/link-gray.png
+// @resource    calendar              images/calendar.png
+// @resource    clock                 images/clock.png
+// @resource    settings              images/settings.png
+// @resource    youtube               images/youtube.png
+// @resource    vimeo                 images/vimeo.png
+// @resource    dailymotion           images/dailymotion.png
+// @resource    sondageio             images/sondageio.png
+// @resource    image                 images/image.png
+// @resource    vocaroo               images/vocaroo.png
+// @resource    loader                images/loader.gif
 // @grant       GM_xmlhttpRequest
 // @grant       GM_getResourceURL
 // @grant       GM_setClipboard

@@ -74,8 +74,9 @@ SK.moduleConstructors.EmbedMedia.prototype.initMediaTypes = function() {
          * http://www.noelshack.com/2014-33-1408191836-vimeo.png
          * ne match pas :
          * https://www.dropbox.com/s/lfta3yd9tryotxp/screen2.png
+         * http://www.hostingpics.net/viewer.php?id=785683.jpg
          */
-        regex: /^https?:\/\/(?!www\.dropbox\.com)(?:(?:(www\.hapshack\.com\/\?v=)|(www\.noelshack\.com\/([\d]{4})-([\d]{2})-))?(.*.(jpe?g|png|gif)))$/,
+        regex: /^https?:\/\/(?!www\.dropbox\.com|www\.hostingpics)(?:(?:(www\.hapshack\.com\/\?v=)|(www\.noelshack\.com\/([\d]{4})-([\d]{2})-))?(.*.(jpe?g|png|gif)))$/,
 
         addHideButton: true,
         showButtonText: "Afficher les images",

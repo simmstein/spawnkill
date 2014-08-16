@@ -16,12 +16,24 @@ SK.moduleConstructors.WarnOnNewPost.prototype.init = function() {
 	var self = this;
 	var startTimeout = 3000;
 	var checkInterval = 3000;
+	var faviconChanged = false;
 
 	//Nombre de posts au chargement
 	var initialPostCount = 0;
 	//Titre de l'onglet au chargement
 	var initialTitle = "";
 
+
+	//Change le favicon en icone de notifiction
+	var changeFavicon = function() {
+		var $faviconLink = $("<link>", {
+			rel: "shortcut icon",
+			type: "image/png",
+			href: "http://dl.spixel.fr/get-spawnkill/img/favicon-notification.png"
+		});
+		$("head").append($faviconLink);
+		faviconChanged = true;
+	};
 
     //Timeout de 3 secondes pour éviter que le script ne retarde le chargement de la page
     setTimeout(function() {
@@ -37,22 +49,26 @@ SK.moduleConstructors.WarnOnNewPost.prototype.init = function() {
     			self.getPostCount(function(newPostCount) {
     				//Si le nombre de posts est différent, on met à jour le titre de la page
     				var newTitle = "";
+    				var changeIcon = false;
 
     				//Si newPostCount === -1, il y a eu une erreur
     				if(newPostCount !== -1) {
 	    				if(initialPostCount !== newPostCount) {
 	    					newTitle = "(" + (newPostCount - initialPostCount) + ") " + initialTitle;
+	    					changeIcon = true; 
+	    					$("title").html(newTitle);
 	    				}
-	    				else {
-	    					newTitle = initialTitle;
+
+	    				//Si besoin, on change le favicon
+	    				if (!faviconChanged && changeIcon) {
+	    					changeFavicon();
 	    				}
-	    				$("title").html(newTitle);
 	    			}
 
-    			});
+    			}, false);
 
     		}, checkInterval);
-    	}, true); //On log seulement le premier appel
+    	}); //On log seulement le premier appel
     }, startTimeout);
 };
 
@@ -60,7 +76,7 @@ SK.moduleConstructors.WarnOnNewPost.prototype.init = function() {
  * Récupère le nombre de posts du topic via l'API JVC.
  * Appelle la fonction de callback avec le nombre de posts en arguments.
  */
-SK.moduleConstructors.WarnOnNewPost.prototype.getPostCount = function(logApiCall, callback) {
+SK.moduleConstructors.WarnOnNewPost.prototype.getPostCount = function(callback, logApiCall) {
 
 	var match = window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/1-(\d*-\d*).*/);
 	var topicId = match[1];
