@@ -21,7 +21,7 @@ $action = $_GET['action'];
 $data = json_decode($_GET['data']);
 
 //Vrai si l'appel à l'API doit être enregistré
-$log_call = !empty($_GET['log']);
+$log_call = !empty($_GET['log']) && $_GET['log'] == 1;
 
 /**
  * Permet d'effectuer plusieurs requêtes vers l'API de JVC en parallèle.
