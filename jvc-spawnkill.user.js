@@ -4,27 +4,27 @@
 // @author      Spixel_
 // @namespace   http://www.spixel.fr
 // @include     http://*.jeuxvideo.com*
-// @version     1.10.2
-// @require     jquery-1.11.1.min.js?v1.10.2
-// @require     jquery-plugins.js?v1.10.2
-// @require     base.js?v1.10.2
-// @require     Util.js?v1.10.2
-// @require     Message.js?v1.10.2
-// @require     Author.js?v1.10.2
-// @require     Button.js?v1.10.2
-// @require     SlideToggle.js?v1.10.2
-// @require     Modal.js?v1.10.2
-// @require     modules/Module.js?v1.10.2
-// @require     modules/StartSpawnKill.js?v1.10.2
-// @require     modules/Settings.js?v1.10.2
-// @require     modules/QuickResponse.js?v1.10.2
-// @require     modules/Quote.js?v1.10.2
-// @require     modules/Shortcuts.js?v1.10.2
-// @require     modules/InfosPseudo.js?v1.10.2
-// @require     modules/HilightNewTopic.js?v1.10.2
-// @require     modules/LastPage.js?v1.10.2
-// @require     modules/EmbedMedia.js?v1.10.2
-// @require     modules/WarnOnNewPost.js?v1.10.2
+// @version     1.10.2d
+// @require     jquery-1.11.1.min.js?v1.10.2d
+// @require     jquery-plugins.js?v1.10.2d
+// @require     base.js?v1.10.2d
+// @require     Util.js?v1.10.2d
+// @require     Message.js?v1.10.2d
+// @require     Author.js?v1.10.2d
+// @require     Button.js?v1.10.2d
+// @require     SlideToggle.js?v1.10.2d
+// @require     Modal.js?v1.10.2d
+// @require     modules/Module.js?v1.10.2d
+// @require     modules/StartSpawnKill.js?v1.10.2d
+// @require     modules/Settings.js?v1.10.2d
+// @require     modules/QuickResponse.js?v1.10.2d
+// @require     modules/Quote.js?v1.10.2d
+// @require     modules/Shortcuts.js?v1.10.2d
+// @require     modules/InfosPseudo.js?v1.10.2d
+// @require     modules/HilightNewTopic.js?v1.10.2d
+// @require     modules/LastPage.js?v1.10.2d
+// @require     modules/EmbedMedia.js?v1.10.2d
+// @require     modules/WarnOnNewPost.js?v1.10.2d
 // @resource    banImage              images/ban.png
 // @resource    newTopic              images/topic_new.gif
 // @resource    carton                images/carton.png
@@ -55,6 +55,7 @@
 // @resource    image                 images/image.png
 // @resource    vocaroo               images/vocaroo.png
 // @resource    loader                images/loader.gif
+// @resource    big-loader            images/big-loader.gif
 // @grant       GM_xmlhttpRequest
 // @grant       GM_getResourceURL
 // @grant       GM_setClipboard

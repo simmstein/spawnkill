@@ -4,16 +4,21 @@
 
 /* Représente un auteur de JVC */
 SK.Author = function(pseudo) {
+    this.version = SK.Author.VERSION;
     this.pseudo = pseudo;
     this.rank = "";
     this.messageCount = 0;
     this.avatar = "";
+    this.fullSizeAvatar = "";
     this.gender = "";
     this.profileLink = "";
     this.ban = false;
     this.hasLocalData = false;
     this.messages = [];
 };
+
+/** Version du modèle. Permet de déprecier le cache si la structure change */
+SK.Author.VERSION = "2.1";
 
 /** Durée de validité du localStorage en jours */
 SK.Author.DATA_TTL = 4;
@@ -23,9 +28,11 @@ SK.Author.DATA_TTL = 4;
  * Set les données de l'auteur à partir d'un objet data
  */
 SK.Author.prototype.initFromData = function(data) {
+    this.version = data.version || "";
     this.rank = data.rank || "";
     this.messageCount = data.messageCount || 0;
     this.avatar = data.avatar || "";
+    this.fullSizeAvatar = data.fullSizeAvatar || "";
     this.gender = data.gender || "";
     this.profileLink = data.profileLink || "";
     this.ban = data.ban || false;
@@ -45,6 +52,7 @@ SK.Author.prototype.initFromCdv = function($cdv) {
         this.rank = SK.Author.getRankFromColor($cdv.find("couleur_rang").text());
         this.messageCount = parseInt($cdv.find("nb_messages").text());
         this.avatar = $cdv.find("petite_image").text();
+        this.fullSizeAvatar = $cdv.find("image").text();
         this.gender = $cdv.find("couleur_pseudo").text() === "#0066CC" ? "male" : "female";
     }
     else {
@@ -65,9 +73,11 @@ SK.Author.prototype.addMessage = function(message) {
 SK.Author.prototype.saveLocalData = function() {
 
     var data = {
+        version: this.version,
         rank: this.rank,
         messageCount: this.messageCount,
         avatar: this.avatar,
+        fullSizeAvatar: this.fullSizeAvatar,
         gender: this.gender,
         profileLink: this.profileLink,
         ban: this.ban,
@@ -94,7 +104,7 @@ SK.Author.prototype.loadLocalData = function() {
         var timeDiff = Math.abs(now.getTime() - dataDate.getTime());
         var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
-        if(diffDays < SK.Author.DATA_TTL) {
+        if(data.version === SK.Author.VERSION && diffDays < SK.Author.DATA_TTL) {
             this.initFromData(data);
             return true;
         }

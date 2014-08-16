@@ -78,13 +78,26 @@ SK.Util = {
         $background.after($modal);
         SK.Util.fetchStyle($modal);
 
+        $("#modal-loader").hide();
         $background.fadeIn();
         $modal.addClass("active");
+    },
+
+    /* Affiche l'écran de chargement des modales */
+    showModalLoader: function() {
+        $("#modal-background").fadeIn();
+        $("#modal-loader")
+            .css({
+                left: ($(window).outerWidth() / 2 - 20) + "px",
+                top: ($(window).outerHeight() / 2 - 20) + "px"
+            })
+            .fadeIn();
     },
 
     /* Cache une fenêtre modale si elle est ouverte */
     hideModal: function() {
         $("#modal-background").fadeOut();
+        $("#modal-loader").hide();
         $(".modal-box").on("transitionend webkitTransitionEnd", function() {
             $(".modal-box").remove();
         });
@@ -217,6 +230,28 @@ SK.Util = {
             nbspString += String.fromCharCode(160);
         }
         return nbspString;
+    },
+
+    /* Permet de précharger des images, appelle le callback passé en paramètre quand l'image est chargée */
+    preload: function($img, callback) {
+
+        callback = callback || function() {};
+
+        $img.on("load", function() {
+            callback();
+        });
+
+        var $preload = $("#preloaded-images");
+        if($preload.length === 0) {
+            $preload = $("<div>", {
+                id: "preloaded-images",
+                css: {
+                    display: "none"
+                }
+            });
+            $("body").prepend($preload);
+        }
+        $preload.append($img);
     },
 
     /** Dispatch un evenement sur <body> */

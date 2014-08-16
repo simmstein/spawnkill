@@ -247,26 +247,34 @@ SK.moduleConstructors.InfosPseudo.prototype.addAvatar = function(message) {
     var $avatarWrapper = message.$msg.find(".avatar-wrapper");
     var $avatar = $avatarWrapper.find(".avatar");
 
-    //Si l'auteur est banni
-    if(message.author.ban) {
-
-        //L'utilisateur est sûrement banni
-        message.author.avatar = GM_getResourceURL("banImage");
-        $avatar.addClass("ban");
-        message.$msg.addClass("not-loading");
-    }
 
     var $avatarImg = $("<img />", {
         title: message.authorPseudo,
-        alt: message.authorPseudo
+        alt: message.authorPseudo,
     });
+
+    //Si l'auteur est banni
+    if(message.author.ban) {
+
+        message.author.avatar = GM_getResourceURL("banImage");
+        $avatar
+            .addClass("ban")
+            .css("cursor", "default");
+        message.$msg.addClass("not-loading");
+    }
+    else {
+        //On ajoute pas le lien vers l'image si l'auteur est banni
+        $avatarImg.attr("data-popin", message.author.fullSizeAvatar);
+        $avatar.attr("href", message.author.fullSizeAvatar);
+    }
+
 
     $avatarImg.hide();
 
     $avatarImg.on("load", function() {
-        $avatar
-            .attr("href", message.author.profileLink)
-            .append($avatarImg);
+        
+        $avatar.append($avatarImg);
+
         $avatarImg.fadeIn(function() {
             message.$msg.addClass("not-loading");
         });

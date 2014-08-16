@@ -52,4 +52,5 @@ ln -sv /media/data/www/spawnkill/images/sondageio.png /home/dorian/.mozilla/fire
 ln -sv /media/data/www/spawnkill/images/image.png /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
 ln -sv /media/data/www/spawnkill/images/vocaroo.png /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
 ln -sv /media/data/www/spawnkill/images/loader.gif /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
+ln -sv /media/data/www/spawnkill/images/big-loader.gif /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
 read

@@ -16,17 +16,95 @@ SK.moduleConstructors.StartSpawnKill.prototype.required = true;
 SK.moduleConstructors.StartSpawnKill.prototype.init = function() {
     this.addModalBackground();
     this.correctSplitPost();
+    this.bindPopinEvent();
+};
+
+/* Ajoute l'évenement permettant d'ouvrir les images dans des fenêtres modales */
+SK.moduleConstructors.StartSpawnKill.prototype.bindPopinEvent = function() {
+
+    setTimeout(function() {
+
+        $("body").on("click", "img[data-popin]", function(event) {
+
+            event.preventDefault();
+            var $img = $(this);
+            var imgSrc = $img.attr("data-popin");
+            var modalTitle = $img.attr("title");
+            var $modalImg = $("<img>", { src: imgSrc, alt: $img.attr("alt")});
+
+            var popinImage = function() {
+
+                var buttons = [];
+
+                if(navigator.userAgent.toLowerCase().indexOf("chrome") > -1 &&
+                    navigator.userAgent.toLowerCase().indexOf("opr") === -1
+                ) {
+                    buttons.push(new SK.Button({
+                        class: "large",
+                        text: "Télécharger",
+                        href: imgSrc,
+                        download: modalTitle,
+                        tooltip: {
+                            class: "large",
+                            text: "Télécharger l'image",
+                            position: "bottom"
+                        }
+                    }));
+                }
+
+                buttons.push(new SK.Button({
+                    class: "large minor",
+                    text: "Fermer",
+                    tooltip: {
+                        class: "large",
+                        text: "Fermer la box",
+                        position: "bottom"
+                    },
+                    click: function(event) {
+                        event.preventDefault();
+                        SK.Util.hideModal();
+                    }
+                }));
+
+                SK.Util.showModal(new SK.Modal({
+                    class: "popin-modal",
+                    location: "center",
+                    title: modalTitle,
+                    content: $modalImg,
+                    buttons: buttons
+                }));
+
+            };
+
+            //On affiche l'écran de chargement de la modale
+            SK.Util.showModalLoader();
+
+            //Ouvre une modale au centre de l'écran quand l'image est prête
+            SK.Util.preload($modalImg, function() {
+
+                //On contraint la taille de l'image
+                $modalImg.css("max-width", Math.min($modalImg.get(0).width,  $(window).width() - 80) + "px");
+                $modalImg.css("max-height", Math.min($modalImg.get(0).height,  $(window).height() - 100) + "px");
+
+                popinImage();
+            });
+        });
+
+    }.bind(this), 1000);
 };
 
 /** prépare le terrain pour les modales */
 SK.moduleConstructors.StartSpawnKill.prototype.addModalBackground = function() {
-    $("body").prepend($("<div>", {
-        id: "modal-background",
-        click: function() {
-            SK.Util.hideModal();
-        }
-    }));
+    $("body")
+        .prepend("<div id='modal-loader'></div>")
+        .prepend($("<div>", {
+            id: "modal-background",
+            click: function() {
+                SK.Util.hideModal();
+            }
+        }));
 };
+
 
 SK.moduleConstructors.StartSpawnKill.prototype.correctSplitPost = function() {
 
@@ -54,30 +132,63 @@ SK.moduleConstructors.StartSpawnKill.prototype.correctSplitPost = function() {
             opacity: 0.9;\
             z-index: 2147483647;\
         }\
+        #modal-loader {\
+            display: none;\
+            position: fixed;\
+            width: 40px;\
+            height: 40px;\
+            background-image: url('" + GM_getResourceURL("big-loader") + "');\
+            background-repeat: no-repeat;\
+            z-index: 2147483648;\
+            opacity: 0.3;\
+        }\
         .modal-box {\
             position: fixed;\
             left: 50%;\
-            top: -400px;\
-            width: 400px;\
             padding: 10px;\
-            margin-left: -200px;\
             border-bottom: solid 1px #AAA;\
             text-align: left;\
-            border-radius: 0 0 4px 4px;\
+            border-radius: 4px;\
             background-color: #FFF;\
             box-shadow: 0 10px 20px 2px rgba(0, 0, 0, 0.4);\
             z-index: 2147483649;\
             opacity: 0;\
             transition-duration: 400ms;\
         }\
+        .modal-box.top {\
+            top: -400px;\
+            width: 400px;\
+            margin-left: -200px;\
+            border-radius: 0 0 4px 4px;\
+        }\
+        .modal-box.center {\
+            transform: scale(0.4);\
+            transition-duration: 400ms;\
+        }\
         .modal-box.active {\
             opacity: 1;\
+        }\
+        .modal-box.center.active {\
+            transform: scale(1);\
+            opacity: 1;\
+        }\
+        .modal-box.top.active {\
             top: 0px;\
         }\
         .modal-box h3 {\
             color: #FF7B3B;\
         }\
         .modal-box hr {\
+            display: block;\
+            height: 0px;\
+            position: relative;\
+            padding: 0;\
+            margin: 0;\
+            margin-top: 10px;\
+            border: none;\
+            border-bottom: solid 1px #DDD;\
+        }\
+        .modal-box.top hr {\
             display: block;\
             width: 420px;\
             height: 0px;\
@@ -88,6 +199,16 @@ SK.moduleConstructors.StartSpawnKill.prototype.correctSplitPost = function() {
             margin-top: 10px;\
             border: none;\
             border-bottom: solid 1px #DDD;\
+        }\
+        .popin-modal h3,\
+        .popin-modal .content,{\
+            text-align: center;\
+        }\
+        .popin-modal h3 {\
+            margin-bottom: 10px;\
+        }\
+        .popin-modal hr {\
+            display: none;\
         }\
         .sk-button {\
             position: relative;\
@@ -107,6 +228,9 @@ SK.moduleConstructors.StartSpawnKill.prototype.correctSplitPost = function() {
         }\
         .buttons.box {\
             width: 100%;\
+        }\
+        .modal-box.center .buttons.box {\
+            margin-top: 10px;\
         }\
         .sk-button-content {\
             background-color: #FF7B3B;\

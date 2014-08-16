@@ -1,24 +1,26 @@
-v1.10.1
+v1.10.2
 OK - Par défaut, cacher les  images adns les citations
 OK - Espaces pixules
 OK - Réparer l'API pour le nombre de posts 
 OK - Ajout de regex pour les pages
 	OK - Mettre à jour le guide
-Changer l'icone de JVC en cas de nouveaux posts
-- Mise à jour de get-spawnkill
+OK - Changer l'icone de JVC en cas de nouveaux posts
+OK - Mise à jour de get-spawnkill
 
 	- modales centrales
-		- Passage d'un élément html
-		- Centrage de l'élément en gardant des marges
-		- Fenêtre centrée avec boutons et padding ?
+		OK - Passage d'un élément html
+		OK - Centrage de l'élément en gardant des marges
+		OK - Fenêtre centrée avec boutons et padding ?
 
-	- Mise en place de data-popin :
-		- Ouverture dans une modale centrée
-		- Url paramètrable
+	OK - Mise en place de data-popin :
+		OK - Ouverture dans une modale centrée
+		OK - Url paramètrable
 
 	- Images
-		Remplacer les liens par des <img> (wrappées dans des <a>) avec attribut data-oppin
+		OK - Remplacer les liens par des <img> (wrappées dans des <a>) avec attribut data-oppin
+		taille maximale des images
 
-	- Remplacer le lien avatar vers un agrandissement de l'avatar.
-		- Ajouter une classe 'data-popin="url"' sur l'image
+
+	OK - Remplacer le lien avatar vers un agrandissement de l'avatar.
+		OK - Ajouter une classe 'data-popin="url"' sur l'image
 
