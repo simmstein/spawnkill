@@ -66,17 +66,17 @@ Ajouter ensuite une ligne en haut du fichier `jvc-spawnkill.user.js` pour import
 
 ### Conditions d'exécution du module
 
-La méthode `shouldBeActivated` doit retourner vrai si le script doit être exécuté.
-Dans notre cas, le script est exécuté sur la liste des topics :
+La méthode `shouldBeActivated` doit retourner vrai si le script doit être exécuté. Un helper est disponible pour faciliter la reconnaissance des pages. Par exemple, dans notre cas, le script est exécuté sur la liste des topics :
 
 ```javascript
 /**
  * Le script est exécuté sur la liste des sujets
  */
 SK.moduleConstructors.LastPage.prototype.shouldBeActivated = function() {
-    return (window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/0/));
+    SK.Util.currentPageIn([ "topic-list" ]); //Le module est activé si la page courante est la liste des sujets
 };
 ```
+La méthode `SK.Util.currentPageIn` prend en compte les pages suivantes : `topic-list`, `topic-read`, `topic-form` et `topic-response`. 
 
 ### Initialisation du plugin
 

@@ -62,7 +62,7 @@ SK.moduleConstructors.LastPage.prototype.addLastPageLinks = function() {
  * Le script est exécuté sur la liste des sujets
  */
 SK.moduleConstructors.LastPage.prototype.shouldBeActivated = function() {
-    return (window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/0/));
+    return SK.Util.currentPageIn([ "topic-list" ]);
 };
 
 /**

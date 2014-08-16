@@ -42,6 +42,35 @@ SK.Util = {
         });
     },
 
+    /**
+     * Retourne vrai si l'utilisateur est sur l'une des pages passée en paramètre.
+     * pages (array<string>) : Liste des pages ("topic-list", "topic-read", "topic-form" ou "topic-response")
+     */
+    currentPageIn: function(pages) {
+        var regex = "http:\\/\\/www\\.jeuxvideo\\.com\\/forums\\/";
+
+        for(var i in pages) {
+            switch(pages[i]) {
+                case "topic-list" :
+                    pages[i] = 0;
+                    break;
+                case "topic-read" :
+                    pages[i] = 1;
+                    break;
+                case "topic-form" :
+                    pages[i] = 2;
+                    break;
+                case "topic-response" :
+                    pages[i] = 3;
+                    break;
+            }
+        }
+
+        regex += "(" + pages.join("|") +")";
+        
+        return window.location.href.match(regex);
+    },
+
     /* Montre une fenêtre modale passée en paramètre */
     showModal: function($modal) {
         var $background = $("#modal-background");

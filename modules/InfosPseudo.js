@@ -308,7 +308,7 @@ SK.moduleConstructors.InfosPseudo.prototype.calculateAvatarDimensions = function
 };
 
 SK.moduleConstructors.InfosPseudo.prototype.shouldBeActivated = function() {
-    return (window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/(1|3)/));
+    return SK.Util.currentPageIn([ "topic-read", "topic-response" ]);
 };
 
 /* Options modifiables du plugin */ 

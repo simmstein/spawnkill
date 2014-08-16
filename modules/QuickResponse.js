@@ -54,7 +54,7 @@ SK.moduleConstructors.QuickResponse.prototype.addAnchor = function() {
 };
 
 SK.moduleConstructors.QuickResponse.prototype.shouldBeActivated = function() {
-    return window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/1/);
+    return SK.Util.currentPageIn([ "topic-read" ]);
 };
 
 SK.moduleConstructors.QuickResponse.prototype.getCss = function() {

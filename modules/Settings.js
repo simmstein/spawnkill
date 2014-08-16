@@ -191,7 +191,7 @@ SK.moduleConstructors.Settings.prototype.saveSettings = function() {
 };
 
 SK.moduleConstructors.Settings.prototype.shouldBeActivated = function() {
-    return (window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/(0|1|2|3)/));
+    SK.Util.currentPageIn([ "topic-read", "topic-list", "topic-form", "topic-response" ]);
 };
 
 SK.moduleConstructors.Settings.prototype.getCss = function() {

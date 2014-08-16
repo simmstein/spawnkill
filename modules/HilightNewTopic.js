@@ -40,9 +40,5 @@ SK.moduleConstructors.HilightNewTopic.prototype.hilightNewTopic = function() {
 
 
 SK.moduleConstructors.HilightNewTopic.prototype.shouldBeActivated = function() {
-    return (window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/0/));
-};
-
-SK.moduleConstructors.HilightNewTopic.prototype.getCss = function() {
-    return "";
+    return SK.Util.currentPageIn([ "topic-list" ]);
 };

@@ -177,6 +177,9 @@ SK.moduleConstructors.StartSpawnKill.prototype.correctSplitPost = function() {
         .tooltip.bottom {\
             bottom: -27px;\
         }\
+        .tooltip.bottom.large {\
+            bottom: -28px;\
+        }\
         .tooltip.right {\
             top: -3px;\
             left: 24px;\

@@ -208,6 +208,9 @@ SK.moduleConstructors.Quote.prototype.citationToHtml = function(pseudo, jour, mo
             tooltip: {
                 text: "Lien vers ce message",
                 position: "right"
+            },
+            wrapper: {
+                class: "quote-link"
             }
         }));
     }
@@ -390,10 +393,7 @@ SK.moduleConstructors.Quote.prototype.settings = {
 
 SK.moduleConstructors.Quote.prototype.shouldBeActivated = function() {
     /* On affiche le bloc de citation sur la page réponse et les pages de lecture */
-    return (
-            window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/3/) || 
-            window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/1/)
-        );
+    return SK.Util.currentPageIn([ "topic-read", "topic-response" ]);
 };
 
 SK.moduleConstructors.Quote.prototype.getCss = function() {
@@ -475,7 +475,7 @@ SK.moduleConstructors.Quote.prototype.getCss = function() {
                 padding: 5px;\
                 padding-left: 10px;\
             }\
-            .quote-bloc .sk-button {\
+            .quote-bloc .sk-button.quote-link {\
                 float: right;\
                 margin-left: 8px;\
             }\

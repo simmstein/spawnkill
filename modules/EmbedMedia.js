@@ -516,7 +516,7 @@ SK.moduleConstructors.EmbedMedia.prototype.embedMedia = function() {
 };
 
 SK.moduleConstructors.EmbedMedia.prototype.shouldBeActivated = function() {
-    return window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/(1|3)/);
+    return SK.Util.currentPageIn([ "topic-read", "topic-response" ]);
 };
 
 SK.moduleConstructors.EmbedMedia.prototype.settings = {
