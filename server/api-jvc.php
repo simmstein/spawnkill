@@ -20,6 +20,9 @@ if(!empty($_GET['pseudos'])) {
 $action = $_GET['action'];
 $data = json_decode($_GET['data']);
 
+//Vrai si l'appel à l'API doit être enregistré
+$log_call = !empty($_GET['log']);
+
 /**
  * Permet d'effectuer plusieurs requêtes vers l'API de JVC en parallèle.
  * Récupère les données du cache si elles existent et sont valides
@@ -136,9 +139,11 @@ catch (Exception $e) {
 }
 
 //Simple enregistrement d'une ligne pour voir la fréquentation du script
-$dbh->query("INSERT INTO api_calls(ip, action)
-	VALUES(" . $dbh->quote($_SERVER['REMOTE_ADDR']) . ", " . $dbh->quote($action) . ")
-");
+if($log_call) {
+	$dbh->query("INSERT INTO api_calls(ip, action)
+		VALUES(" . $dbh->quote($_SERVER['REMOTE_ADDR']) . ", " . $dbh->quote($action) . ")
+	");
+}
 
 switch($action) {
 

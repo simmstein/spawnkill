@@ -68,7 +68,14 @@ SK.moduleConstructors.EmbedMedia.prototype.initMediaTypes = function() {
         id: "image",
         settingId: "embedImages",
 
-        regex: /^(?:(http:\/\/www\.hapshack\.com\/\?v=)|(http:\/\/www\.noelshack\.com\/([\d]{4})-([\d]{2})-))?(.*.(jpe?g|png|gif))$/,
+        /*
+         * match :
+         * http://www.hapshack.com/?v=kCIu0.png
+         * http://www.noelshack.com/2014-33-1408191836-vimeo.png
+         * ne match pas :
+         * https://www.dropbox.com/s/lfta3yd9tryotxp/screen2.png
+         */
+        regex: /^https?:\/\/(?!www\.dropbox\.com)(?:(?:(www\.hapshack\.com\/\?v=)|(www\.noelshack\.com\/([\d]{4})-([\d]{2})-))?(.*.(jpe?g|png|gif)))$/,
 
         addHideButton: true,
         showButtonText: "Afficher les images",

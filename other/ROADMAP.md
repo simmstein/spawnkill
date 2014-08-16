@@ -14,6 +14,7 @@ Roadmap - SpawnKill
 - Ajouter les types de paramètres dans la config
 - Ajout de fenêtres modales centrées
 - Affichage de l'avatar dans une popin centrée
+- Ajout d'un guide d'installation pour Opera et illustration des guides Chrome/Firefox
 
 ### v1.11
 - Ajouter un AutoUpdater

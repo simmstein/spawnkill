@@ -4,8 +4,8 @@ OK - Espaces pixules
 OK - Réparer l'API pour le nombre de posts 
 OK - Ajout de regex pour les pages
 	OK - Mettre à jour le guide
-- Mise à jour de get-spawnkill
 Changer l'icone de JVC en cas de nouveaux posts
+- Mise à jour de get-spawnkill
 
 	- modales centrales
 		- Passage d'un élément html

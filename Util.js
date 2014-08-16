@@ -29,9 +29,10 @@ SK.Util = {
      *       http://www.jeuxvideo.com/forums/1-(51-65175198)-7-0-1-0-script-jvc-spawnkill-avant-respawn.htm
      * callback : fonction appelée avec un objet jQuery contenant les infos récupérées
      */
-    api: function(requestAction, data, callback) {
+    api: function(requestAction, data, callback, logApiCall) {
 
-        var url = "http://dl.spixel.fr/greasemonkey/jvc-spawnkill/server/api-jvc.php?action=" + requestAction + "&data=" + encodeURIComponent(JSON.stringify(data));
+        logApiCall = logApiCall ? "&log" : "";
+        var url = "http://dl.spixel.fr/greasemonkey/jvc-spawnkill/server/api-jvc.php?action=" + requestAction + "&data=" + encodeURIComponent(JSON.stringify(data)) + logApiCall;
 
         GM_xmlhttpRequest({
             url: url,

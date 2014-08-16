@@ -52,7 +52,7 @@ SK.moduleConstructors.WarnOnNewPost.prototype.init = function() {
     			});
 
     		}, checkInterval);
-    	});
+    	}, true); //On log seulement le premier appel
     }, startTimeout);
 };
 
@@ -60,13 +60,13 @@ SK.moduleConstructors.WarnOnNewPost.prototype.init = function() {
  * Récupère le nombre de posts du topic via l'API JVC.
  * Appelle la fonction de callback avec le nombre de posts en arguments.
  */
-SK.moduleConstructors.WarnOnNewPost.prototype.getPostCount = function(callback) {
+SK.moduleConstructors.WarnOnNewPost.prototype.getPostCount = function(logApiCall, callback) {
 
 	var match = window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/1-(\d*-\d*).*/);
 	var topicId = match[1];
 	SK.Util.api("topic", topicId, function($api) {
 		callback(parseInt($api.find("postcount").html()));
-	});
+	}, logApiCall);
     
 };
 

@@ -191,7 +191,7 @@ SK.moduleConstructors.Settings.prototype.saveSettings = function() {
 };
 
 SK.moduleConstructors.Settings.prototype.shouldBeActivated = function() {
-    SK.Util.currentPageIn([ "topic-read", "topic-list", "topic-form", "topic-response" ]);
+    return SK.Util.currentPageIn([ "topic-read", "topic-list", "topic-form", "topic-response" ]);
 };
 
 SK.moduleConstructors.Settings.prototype.getCss = function() {
