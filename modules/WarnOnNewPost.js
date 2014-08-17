@@ -16,23 +16,62 @@ SK.moduleConstructors.WarnOnNewPost.prototype.init = function() {
 	var self = this;
 	var startTimeout = 3000;
 	var checkInterval = 3000;
-	var faviconChanged = false;
 
 	//Nombre de posts au chargement
 	var initialPostCount = 0;
 	//Titre de l'onglet au chargement
 	var initialTitle = "";
 
+	//On crée l'élément link du favicon (JVC n'en a pas de base)
+	var $faviconLink = $("<link>", {
+		rel: "shortcut icon",
+		type: "image/png",
+		href: "http://www.jeuxvideo.com/favicon.ico"
+	});
+	$("head").append($faviconLink);
 
+	//Création du canvas
+	var canvas = $("<canvas>").get(0);
+	canvas.width = 16;
+	canvas.height = 16;
+	var ctx = canvas.getContext("2d");
+	
 	//Change le favicon en icone de notifiction
-	var changeFavicon = function() {
-		var $faviconLink = $("<link>", {
-			rel: "shortcut icon",
-			type: "image/png",
-			href: "http://dl.spixel.fr/get-spawnkill/img/favicon-notification.png"
+	var updateFavicon = function(postDifference) {
+
+		//On crée l'image
+		var img = new Image();
+
+		$(img).on("load", function() {
+
+			//Font
+			ctx.font = "10px Verdana";
+			ctx.textBaseline = "bottom";
+
+			//On limite l'icon à 99
+			var iconText = Math.min(99, postDifference);
+
+			//Dessin de l'icone
+			var textWidth = ctx.measureText(iconText).width;
+			ctx.drawImage(img, 0, 0);
+			ctx.fillStyle = "#D62222";
+			ctx.fillRect(0, 0, textWidth + 3, 11);
+			ctx.fillStyle = "#FFF";
+			ctx.fillText(iconText, 1, 11);
+
+			var faviconUrl = canvas.toDataURL("image/png");
+
+			$faviconLink.remove();
+			$faviconLink = $("<link>", {
+				href: faviconUrl,
+				rel: "shorcut icon",
+				type: "image/png"
+			});
+			$("head").append($faviconLink);
 		});
-		$("head").append($faviconLink);
-		faviconChanged = true;
+
+		//Récupération du favicon
+		img.src = "http://www.jeuxvideo.com/favicon.ico";
 	};
 
     //Timeout de 3 secondes pour éviter que le script ne retarde le chargement de la page
@@ -49,19 +88,13 @@ SK.moduleConstructors.WarnOnNewPost.prototype.init = function() {
     			self.getPostCount(function(newPostCount) {
     				//Si le nombre de posts est différent, on met à jour le titre de la page
     				var newTitle = "";
-    				var changeIcon = false;
 
     				//Si newPostCount === -1, il y a eu une erreur
     				if(newPostCount !== -1) {
 	    				if(initialPostCount !== newPostCount) {
 	    					newTitle = "(" + (newPostCount - initialPostCount) + ") " + initialTitle;
-	    					changeIcon = true; 
-	    					$("title").html(newTitle);
-	    				}
-
-	    				//Si besoin, on change le favicon
-	    				if (!faviconChanged && changeIcon) {
-	    					changeFavicon();
+	    					// $("title").html(newTitle);
+	    					updateFavicon(newPostCount - initialPostCount);
 	    				}
 	    			}
 
