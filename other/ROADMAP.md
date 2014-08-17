@@ -1,14 +1,7 @@
 Roadmap - SpawnKill
 =====================
-
-### v1.10.2
-- Ajout d'une icône de notification quand un topic reçoit de nouveaux messages
-- Ajout de fenêtres modales centrées pour les développeurs
-- Affichage des avatars en grand dans une popin centrée
-- Affichage des images en grand au clic
-- Ajout du téléchargement des images (malheureusement ne fonctionne que sur Chrome)
-- Les contenus sont désormais cachés par défaut dans les citations pour éviter le flood
-- Ajout d'un guide d'installation pour Opera et illustration des guides Chrome/Firefox
+#v1.10.4
+- Ajout de l'ancien bouton de lien permanent
 
 ### v1.11
 - Ajouter un AutoUpdater
