@@ -26,5 +26,6 @@ Matche les vidéos youtubes
 		http://www.youtube.com/embed/0zM3nApSvMg?rel=0
 		http://www.youtube.com/watch?v=0zM3nApSvMg
 		http://youtu.be/0zM3nApSvMg
+		https://m.youtube.com/watch?v=66XOpToHzRI
 
-^https?:\/\/(?:www\.)?youtu.*(?:\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^\s^#\&\?]*).*
+^https?:\/\/(?:(?:www)?m?\.)?youtu.*(?:\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^\s^#\&\?]*).*

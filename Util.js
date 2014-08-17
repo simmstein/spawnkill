@@ -31,7 +31,12 @@ SK.Util = {
      */
     api: function(requestAction, data, callback, logApiCall) {
 
-        logApiCall = logApiCall ? "1" : "0";
+        if(logApiCall === false) {
+            logApiCall = "0";
+        }
+        else {
+            logApiCall = "1";
+        }
         var url = "http://dl.spixel.fr/greasemonkey/jvc-spawnkill/server/api-jvc.php?action=" + requestAction + "&data=" + encodeURIComponent(JSON.stringify(data)) + "&log=" + logApiCall;
 
         GM_xmlhttpRequest({
