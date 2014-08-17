@@ -177,6 +177,18 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostButtons = function(message) {
     }
 
     //Bouton permalien
+    if(this.getSetting("enablePermalinkAnchor")) {
+        SK.Util.addButton(message.$msg, {
+            class: "anchor",
+            location: "bottom",
+            href: permalink,
+            tooltip: {
+                text: "Ancre du message"
+            }
+        });
+    }
+
+    //Bouton permalien
     if(this.getSetting("enablePermalink")) {
         SK.Util.addButton(message.$msg, {
             class: "link",
@@ -350,6 +362,11 @@ SK.moduleConstructors.InfosPseudo.prototype.settings = {
         title: "Bouton d'avertissement",
         description: "Ajoute un bouton permettant d'avertir un adminstrateur.",
         default: true,
+    },
+    enablePermalinkAnchor: {
+        title: "Bouton ancre Permalien",
+        description: "Ajoute un bouton ancre du permalien d'un post.",
+        default: false,
     }
 };
 
@@ -480,6 +497,11 @@ SK.moduleConstructors.InfosPseudo.prototype.getCss = function() {
             background-image: url('" + GM_getResourceURL("link") + "');\
             background-color: #A3A3A3;\
             border-bottom-color: #525252;\
+        }\
+        .sk-button-content.anchor {\
+            background-image: url('" + GM_getResourceURL("anchor") + "');\
+            background-color: #777;\
+            border-bottom-color: #000;\
         }\
         .sk-button-content.male {\
             background-image: url('" + GM_getResourceURL("male") + "');\

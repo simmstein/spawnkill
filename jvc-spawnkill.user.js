@@ -4,27 +4,27 @@
 // @author      Spixel_
 // @namespace   http://www.spixel.fr
 // @include     http://*.jeuxvideo.com*
-// @version     1.11
-// @require     jquery-1.11.1.min.js?v1.11
-// @require     jquery-plugins.js?v1.11
-// @require     base.js?v1.11
-// @require     Util.js?v1.11
-// @require     Message.js?v1.11
-// @require     Author.js?v1.11
-// @require     Button.js?v1.11
-// @require     SlideToggle.js?v1.11
-// @require     Modal.js?v1.11
-// @require     modules/Module.js?v1.11
-// @require     modules/StartSpawnKill.js?v1.11
-// @require     modules/Settings.js?v1.11
-// @require     modules/QuickResponse.js?v1.11
-// @require     modules/Quote.js?v1.11
-// @require     modules/Shortcuts.js?v1.11
-// @require     modules/InfosPseudo.js?v1.11
-// @require     modules/HilightNewTopic.js?v1.11
-// @require     modules/LastPage.js?v1.11
-// @require     modules/EmbedMedia.js?v1.11
-// @require     modules/WarnOnNewPost.js?v1.11
+// @version     1.10.4
+// @require     jquery-1.11.1.min.js?v1.10.4
+// @require     jquery-plugins.js?v1.10.4
+// @require     base.js?v1.10.4
+// @require     Util.js?v1.10.4
+// @require     Message.js?v1.10.4
+// @require     Author.js?v1.10.4
+// @require     Button.js?v1.10.4
+// @require     SlideToggle.js?v1.10.4
+// @require     Modal.js?v1.10.4
+// @require     modules/Module.js?v1.10.4
+// @require     modules/StartSpawnKill.js?v1.10.4
+// @require     modules/Settings.js?v1.10.4
+// @require     modules/QuickResponse.js?v1.10.4
+// @require     modules/Quote.js?v1.10.4
+// @require     modules/Shortcuts.js?v1.10.4
+// @require     modules/InfosPseudo.js?v1.10.4
+// @require     modules/HilightNewTopic.js?v1.10.4
+// @require     modules/LastPage.js?v1.10.4
+// @require     modules/EmbedMedia.js?v1.10.4
+// @require     modules/WarnOnNewPost.js?v1.10.4
 // @resource    banImage              images/ban.png
 // @resource    newTopic              images/topic_new.gif
 // @resource    carton                images/carton.png
@@ -41,6 +41,7 @@
 // @resource    plus                  images/plus.png
 // @resource    minus                 images/minus.png
 // @resource    link                  images/link.png
+// @resource    anchor                images/anchor.png
 // @resource    quote                 images/quote.png
 // @resource    mp                    images/mp.png
 // @resource    alert                 images/alert.png

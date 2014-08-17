@@ -19,6 +19,10 @@ SK.moduleConstructors.WarnOnNewPost.prototype.init = function() {
 
 	//Nombre de posts au chargement
 	var initialPostCount = 0;
+
+	//Nombre de posts au dernier chargement
+	var lastPostCount = 0;
+
 	//Titre de l'onglet au chargement
 	var initialTitle = "";
 
@@ -91,10 +95,12 @@ SK.moduleConstructors.WarnOnNewPost.prototype.init = function() {
 
     				//Si newPostCount === -1, il y a eu une erreur
     				if(newPostCount !== -1) {
-	    				if(initialPostCount !== newPostCount) {
+	    				if(lastPostCount !== newPostCount && initialPostCount !== newPostCount) {
 	    					newTitle = "(" + (newPostCount - initialPostCount) + ") " + initialTitle;
 	    					// $("title").html(newTitle);
 	    					updateFavicon(newPostCount - initialPostCount);
+	    					lastPostCount = newPostCount;
+	    					console.log("update");
 	    				}
 	    			}
 
