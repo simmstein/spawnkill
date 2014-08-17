@@ -1,14 +1,13 @@
 Roadmap - SpawnKill
 =====================
-#v1.10.4
-- Ajout de l'ancien bouton de lien permanent
-
 ### v1.11
 - Ajouter un AutoUpdater
+
+### v1.11.1
 - Faire des icones pour améliorer les citations
 - Affichage des plugins dans la preview du message
 - Affichage de la version en grisé à droite dans les settings
-- Ajouter les types de paramètres dans la config
+- Ajouter d'autres types de paramètres dans la config
 - Ajouter une option de choix pour la position du rang
 
 ### v1.12

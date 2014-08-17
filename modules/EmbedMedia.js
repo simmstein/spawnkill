@@ -530,7 +530,7 @@ SK.moduleConstructors.EmbedMedia.prototype.shouldBeActivated = function() {
 
 SK.moduleConstructors.EmbedMedia.prototype.settings = {
     optinEmbed: {
-        title: "Masquer par défaut",
+        title: "Masquer les contenus par défaut",
         description: "Cache le contenu par défaut, il faut d'abord clicker sur le bouton pour le faire apparaître.",
         default: false,
     },

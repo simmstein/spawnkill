@@ -1,0 +1,7 @@
+### v1.11
+- Ajouter un AutoUpdater
+- Faire des icones pour améliorer les citations (ancre)
+- Affichage des plugins dans la preview du message
+- Affichage de la version en grisé à droite dans les settings
+- Ajouter les types de paramètres dans la config
+- Ajouter une option de choix pour la position du rang
