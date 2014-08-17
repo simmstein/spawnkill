@@ -119,7 +119,7 @@ SK.moduleConstructors.EmbedMedia.prototype.initMediaTypes = function() {
 
         // http://stackoverflow.com/questions/3452546/javascript-regex-how-to-get-youtube-video-id-from-url
         /* $1: youtubeId */
-        regex: /^https?:\/\/(?:www\.)?youtu.*(?:\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^\s^#\&\?]*).*/,
+        regex: /^https?:\/\/(?:(?:www)?m?\.)?youtu.*(?:\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^\s^#\&\?]*).*/,
 
         addHideButton: true,
         showButtonText: "Afficher les vidéos Youtube",
