@@ -24,6 +24,10 @@ Roadmap - SpawnKill
 
 ### Plus tard
 #### Fonctionnalités :
+- Liens sécurisés
+- Lien pour reporter un bug
+- Datapopin sur les liens des images pour dissocier les miniatures et les popins
+- Afficher les images en miniatures
 - Nombre de posts manqués dans le favicon
 - Hilight des posts de l'auteur
 - Topics préférés

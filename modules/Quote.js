@@ -290,7 +290,7 @@ SK.moduleConstructors.Quote.prototype.initQuoteTypes = function() {
     self.quoteTypes.push(new SK.moduleConstructors.Quote.QuoteType({
         id: "jvcmaster",
         /* $1: permalien (peut être vide), $2: pseudo, $3: jour, $4: mois, $5: année, $6: heure, $7: message (à épurer en retirant le cadre) */
-        regex: /(?:(?: *\| *<a(?:.*?)href="(http[^"]*)".*\n))* *\| Ecrit par « ([^\s]*) »(?:[^\d]*)(\d{1,2}) ([^\s]*) (\d{4}) à (\d{2}:\d{2}):\d{2}\n((?:\n? *\|.*)*)(?:(?:[\s]*)&gt; *)?/gm,
+        regex: /(?:(?: *\| *<a(?:.*?)href="(http[^"]*)".*\n))* *\| Ecrit par « ([^\s]*) »(?:[^\d]*)(\d{1,2}) ([^\s]*) (\d{4}) à (\d{2}:\d{2}):\d{2}\n((?:\n? *\|.*)*)(?:(?:[\s]*)(?:&gt;)? *)?/gm,
 
         replaceCallback: function(match, permalien, pseudo, jour, mois, annee, heure, message) {
 

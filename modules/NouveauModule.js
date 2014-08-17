@@ -38,7 +38,10 @@ SK.moduleConstructors.NouveauModule.prototype.shouldBeActivated = function() {
  * Par défaut, aucun CSS n'est injecté.
  */
 SK.moduleConstructors.NouveauModule.prototype.getCss = function() {
-    return "";
+
+	var css = "";
+
+    return css;
 };
 
 /**

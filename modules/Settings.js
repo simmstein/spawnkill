@@ -85,7 +85,9 @@ SK.moduleConstructors.Settings.prototype.getModal = function() {
     });
 
     var $modal = new SK.Modal({
+        location: "top",
         title: "Configuration de SpawnKill",
+        hasCloseButton: false,
         content: this.getSettingsUI(),
         buttons: [ $cancelButton, $okButton ]
     });

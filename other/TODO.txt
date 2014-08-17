@@ -1,5 +1,6 @@
-### v1.11
+### v1.11.1
 - Ajouter un AutoUpdater
+	- param version mineure
 - Faire des icones pour améliorer les citations (ancre)
 - Affichage des plugins dans la preview du message
 - Affichage de la version en grisé à droite dans les settings

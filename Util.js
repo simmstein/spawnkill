@@ -49,6 +49,13 @@ SK.Util = {
     },
 
     /**
+     * Retourne le timestamp Unix courant
+     */
+    timestamp: function() {
+        return Math.round(Date.now() / 1000);
+    },
+
+    /**
      * Retourne vrai si l'utilisateur est sur l'une des pages passée en paramètre.
      * pages (array<string>) : Liste des pages ("topic-list", "topic-read", "topic-form" ou "topic-response")
      */
@@ -84,7 +91,11 @@ SK.Util = {
         SK.Util.fetchStyle($modal);
 
         $("#modal-loader").hide();
-        $background.fadeIn();
+
+        if(!$modal.hasClass("notification")) {
+            $background.fadeIn();
+        }
+
         $modal.addClass("active");
     },
 

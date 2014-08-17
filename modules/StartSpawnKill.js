@@ -52,20 +52,6 @@ SK.moduleConstructors.StartSpawnKill.prototype.bindPopinEvent = function() {
                     }));
                 }
 
-                buttons.push(new SK.Button({
-                    class: "large minor",
-                    text: "Fermer",
-                    tooltip: {
-                        class: "large",
-                        text: "Fermer la box",
-                        position: "bottom"
-                    },
-                    click: function(event) {
-                        event.preventDefault();
-                        SK.Util.hideModal();
-                    }
-                }));
-
                 SK.Util.showModal(new SK.Modal({
                     class: "popin-modal",
                     location: "center",
@@ -155,15 +141,22 @@ SK.moduleConstructors.StartSpawnKill.prototype.correctSplitPost = function() {
             opacity: 0;\
             transition-duration: 400ms;\
         }\
+        .modal-box.center {\
+            transform: scale(0.4);\
+            transition-duration: 400ms;\
+        }\
         .modal-box.top {\
             top: -400px;\
             width: 400px;\
             margin-left: -200px;\
             border-radius: 0 0 4px 4px;\
         }\
-        .modal-box.center {\
-            transform: scale(0.4);\
-            transition-duration: 400ms;\
+        .modal-box.notification {\
+            left: auto;\
+            top: -400px;\
+            right: 10px;\
+            width: 340px;\
+            transition-duration: 600ms;\
         }\
         .modal-box.active {\
             opacity: 1;\
@@ -175,8 +168,12 @@ SK.moduleConstructors.StartSpawnKill.prototype.correctSplitPost = function() {
         .modal-box.top.active {\
             top: 0px;\
         }\
+        .modal-box.notification.active {\
+            top: 10px;\
+        }\
         .modal-box h3 {\
             color: #FF7B3B;\
+            overflow: visible !important;\
         }\
         .modal-box hr {\
             display: block;\
@@ -188,7 +185,8 @@ SK.moduleConstructors.StartSpawnKill.prototype.correctSplitPost = function() {
             border: none;\
             border-bottom: solid 1px #DDD;\
         }\
-        .modal-box.top hr {\
+        .modal-box.top hr,\
+        .modal-box.notification hr {\
             display: block;\
             width: 420px;\
             height: 0px;\
@@ -200,6 +198,9 @@ SK.moduleConstructors.StartSpawnKill.prototype.correctSplitPost = function() {
             border: none;\
             border-bottom: solid 1px #DDD;\
         }\
+        .modal-box.notification hr {\
+            width: 360px;\
+        }\
         .popin-modal h3,\
         .popin-modal .content,{\
             text-align: center;\
@@ -210,10 +211,14 @@ SK.moduleConstructors.StartSpawnKill.prototype.correctSplitPost = function() {
         .popin-modal hr {\
             display: none;\
         }\
+        .popin-modal .content {\
+            text-align: center;\
+        }\
         .sk-button {\
             position: relative;\
             display: inline-block !important;\
             margin-left: 4px;\
+            vertical-align: top;\
         }\
         .buttons {\
             display: inline-block;\
@@ -229,7 +234,7 @@ SK.moduleConstructors.StartSpawnKill.prototype.correctSplitPost = function() {
         .buttons.box {\
             width: 100%;\
         }\
-        .modal-box.center .buttons.box {\
+        .modal-box.center .buttons.box .sk-button {\
             margin-top: 10px;\
         }\
         .sk-button-content {\
@@ -247,6 +252,7 @@ SK.moduleConstructors.StartSpawnKill.prototype.correctSplitPost = function() {
             border-radius: 2px;\
             cursor: pointer;\
             background-position: 0px -1px;\
+            background-repeat: no-repeat;\
         }\
         .sk-button-content:hover {\
             color: #FFF !important;\
@@ -268,6 +274,19 @@ SK.moduleConstructors.StartSpawnKill.prototype.correctSplitPost = function() {
         .sk-button-content.minor {\
             background-color: #A3A3A3;\
             border-bottom-color: #525252;\
+        }\
+        .sk-button-content.transparent {\
+            background-color: transparent;\
+            border-bottom-color: transparent;\
+        }\
+        .sk-button.close {\
+            float: right;\
+            margin-top: 1px;\
+        }\
+        .sk-button-content.close {\
+            width: 18px;\
+            height: 18px;\
+            background-image: url('" + GM_getResourceURL("close") + "');\
         }\
         .buttons.box .sk-button {\
             float: right;\
@@ -304,6 +323,10 @@ SK.moduleConstructors.StartSpawnKill.prototype.correctSplitPost = function() {
         .tooltip.bottom.large {\
             bottom: -28px;\
         }\
+        .tooltip.bottom-right {\
+            bottom: -28px;\
+            right: 0px;\
+        }\
         .tooltip.right {\
             top: -3px;\
             left: 24px;\
@@ -315,6 +338,15 @@ SK.moduleConstructors.StartSpawnKill.prototype.correctSplitPost = function() {
         .tooltip.bottom:after {\
             top: -8px;\
             border-bottom-color: #222;\
+        }\
+        .tooltip.bottom-right:after {\
+            top: -8px;\
+            right: 8px;\
+            left: auto;\
+            border-bottom-color: #222;\
+        }\
+        .tooltip.bottom-right.large:after {\
+            right: 28px;\
         }\
         .tooltip.right:after {\
             left: -8px;\
