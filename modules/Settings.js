@@ -98,7 +98,7 @@ SK.moduleConstructors.Settings.prototype.getModal = function() {
 SK.moduleConstructors.Settings.prototype.getSettingsUI = function() {
 
     var ui = "";
-
+    ui += "<span class='settings-spawnkill-version' >" + SK.VERSION + "</span>";
     ui += "<ul id='settings-form' >";
         for(var moduleKey in SK.modules) {
 
@@ -211,6 +211,13 @@ SK.moduleConstructors.Settings.prototype.getCss = function() {
             position: absolute;\
                 right: 1px;\
                 top: 3px;\
+        }\
+        .settings-spawnkill-version {\
+            position: absolute;\
+            right: 10px;\
+            top: 10px;\
+            font-size: 1.2em;\
+            color: #BBB;\
         }\
         .sk-button-content.settings {\
             width: 18px;\
