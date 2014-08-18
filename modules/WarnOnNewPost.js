@@ -17,31 +17,15 @@ SK.moduleConstructors.WarnOnNewPost.prototype.init = function() {
 	var startTimeout = 3000;
 	var checkInterval = 3000;
 
-	//Nombre de posts au chargement
-	var initialPostCount = 0;
+	//Element lié au canvas
+	var img = new Image();
+	var ctx = null;
+	var canvas = null;
+	var $faviconLink = null;
 
-	//Nombre de posts au dernier chargement
-	var lastPostCount = 0;
-
-	//On crée l'élément link du favicon (JVC n'en a pas de base)
-	var $faviconLink = $("<link>", {
-		rel: "shortcut icon",
-		type: "image/png",
-		href: "http://www.jeuxvideo.com/favicon.ico"
-	});
-	$("head").append($faviconLink);
-
-	//Création du canvas
-	var canvas = $("<canvas>").get(0);
-	canvas.width = 16;
-	canvas.height = 16;
-	var ctx = canvas.getContext("2d");
-	
 	//Change le favicon en icone de notifiction
 	var updateFavicon = function(postDifference) {
 
-		//On crée l'image
-		var img = new Image();
 
 		$(img).on("load", function() {
 
@@ -77,6 +61,39 @@ SK.moduleConstructors.WarnOnNewPost.prototype.init = function() {
 
     //Timeout de 3 secondes pour éviter que le script ne retarde le chargement de la page
     setTimeout(function() {
+
+    	//Si les notifications sonores sont activées, on charge le son
+    	var playSound = self.getSetting("playSoundOnNewPost");
+
+    	if(playSound) {
+
+    		var notificationSound = $("<audio>", {
+    			html: "<source src='" + GM_getResourceURL("notification") + "' type='audio/ogg'>"
+    		}).get(0);
+    	}
+
+
+    	//Nombre de posts au chargement
+    	var initialPostCount = 0;
+
+    	//Nombre de posts au dernier chargement
+    	var lastPostCount = 0;
+
+    	//On crée l'élément link du favicon (JVC n'en a pas de base)
+    	$faviconLink = $("<link>", {
+    		rel: "shortcut icon",
+    		type: "image/png",
+    		href: "http://www.jeuxvideo.com/favicon.ico"
+    	});
+
+    	$("head").append($faviconLink);
+
+    	//Création du canvas
+    	canvas = $("<canvas>").get(0);
+    	canvas.width = 16;
+    	canvas.height = 16;
+    	ctx = canvas.getContext("2d");
+
     	//On récupère les infos initiales du topic
     	self.getPostCount(function(postCount) {
 
@@ -93,6 +110,9 @@ SK.moduleConstructors.WarnOnNewPost.prototype.init = function() {
 	    				if(lastPostCount !== newPostCount && initialPostCount !== newPostCount) {
 	    					updateFavicon(newPostCount - initialPostCount);
 	    					lastPostCount = newPostCount;
+	    					if(playSound) {
+	    						notificationSound.play();
+	    					}
 	    				}
 	    			}
 
@@ -115,6 +135,14 @@ SK.moduleConstructors.WarnOnNewPost.prototype.getPostCount = function(callback, 
 		callback(parseInt($api.find("postcount").html()));
 	}, logApiCall);
     
+};
+
+SK.moduleConstructors.WarnOnNewPost.prototype.settings = {
+    playSoundOnNewPost: {
+        title: "Jouer un son quand un nouveau post est ajouté",
+        description: "Joue un son de notification quand un post est ajouté au topic après le chargement de la page.",
+        default: true,
+    }
 };
 
 SK.moduleConstructors.WarnOnNewPost.prototype.shouldBeActivated = function() {

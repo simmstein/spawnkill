@@ -359,7 +359,6 @@ SK.moduleConstructors.InfosPseudo.prototype.shouldBeActivated = function() {
     return SK.Util.currentPageIn([ "topic-read", "topic-response" ]);
 };
 
-/* Options modifiables du plugin */ 
 SK.moduleConstructors.InfosPseudo.prototype.settings = {
     enableAvatar: {
         title: "Affichage des avatars",

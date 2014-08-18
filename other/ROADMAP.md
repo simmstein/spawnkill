@@ -1,13 +1,10 @@
 Roadmap - SpawnKill
 =====================
 
+v1.11.2
+- Ajout d'un son à la réception d'un post (peut être désactivé dans les paramètres)
+
 ### v1.11.2
-- Ajout d'une image quand les avatars ne chargent pas
-- Ajout d'un bouton "fermer" aux popups des images
-- Ajout de descriptions au survol des options dans les paramètres
-- Affichage de la version actuelle en haut à droite des paramètres
-
-
 - Affichage des plugins dans la preview du message
 - Affichage de la version en grisé à droite dans les settings
 - Ajouter d'autres types de paramètres dans la config

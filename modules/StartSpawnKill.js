@@ -19,7 +19,7 @@ SK.moduleConstructors.StartSpawnKill.prototype.init = function() {
     this.bindPopinEvent();
 };
 
-/* Ajoute l'évenement permettant d'ouvrir les images dans des fenêtres modales */
+/* Ajoute l'évenement permettant d'ouvrir du contenu dans une fenêtre modale */
 SK.moduleConstructors.StartSpawnKill.prototype.bindPopinEvent = function() {
 
     setTimeout(function() {
@@ -70,7 +70,7 @@ SK.moduleConstructors.StartSpawnKill.prototype.bindPopinEvent = function() {
 
                 //On contraint la taille de l'image
                 $modalImg.css("max-width", Math.min($modalImg.get(0).width,  $(window).width() - 80) + "px");
-                $modalImg.css("max-height", Math.min($modalImg.get(0).height,  $(window).height() - 100) + "px");
+                $modalImg.css("max-height", Math.min($modalImg.get(0).height,  $(window).height() - 120) + "px");
 
                 popinImage();
             });

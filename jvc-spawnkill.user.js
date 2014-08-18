@@ -60,6 +60,7 @@
 // @resource    loader                images/loader.gif
 // @resource    big-loader            images/big-loader.gif
 // @resource    error                 images/error.png
+// @resource    notification          audio/notification.ogg
 // @grant       GM_xmlhttpRequest
 // @grant       GM_getResourceURL
 // @grant       GM_setClipboard
