@@ -24,25 +24,46 @@ SK.moduleConstructors.StartSpawnKill.prototype.bindPopinEvent = function() {
 
     setTimeout(function() {
 
-        $("body").on("click", "img[data-popin]", function(event) {
+        $("body").on("click", "[data-popin]", function(event) {
 
             event.preventDefault();
-            var $img = $(this);
-            var imgSrc = $img.attr("data-popin");
-            var modalTitle = $img.attr("title");
-            var $modalImg = $("<img>", { src: imgSrc, alt: $img.attr("alt")});
+            var $el = $(this);
+            var contentSrc = $el.attr("data-popin");
+            var modalTitle = $el.attr("title");
+            var contentType = $el.attr("data-popin-type");
+            var $modalContent = null;
 
-            var popinImage = function() {
+            var showPopin = function(buttons) {
+
+                buttons = buttons || [];
+
+                SK.Util.showModal(new SK.Modal({
+                    class: "popin-modal",
+                    location: "center",
+                    title: modalTitle,
+                    content: $modalContent,
+                    buttons: buttons
+                }));
+
+            };
+
+            //On affiche l'écran de chargement de la modale
+            SK.Util.showModalLoader();
+
+            //Le media est une image
+            if(contentType === "image") {
+                $modalContent = $("<img>", { src: contentSrc, alt: $el.attr("alt")});
 
                 var buttons = [];
 
+                //On ajoute un bouton de téléchargement sur Chrome
                 if(navigator.userAgent.toLowerCase().indexOf("chrome") > -1 &&
                     navigator.userAgent.toLowerCase().indexOf("opr") === -1
                 ) {
                     buttons.push(new SK.Button({
                         class: "large",
                         text: "Télécharger",
-                        href: imgSrc,
+                        href: contentSrc,
                         download: modalTitle,
                         tooltip: {
                             class: "large",
@@ -52,28 +73,40 @@ SK.moduleConstructors.StartSpawnKill.prototype.bindPopinEvent = function() {
                     }));
                 }
 
-                SK.Util.showModal(new SK.Modal({
-                    class: "popin-modal",
-                    location: "center",
-                    title: modalTitle,
-                    content: $modalImg,
-                    buttons: buttons
-                }));
+                //Ouvre une modale au centre de l'écran quand l'image est prête
+                SK.Util.preload($modalContent, function() {
 
-            };
+                    //On contraint la taille de l'image
+                    $modalContent.css("max-width", Math.min($modalContent.get(0).width,  $(window).width() - 80) + "px");
+                    $modalContent.css("max-height", Math.min($modalContent.get(0).height,  $(window).height() - 120) + "px");
 
-            //On affiche l'écran de chargement de la modale
-            SK.Util.showModalLoader();
+                    showPopin(buttons);
+                });
+            }
+            else if(contentType === "iframe") {
 
-            //Ouvre une modale au centre de l'écran quand l'image est prête
-            SK.Util.preload($modalImg, function() {
+                $modalContent = $("<iframe>", { 
+                    src: contentSrc,
+                    width: Math.min(800,  $(window).width() - 80) + "px",
+                    height: Math.min(700,  $(window).height() - 80) + "px",
+                    frameborder: 0,
+                    //Ouvre l'iframe quand elle est chargée
+                    load: function() {
+                        $modalContent
+                            .unbind("load")
+                            .css("position", "static");
+                        showPopin();
+                    }
+                });
 
-                //On contraint la taille de l'image
-                $modalImg.css("max-width", Math.min($modalImg.get(0).width,  $(window).width() - 80) + "px");
-                $modalImg.css("max-height", Math.min($modalImg.get(0).height,  $(window).height() - 120) + "px");
+                $modalContent.css({
+                    position: "absolute",
+                    left: "-999999px"
+                });
 
-                popinImage();
-            });
+                $("#footer").append($modalContent);
+
+            }
         });
 
     }.bind(this), 1000);

@@ -104,7 +104,8 @@ SK.moduleConstructors.EmbedMedia.prototype.initMediaTypes = function() {
             $el.html($("<img>", {
                 src: imageLink,
                 title: " ",
-                "data-popin": imageLink
+                "data-popin": imageLink,
+                "data-popin-type": "image"
             }));
 
             return $el;

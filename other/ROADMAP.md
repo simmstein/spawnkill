@@ -3,6 +3,7 @@ Roadmap - SpawnKill
 
 v1.11.2
 - Ajout d'un son à la réception d'un post (peut être désactivé dans les paramètres)
+- Ouverture des CDV dans des fenêtres modales
 
 ### v1.11.2
 - Affichage des plugins dans la preview du message

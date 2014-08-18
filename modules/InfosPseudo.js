@@ -125,13 +125,15 @@ SK.moduleConstructors.InfosPseudo.prototype.showMessageInfos = function(message)
 /** Ajoute les différents boutons et remplace ceux par défaut */
 SK.moduleConstructors.InfosPseudo.prototype.addPostButtons = function(message) {
 
+    var self = this;
     var permalink = message.permalink;
     var avertirUrl = message.alertUrl;
     var profileUrl = "http://www.jeuxvideo.com/profil/" + message.authorPseudo + ".html";
     var mpUrl = "http://www.jeuxvideo.com/messages-prives/nouveau.php?all_dest=" + message.authorPseudo;
 
     //Bouton CDV
-    SK.Util.addButton(message.$msg, {
+
+    var profileButtonOptions = {
         class: (message.author.gender && this.getSetting("enableSex")) ? message.author.gender : "unknown",
         href: profileUrl,
         tooltip: {
@@ -139,9 +141,22 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostButtons = function(message) {
         },
         click: function(event) {
             event.preventDefault();
-            window.open(profileUrl, "profil", "width=800,height=570,scrollbars=no,status=no");
+            //On n'ouvre la popup que si l'option modalProfile est désactivée
+            if(!self.getSetting("modalProfile")) {
+                window.open(profileUrl, "profil", "width=800,height=570,scrollbars=no,status=no");
+            }
         }
-    });
+    };
+
+    //Si l'option est activée, la CDV s'affichera dans une popin
+    if(this.getSetting("modalProfile")) {
+        profileButtonOptions["data-popin"] = profileUrl;
+        profileButtonOptions["data-popin-type"] = "iframe";
+        profileButtonOptions.title = " ";
+        profileButtonOptions.href += "?popup=0";
+    }
+
+    SK.Util.addButton(message.$msg, profileButtonOptions);
 
     //Bouton Avertir
     if(this.getSetting("enableAlert")) {
@@ -276,7 +291,9 @@ SK.moduleConstructors.InfosPseudo.prototype.addAvatar = function(message) {
     }
     else {
         //On ajoute pas le lien vers l'image si l'auteur est banni
-        $avatarImg.attr("data-popin", message.author.fullSizeAvatar);
+        $avatarImg
+            .attr("data-popin", message.author.fullSizeAvatar)
+            .attr("data-popin-type", "image");
         $avatar.attr("href", message.author.fullSizeAvatar);
     }
 
@@ -394,6 +411,11 @@ SK.moduleConstructors.InfosPseudo.prototype.settings = {
         title: "Bouton ancre Permalien",
         description: "Ajoute un bouton ancre du permalien d'un post.",
         default: false,
+    },
+    modalProfile: {
+        title: "Charger la CDV dans une modale",
+        description: "Affiche le profil de l'auteur dans une fenêtre modale au clic.",
+        default: true,
     }
 };
 
