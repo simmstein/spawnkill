@@ -1,6 +1,9 @@
 <?php
 
 include "config.php";
+
+header('Content-Type: text/html; charset=utf-8');
+
 /**
  * Permet de requêter et de mettre en cache l'API de Github
  */

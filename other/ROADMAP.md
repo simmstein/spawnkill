@@ -1,9 +1,8 @@
 Roadmap - SpawnKill
 =====================
-### v1.11
-- Ajouter un AutoUpdater
 
 ### v1.11.1
+- Ajout d'une option pour les versions mineures dans les notifications de mise à jour
 - Faire des icones pour améliorer les citations
 - Affichage des plugins dans la preview du message
 - Affichage de la version en grisé à droite dans les settings
@@ -24,6 +23,8 @@ Roadmap - SpawnKill
 
 ### Plus tard
 #### Fonctionnalités :
+AutoUpdate :
+	- Changelog directement dans les notifications
 - Liens sécurisés
 - Lien pour reporter un bug
 - Datapopin sur les liens des images pour dissocier les miniatures et les popins

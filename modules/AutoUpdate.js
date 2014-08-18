@@ -12,6 +12,9 @@ SK.moduleConstructors.AutoUpdate.prototype.title = "Alerte quand une mise à jou
 SK.moduleConstructors.AutoUpdate.prototype.description = "Affiche une alerte en haut à droite de l'écran quand une mise à jour de SpawnKill est disponible";
 SK.moduleConstructors.AutoUpdate.prototype.required = false;
 
+/** Délais entre deux notifications en secondes */
+SK.moduleConstructors.AutoUpdate.NOTIFICATION_INTERVAL = 3600;
+
 /**
  * Initialise le module, fonction appelée quand le module est chargé
  */
@@ -28,9 +31,16 @@ SK.moduleConstructors.AutoUpdate.prototype.init = function() {
 
 				var updateSeen = SK.Util.getValue("update.seen");
 
-				//Si aucune noification n'a été vue ou que le délai est dépassé
-				if(!updateSeen || (SK.Util.timestamp() - updateSeen) > 3600) {
-					this.showUpdateModal(release);
+				//Si c'est une version mineure, il faut que l'option soit activée
+				if(this.releaseType(release) === "major" || this.getSetting("enableBugFixAlert")) {
+
+					//Si aucune notification n'a été vue ou que le délai est dépassé
+					if(!updateSeen || (SK.Util.timestamp() - updateSeen) > SK.moduleConstructors.AutoUpdate.NOTIFICATION_INTERVAL) {
+						this.showUpdateModal(release);
+
+						//On regarde réguilèrement si la notif n'a pas été fermée dans un autre onglet
+						this.intervalDismissIfSeen();
+					}
 				}
 			}
 		}.bind(this));
@@ -38,24 +48,30 @@ SK.moduleConstructors.AutoUpdate.prototype.init = function() {
 	}.bind(this), 1500);
 };
 
-
+/**
+ * Retourne "minor" ou "major" en fonction du type de la release.
+ */
+SK.moduleConstructors.AutoUpdate.prototype.releaseType = function(release) {
+	return typeof release.tag_name.split(".")[3] !== "undefined" ? "minor" : "major";
+};
 /*
  * Récupérer la dernière release de SpawnKill sur Github
  * Et appelle la fonction de callback avec cette release.
  */
 SK.moduleConstructors.AutoUpdate.prototype.getLastRelease = function(callback) {
 
-	callback = callback || function() {};
+ 	callback = callback || function() {};
 	//On appelle l'API Github
 	GM_xmlhttpRequest({
-	    url: "http://dl.spixel.fr/greasemonkey/jvc-spawnkill/server/api-github.php?action=releases",
-	    method: "GET",
-	    headers: {
-	        "Authorization": "Basic YXBwYW5kcjplMzIhY2Rm"
-	    },
-	    onload: function(response) {
-	        callback(JSON.parse(response.responseText)[0]);
-	    }
+		url: "http://dl.spixel.fr/greasemonkey/jvc-spawnkill/server/api-github.php?action=releases",
+		method: "GET",
+		onload: function(response) {
+			callback(JSON.parse(response.responseText)[0]);
+			// callback({
+			// 	"name": "Ne ratez plus les mises à jour !",
+			// 	"tag_name": "v1.11.1.1",
+			// });
+		}
 	});
 };
 
@@ -65,6 +81,11 @@ SK.moduleConstructors.AutoUpdate.prototype.getLastRelease = function(callback) {
 SK.moduleConstructors.AutoUpdate.prototype.showUpdateModal = function(release) {
 
 	var self = this;
+
+	var modalTitle = "Une mise à jour de SpawnKill est disponible";
+	if (this.releaseType(release) === "minor") {
+		modalTitle = "Un correctif pour SpawnKill est disponible";
+	}
 
 	var modalContent = "\
 		<h4>" + release.name + "<span class='spawnkill-version' >" + release.tag_name + "</span></h4>\
@@ -99,7 +120,7 @@ SK.moduleConstructors.AutoUpdate.prototype.showUpdateModal = function(release) {
 	var $modal = new SK.Modal({
 		class: "update",
 	    location: "notification",
-	    title: "Mise à jour de SpawnKill disponible",
+	    title: modalTitle,
 	    content: modalContent,
 	    buttons: [ $changelogButton, $downloadButton ],
 	    closeButtonAction: function() {
@@ -108,6 +129,21 @@ SK.moduleConstructors.AutoUpdate.prototype.showUpdateModal = function(release) {
 	});
 
 	SK.Util.showModal($modal);
+};
+
+/** Regarde réguilèrement si la notif n'a pas été fermée dans un autre onglet */
+SK.moduleConstructors.AutoUpdate.prototype.intervalDismissIfSeen = function() {
+
+	setInterval(function() {
+
+		var updateSeen = SK.Util.getValue("update.seen");
+
+		//Si aucune notification n'a été vue ou que le délai est dépassé
+		if(updateSeen && (SK.Util.timestamp() - updateSeen) <= SK.moduleConstructors.AutoUpdate.NOTIFICATION_INTERVAL) {
+			SK.Util.hideModal();
+		}
+
+	}.bind(this), 2000);
 };
 
 /** Supprime la modale et enregistre que l'utilisateur a vu la notification dans le localStorage */
@@ -136,4 +172,11 @@ SK.moduleConstructors.AutoUpdate.prototype.getCss = function() {
     return css;
 };
 
-SK.moduleConstructors.AutoUpdate.prototype.settings = {};
+/* Options modifiables du plugin */ 
+SK.moduleConstructors.AutoUpdate.prototype.settings = {
+    enableBugFixAlert: {
+        title: "Notification pour les corrections de bug",
+        description: "Quand cette option est activée, une notification apparait quand une correction de bug est en ligne.",
+        default: false,
+    }
+};
