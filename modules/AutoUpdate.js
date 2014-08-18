@@ -38,7 +38,7 @@ SK.moduleConstructors.AutoUpdate.prototype.init = function() {
 					if(!updateSeen || (SK.Util.timestamp() - updateSeen) > SK.moduleConstructors.AutoUpdate.NOTIFICATION_INTERVAL) {
 						this.showUpdateModal(release);
 
-						//On regarde réguilèrement si la notif n'a pas été fermée dans un autre onglet
+						//On regarde régulièrement si la notif n'a pas été fermée dans un autre onglet
 						this.intervalDismissIfSeen();
 					}
 				}
@@ -54,6 +54,7 @@ SK.moduleConstructors.AutoUpdate.prototype.init = function() {
 SK.moduleConstructors.AutoUpdate.prototype.releaseType = function(release) {
 	return typeof release.tag_name.split(".")[3] !== "undefined" ? "minor" : "major";
 };
+
 /*
  * Récupérer la dernière release de SpawnKill sur Github
  * Et appelle la fonction de callback avec cette release.
