@@ -59,6 +59,7 @@
 // @resource    vocaroo               images/vocaroo.png
 // @resource    loader                images/loader.gif
 // @resource    big-loader            images/big-loader.gif
+// @resource    error                 images/error.png
 // @grant       GM_xmlhttpRequest
 // @grant       GM_getResourceURL
 // @grant       GM_setClipboard

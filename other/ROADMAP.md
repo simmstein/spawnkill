@@ -1,8 +1,13 @@
 Roadmap - SpawnKill
 =====================
 
-### v1.11.1
-- Faire des icones pour améliorer les citations
+### v1.11.2
+- Ajout d'une image quand les avatars ne chargent pas
+- Ajout d'un bouton "fermer" aux popups des images
+- Ajout de descriptions au survol des options dans les paramètres
+- Affichage de la version actuelle en haut à droite des paramètres
+
+
 - Affichage des plugins dans la preview du message
 - Affichage de la version en grisé à droite dans les settings
 - Ajouter d'autres types de paramètres dans la config
@@ -22,8 +27,19 @@ Roadmap - SpawnKill
 
 ### Plus tard
 #### Fonctionnalités :
+Général :
+	- Affichage des plugins dans la preview du message
+
 AutoUpdate :
 	- Changelog directement dans les notifications
+
+InfosPseudo
+	- Recharger les avatars problèmatiques
+	- vider le cache
+
+Optimisation :
+	- Optimiser les appels au localStorage : un objet JS pour tous les settings
+
 - Liens sécurisés
 - Lien pour reporter un bug
 - Datapopin sur les liens des images pour dissocier les miniatures et les popins

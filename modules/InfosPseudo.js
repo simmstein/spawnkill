@@ -283,15 +283,43 @@ SK.moduleConstructors.InfosPseudo.prototype.addAvatar = function(message) {
 
     $avatarImg.hide();
 
+    //Au chargement de l'avatar
     $avatarImg.on("load", function() {
         
+        //On n'execute pas l'événement si l'avatar est l'image d'erreur
+        if($avatar.attr("data-error") !== "1") {
+
+            $avatar.append($avatarImg);
+
+            $avatarImg.fadeIn(function() {
+                message.$msg.addClass("not-loading");
+            });
+            this.resizeAndCenterAvatar($avatarImg);
+        }
+
+    }.bind(this));
+
+    //Si l'avatar ne charge pas (par exemple, si le cache est obsolète)
+    $avatarImg.on("error", function() {
+
+        //Affichage d'un avatar d'erreur
+        $avatarImg.attr("src", GM_getResourceURL("error"));
+
+        $avatar.attr("data-error", "1");
+
         $avatar.append($avatarImg);
 
         $avatarImg.fadeIn(function() {
             message.$msg.addClass("not-loading");
         });
-        this.calculateAvatarDimensions($avatarImg);
-    }.bind(this));
+
+        //Suppression du cache local
+        SK.Util.deleteValue(message.author.pseudo);
+
+        //Rechargement du cache distant
+        SK.Util.api("pseudos", [ message.author.pseudo ], false, true, false);
+
+    });
 
     //On met seulement src pour que l'event onload soit en place avant
     $avatarImg.attr("src", message.author.avatar); 
@@ -303,7 +331,7 @@ SK.moduleConstructors.InfosPseudo.prototype.addAvatar = function(message) {
 };
 
 /** Calcule et redimensionne (en CSS) l'avatar passé en parametre */
-SK.moduleConstructors.InfosPseudo.prototype.calculateAvatarDimensions = function($avatarImg) {
+SK.moduleConstructors.InfosPseudo.prototype.resizeAndCenterAvatar = function($avatarImg) {
 
     var imageDimensions = {
         w: $avatarImg.width(),
@@ -360,7 +388,7 @@ SK.moduleConstructors.InfosPseudo.prototype.settings = {
     },
     enableAlert: {
         title: "Bouton d'avertissement",
-        description: "Ajoute un bouton permettant d'avertir un adminstrateur.",
+        description: "Ajoute un bouton permettant d'avertir un administrateur.",
         default: true,
     },
     enablePermalinkAnchor: {

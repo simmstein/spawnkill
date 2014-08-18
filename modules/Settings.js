@@ -9,7 +9,7 @@ SK.moduleConstructors.Settings = SK.Module.new();
 
 SK.moduleConstructors.Settings.prototype.id = "Settings";
 SK.moduleConstructors.Settings.prototype.title = "Configuration";
-SK.moduleConstructors.Settings.prototype.description = "Permet d'ajouter une fenêtre de configuration pour SpawnKill.";
+SK.moduleConstructors.Settings.prototype.description = "Ajoute une fenêtre de configuration pour SpawnKill.";
 SK.moduleConstructors.Settings.prototype.required = true;
 
 SK.moduleConstructors.Settings.prototype.init = function() {
@@ -103,15 +103,15 @@ SK.moduleConstructors.Settings.prototype.getSettingsUI = function() {
         for(var moduleKey in SK.modules) {
 
             var module = SK.modules[moduleKey];
-            ui += "<li class='setting" + (module.required ? " required" : "") + "' data-activated='" + (module.activated ? "1" : "0") + "' data-id='" + moduleKey + "' >";
+            ui += "<li title='" + SK.Util.htmlEncode(module.description) + "' class='setting" + (module.required ? " required" : "") + "' data-activated='" + (module.activated ? "1" : "0") + "' data-id='" + moduleKey + "' >";
 
-                ui += "<div class='main-setting' >" + module.title + "</div>";
+                ui += "<div class='main-setting' >" + SK.Util.htmlEncode(module.title) + "</div>";
                 ui += "<hr>";
                 ui += "<ul class='options fold' >";
                     for(var settingKey in module.settings) {
                         var setting = module.settings[settingKey];
-                        ui += "<li class='option' data-value='" + (setting.value ? "1" : "0") + "' data-id='" + settingKey + "' >";
-                            ui += module.settings[settingKey].title;
+                        ui += "<li class='option' title='" + SK.Util.htmlEncode(setting.description) + "' data-value='" + (setting.value ? "1" : "0") + "' data-id='" + settingKey + "' >";
+                            ui += SK.Util.htmlEncode(module.settings[settingKey].title);
                         ui += "</li>";
                     }    
                 ui += "</ul>";

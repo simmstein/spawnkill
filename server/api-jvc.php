@@ -23,6 +23,9 @@ $data = json_decode($_GET['data']);
 //Vrai si l'appel à l'API doit être enregistré
 $log_call = !empty($_GET['log']) && $_GET['log'] == 1;
 
+//Vrai si le cache doit être mis à jour
+$force_cache_reload = !empty($_GET['forceCacheReload']) && $_GET['forceCacheReload'] == 1;
+
 /**
  * Permet d'effectuer plusieurs requêtes vers l'API de JVC en parallèle.
  * Récupère les données du cache si elles existent et sont valides
@@ -31,6 +34,7 @@ function getApiData($urls, $cache_result = true) {
 
 	//Crade mais pratique
 	global $dbh;
+	global $force_cache_reload;
 
 	if(!is_array($urls)) {
 		$urls = array($urls);
@@ -63,8 +67,8 @@ function getApiData($urls, $cache_result = true) {
 	foreach ($urls as $id => $url) {
 
 
-		//On récupère les données dans le cache ou via l'API
-		if($cache_result) {
+		//On récupère les données dans le cache ou via l'API si demandé et qu'on ne doit pas forcer le cache
+		if($cache_result && !$force_cache_reload) {
 			$rows = $dbh->query("SELECT *
 				FROM api_cache_data
 				WHERE url = '$url'

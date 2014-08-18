@@ -29,15 +29,14 @@ SK.Util = {
      *       http://www.jeuxvideo.com/forums/1-(51-65175198)-7-0-1-0-script-jvc-spawnkill-avant-respawn.htm
      * callback : fonction appelée avec un objet jQuery contenant les infos récupérées
      */
-    api: function(requestAction, data, callback, logApiCall) {
+    api: function(requestAction, data, callback, logApiCall, forceCacheReload) {
 
-        if(logApiCall === false) {
-            logApiCall = "0";
-        }
-        else {
-            logApiCall = "1";
-        }
-        var url = "http://dl.spixel.fr/greasemonkey/jvc-spawnkill/server/api-jvc.php?action=" + requestAction + "&data=" + encodeURIComponent(JSON.stringify(data)) + "&log=" + logApiCall;
+        callback = callback || function() {};
+        logApiCall = (logApiCall === false ? "0" : "1");
+        forceCacheReload = (forceCacheReload === false ? "0" : "1");
+
+        var url = "http://dl.spixel.fr/greasemonkey/jvc-spawnkill/server/api-jvc.php?action=" + requestAction + 
+            "&data=" + encodeURIComponent(JSON.stringify(data)) + "&log=" + logApiCall + "&forceCacheReload=" + forceCacheReload;
 
         GM_xmlhttpRequest({
             url: url,
@@ -246,6 +245,22 @@ SK.Util = {
             nbspString += String.fromCharCode(160);
         }
         return nbspString;
+    },
+
+    htmlEncode: function(string) {
+        var entityMap = {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            "\"": "&quot;",
+            "'": "&#39;",
+            "/": "&#x2F;"
+          };
+
+        var encodedString = String(string).replace(/[&<>"'\/]/g, function (s) {
+          return entityMap[s];
+        });
+        return encodedString;
     },
 
     /* Permet de précharger des images, appelle le callback passé en paramètre quand l'image est chargée */
