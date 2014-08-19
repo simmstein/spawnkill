@@ -38,6 +38,8 @@ InfosPseudo
 Optimisation :
 	- Optimiser les appels au localStorage : un objet JS pour tous les settings
 
+EmbedMedia :
+	- Bouton lien image
 - Liens sécurisés
 - Lien pour reporter un bug
 - Datapopin sur les liens des images pour dissocier les miniatures et les popins
