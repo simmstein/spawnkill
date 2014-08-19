@@ -1,7 +1,7 @@
 #!/bin/bash
 rm -rfv /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/*
 ln -sv /media/data/www/spawnkill/jvc-spawnkill.user.js /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
-ln -sv /media/data/www/spawnkill/jquery-1.11.1.min.js /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
+ln -sv /media/data/www/spawnkill/jquery-2.1.1.min.js /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
 ln -sv /media/data/www/spawnkill/base.js /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
 ln -sv /media/data/www/spawnkill/jquery-plugins.js /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
 ln -sv /media/data/www/spawnkill/Util.js /home/dorian/.mozilla/firefox/8ned6ue0.default/gm_scripts/JVC_SpawnKill/
