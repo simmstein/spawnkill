@@ -12,13 +12,16 @@ SK.Author = function(pseudo) {
     this.fullSizeAvatar = "";
     this.gender = "";
     this.profileLink = "";
-    this.ban = false;
+    //Faux en cas de profile banni/supprimé
+    this.profileUnavailable = false;
+    //"ban tempo", "ban def", "error" ou "removed"
+    this.errorType = "";
     this.hasLocalData = false;
     this.messages = [];
 };
 
 /** Version du modèle. Permet de déprecier le cache si la structure change */
-SK.Author.VERSION = "2.1";
+SK.Author.VERSION = "2.2.1";
 
 /** Durée de validité du localStorage en jours */
 SK.Author.DATA_TTL = 4;
@@ -35,7 +38,8 @@ SK.Author.prototype.initFromData = function(data) {
     this.fullSizeAvatar = data.fullSizeAvatar || "";
     this.gender = data.gender || "";
     this.profileLink = data.profileLink || "";
-    this.ban = data.ban || false;
+    this.profileUnavailable = data.profileUnavailable || false;
+    this.errorType = data.errorType || "";
     this.hasLocalData = data.hasLocalData || false;
 };
 
@@ -56,7 +60,19 @@ SK.Author.prototype.initFromCdv = function($cdv) {
         this.gender = $cdv.find("couleur_pseudo").text() === "#0066CC" ? "male" : "female";
     }
     else {
-        this.ban = true;
+        this.profileUnavailable = true;
+
+        var error = $cdv.find("texte_erreur").text();
+        
+        if(error === "Le pseudo est banni temporairement") {
+            this.errorType = "ban tempo";
+        }
+        else if(error === "Le pseudo est banni") {
+            this.errorType = "ban def";
+        }
+        else {
+            this.errorType = "error";
+        }
     }
 };
 
@@ -80,7 +96,8 @@ SK.Author.prototype.saveLocalData = function() {
         fullSizeAvatar: this.fullSizeAvatar,
         gender: this.gender,
         profileLink: this.profileLink,
-        ban: this.ban,
+        profileUnavailable: this.profileUnavailable,
+        errorType: this.errorType,
         hasLocalData: true,
         date: new Date()
     };

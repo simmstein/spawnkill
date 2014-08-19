@@ -70,7 +70,7 @@ SK.moduleConstructors.AutoUpdate.prototype.getLastRelease = function(callback) {
 			callback(JSON.parse(response.responseText)[0]);
 			// callback({
 			// 	"name": "Ne ratez plus les mises à jour !",
-			// 	"tag_name": "v1.11.1.1",
+			// 	"tag_name": "v1.14",
 			// });
 		}
 	});
@@ -97,7 +97,7 @@ SK.moduleConstructors.AutoUpdate.prototype.showUpdateModal = function(release) {
 	var $downloadButton = new SK.Button({
 	    class: "large",
 	    text: "Installer",
-	    href: "https://github.com/dorian-marchal/spawnkill/raw/master/jvc-spawnkill.user.js?nocache&" + pseudoRandomString + ".user.js",
+	    href: "https://github.com/dorian-marchal/spawnkill/raw/" + release.tag_name + "/jvc-spawnkill.user.js?nocache&" + pseudoRandomString + ".user.js",
 	    target: "_blank",
 	    tooltip: {
 	        class: "large bottom-right",

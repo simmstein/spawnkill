@@ -103,10 +103,17 @@ function getApiData($urls, $cache_result = true) {
 
 
 	foreach($curly as $id => $c) {
+		$error = false;
 		$data = curl_multi_getcontent($c);
 
+		//En cas d'erreur, on enregistre pas les données dans le cache
+		if(empty($data) || preg_match("/<title>503 Service Unavailable<\\/title>/", $data)) {
+			$error = true;
+			$data = "<error>Api Error</error>";
+		}
+
 		//On insère les données récupérées en cache
-		if($cache_result) {
+		if(!$error && $cache_result) {
 			$dbh->query("INSERT INTO api_cache_data(url, data, timestamp)
 				VALUES(" . $dbh->quote($urls_from_api[$id]) . ", " . $dbh->quote($data) . ", $now)
 				ON DUPLICATE KEY UPDATE

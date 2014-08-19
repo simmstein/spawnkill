@@ -1,13 +1,11 @@
 Roadmap - SpawnKill
 =====================
 
-### v1.11.3
+### v1.11.4
 - Affichage des plugins dans la preview du message
 - Ajouter d'autres types de paramètres dans la config
 - Ajouter une option de choix pour la position du rang
 - Bugs avec "aujourd'hui" dans les citations Turboforum
-- Faire la distinction entre les bans définitifs et les ban tempo
-- Corriger problème redicrecting at avec le lien HTML de github release
 
 ### v1.12
 - Ajouter d'autres types d'options pour les plugins (string, text, int, bool, float, color, select, bouton action...)
@@ -61,13 +59,12 @@ Roadmap - SpawnKill
 *Général*
 - Optimiser les appels au localStorage : un objet JS pour tous les settings
 - Ne boucler qu'une fois sur les messages et déclencher des événements interceptables par les plugins
+- Système de priorité pour les appels avec des événements pour lancer d'autres appels
 
 *WarnOnNewPost*
 - Websocket plutôt que requêtes Ajax
 
 #### Bugs :
-*EmbedMedia*
-- La CDV n'est pas clicmolettable sur Chrome
 
 *API*
 - Retourner une chaîne vide en cas d'erreur et ne pas mettre en cache le résultat de l'appel

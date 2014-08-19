@@ -132,7 +132,11 @@ SK.moduleConstructors.WarnOnNewPost.prototype.getPostCount = function(callback, 
 	var match = window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/1-(\d*-\d*).*/);
 	var topicId = match[1];
 	SK.Util.api("topic", topicId, function($api) {
-		callback(parseInt($api.find("postcount").html()));
+
+		//En cas d'erreur, on n'appelle pas le callback
+		if($api.find("error").length === 0) {
+			callback(parseInt($api.find("postcount").html()));
+		}
 	}, logApiCall);
     
 };

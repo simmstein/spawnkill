@@ -28,6 +28,11 @@ SK.Util = {
      *    topic : la chaine d'id du topic. Ce qui est entre paraenthèses dans l'url suivante :
      *       http://www.jeuxvideo.com/forums/1-(51-65175198)-7-0-1-0-script-jvc-spawnkill-avant-respawn.htm
      * callback : fonction appelée avec un objet jQuery contenant les infos récupérées
+     * logApiCall : true (défaut) ou false, si vrai : enregistre l'appel dans la BDD
+     * forceCacheReload : true ou false (défaut) : si vrai, ne prend pas en compte le cache
+     *     et force son rechargement pour l'appel courant
+     *
+     * Retourne false si l'API a rencontré un problème
      */
     api: function(requestAction, data, callback, logApiCall, forceCacheReload) {
 
@@ -42,7 +47,8 @@ SK.Util = {
             url: url,
             method: "GET",
             onload: function(response) {
-                callback($($.parseXML(SK.Util.sanitizeXML(response.responseText))));
+                var $xml = $($.parseXML(SK.Util.sanitizeXML(response.responseText)));
+                callback($xml);
             }
         });
     },
@@ -87,6 +93,7 @@ SK.Util = {
     showModal: function($modal) {
         var $background = $("#modal-background");
         $background.after($modal);
+
         SK.Util.fetchStyle($modal);
 
         $("#modal-loader").hide();

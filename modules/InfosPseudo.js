@@ -19,6 +19,11 @@ SK.moduleConstructors.InfosPseudo.prototype.init = function() {
     this.addPostInfos();
 };
 
+/** Retourne un entier sur [1 ; 151] */
+SK.moduleConstructors.InfosPseudo.prototype.getRandomPokemon = function() {
+    return ("00" + Math.floor((Math.random() * 151) + 1)).slice(-3);
+};
+
 /** Ajoute les infos à tous les posts */
 SK.moduleConstructors.InfosPseudo.prototype.addPostInfos = function() {
 
@@ -140,10 +145,19 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostButtons = function(message) {
             text: "Voir la carte de visite"
         },
         click: function(event) {
+
             event.preventDefault();
-            //On n'ouvre la popup que si l'option modalProfile est désactivée
-            if(!self.getSetting("modalProfile")) {
-                window.open(profileUrl, "profil", "width=800,height=570,scrollbars=no,status=no");
+            //On ne bloque pas le Ctrl + Clic et le middle clic
+            if(!event.ctrlKey && event.which !== 2) {
+
+                //On n'ouvre la popup que si l'option modalProfile est désactivée
+                if(!self.getSetting("modalProfile")) {
+
+                    window.open(profileUrl, "profil", "width=800,height=570,scrollbars=no,status=no");
+                }
+            }
+            else {
+                window.open(profileUrl, "_blank");
             }
         }
     };
@@ -274,20 +288,26 @@ SK.moduleConstructors.InfosPseudo.prototype.addAvatar = function(message) {
     var $avatarWrapper = message.$msg.find(".avatar-wrapper");
     var $avatar = $avatarWrapper.find(".avatar");
 
-
     var $avatarImg = $("<img />", {
         title: message.authorPseudo,
         alt: message.authorPseudo,
     });
 
-    //Si l'auteur est banni
-    if(message.author.ban) {
+    //Si la cdv n'est pas disponible
+    if(message.author.profileUnavailable) {
 
-        message.author.avatar = GM_getResourceURL("banImage");
-        $avatar
-            .addClass("ban")
-            .css("cursor", "default");
-        message.$msg.addClass("not-loading");
+        $avatar.css("cursor", "default");
+        //ban
+        if(message.author.errorType === "ban def" || message.author.errorType === "ban tempo") {
+            message.author.avatar = "http://www.serebii.net/battletrozei/pokemon/" + this.getRandomPokemon() + ".png";
+            $avatar.addClass(message.author.errorType);
+        }
+        //Autre erreur
+        else {
+            message.author.avatar = GM_getResourceURL("error");
+        }
+
+            
     }
     else {
         //On ajoute pas le lien vers l'image si l'auteur est banni
@@ -468,11 +488,28 @@ SK.moduleConstructors.InfosPseudo.prototype.getCss = function() {
                 background-position: 22px;\
                 z-index: 10;\
             }\
-            .msg .avatar.ban {\
-                box-shadow: none;\
-            }\
             .msg .avatar img {\
                 position: relative;\
+            }\
+            .avatar.ban img {\
+                background-color: #FFF;\
+            }\
+            .avatar.ban::after {\
+                content: \"banni\";\
+                position: absolute;\
+                bottom: 0px;\
+                left: 0px;\
+                width: 100%;\
+                text-align: center;\
+                padding: 1px 0px;\
+                background-color: #000;\
+                color: #FFF;\
+            }\
+            .avatar.ban.def::after {\
+                content: \"ban def\";\
+            }\
+            .avatar.ban.tempo::after {\
+                content: \"ban tempo\";\
             }\
             .rank {\
                 position: absolute;\

@@ -26,82 +26,94 @@ SK.moduleConstructors.StartSpawnKill.prototype.bindPopinEvent = function() {
 
         $("body").on("click", "[data-popin]", function(event) {
 
-            event.preventDefault();
-            var $el = $(this);
-            var contentSrc = $el.attr("data-popin");
-            var modalTitle = $el.attr("title");
-            var contentType = $el.attr("data-popin-type");
-            var $modalContent = null;
+            //Si la touche Ctrl est enfoncée, on laisse le navigateur ouvrir un onglet
+            if(!event.ctrlKey) {
+            
+                event.preventDefault();
 
-            var showPopin = function(buttons) {
+                var $el = $(this);
+                var contentSrc = $el.attr("data-popin");
+                var modalTitle = $el.attr("title");
+                var contentType = $el.attr("data-popin-type");
+                var $modalContent = null;
 
-                buttons = buttons || [];
+                var showPopin = function(buttons) {
 
-                SK.Util.showModal(new SK.Modal({
-                    class: "popin-modal",
-                    location: "center",
-                    title: modalTitle,
-                    content: $modalContent,
-                    buttons: buttons
-                }));
+                    buttons = buttons || [];
 
-            };
+                    SK.Util.showModal(new SK.Modal({
+                        class: "popin-modal",
+                        location: "center",
+                        title: modalTitle,
+                        content: $modalContent,
+                        buttons: buttons
+                    }));
 
-            //On affiche l'écran de chargement de la modale
-            SK.Util.showModalLoader();
+                };
 
-            //Le media est une image
-            if(contentType === "image") {
-                $modalContent = $("<img>", { src: contentSrc, alt: $el.attr("alt")});
+                //On affiche l'écran de chargement de la modale
+                SK.Util.showModalLoader();
 
-                var buttons = [];
+                //Le media est une image
+                if(contentType === "image") {
+                    $modalContent = $("<img>", { src: contentSrc, alt: $el.attr("alt")});
 
-                //On ajoute un bouton de téléchargement sur Chrome
-                if(navigator.userAgent.toLowerCase().indexOf("chrome") > -1 &&
-                    navigator.userAgent.toLowerCase().indexOf("opr") === -1
-                ) {
-                    buttons.push(new SK.Button({
-                        class: "large",
-                        text: "Télécharger",
-                        href: contentSrc,
-                        download: modalTitle,
-                        tooltip: {
+                    var buttons = [];
+
+                    //On ajoute un bouton de téléchargement sur Chrome
+                    if(navigator.userAgent.toLowerCase().indexOf("chrome") > -1 &&
+                        navigator.userAgent.toLowerCase().indexOf("opr") === -1
+                    ) {
+                        buttons.push(new SK.Button({
                             class: "large",
-                            text: "Télécharger l'image",
-                            position: "bottom"
+                            text: "Télécharger",
+                            href: contentSrc,
+                            download: modalTitle,
+                            tooltip: {
+                                class: "large",
+                                text: "Télécharger l'image",
+                                position: "bottom"
+                            }
+                        }));
+                    }
+
+                    //Ouvre une modale au centre de l'écran quand l'image est prête
+                    SK.Util.preload($modalContent, function() {
+
+                        //On contraint la taille de l'image
+                        $modalContent.css("max-width", Math.min($modalContent.get(0).width,  $(window).width() - 80) + "px");
+                        $modalContent.css("max-height", Math.min($modalContent.get(0).height,  $(window).height() - 120) + "px");
+
+                        showPopin(buttons);
+                    });
+                }
+                else if(contentType === "iframe") {
+
+                    var frameWidth = Math.min(800,  $(window).width() - 80);
+                    var frameHeight = Math.min(700,  $(window).height() - 80);
+
+                    $modalContent = $("<div>");
+
+
+                    $modalContent.append($("<div>", {
+                        class: "loader"
+                    }));
+
+                    $modalContent.append($("<iframe>", {
+                        class: "loading",
+                        src: contentSrc,
+                        width: frameWidth + "px",
+                        height: frameHeight + "px",
+                        frameborder: 0,
+                        //Ouvre l'iframe quand elle est chargée
+                        load: function() {
+                            //On retire le loader pour afficher la frame
+                            $(this).removeClass("loading");
                         }
                     }));
+
+                    showPopin();
                 }
-
-                //Ouvre une modale au centre de l'écran quand l'image est prête
-                SK.Util.preload($modalContent, function() {
-
-                    //On contraint la taille de l'image
-                    $modalContent.css("max-width", Math.min($modalContent.get(0).width,  $(window).width() - 80) + "px");
-                    $modalContent.css("max-height", Math.min($modalContent.get(0).height,  $(window).height() - 120) + "px");
-
-                    showPopin(buttons);
-                });
-            }
-            else if(contentType === "iframe") {
-
-                var frameWidth = Math.min(800,  $(window).width() - 80);
-                var frameHeight = Math.min(700,  $(window).height() - 80);
-
-                $modalContent = $("<iframe>", {
-                    class: "loading",
-                    src: contentSrc,
-                    width: frameWidth + "px",
-                    height: frameHeight + "px",
-                    frameborder: 0,
-                    //Ouvre l'iframe quand elle est chargée
-                    load: function() {
-                        //On retire le loader pour afficher la frame
-                        $(this).removeClass("loading");
-                    }
-                });
-
-                showPopin();
             }
         });
 
@@ -243,10 +255,21 @@ SK.moduleConstructors.StartSpawnKill.prototype.correctSplitPost = function() {
         .popin-modal .content {\
             text-align: center;\
         }\
+        .popin-modal iframe {\
+            position: relative;\
+            transition-duration: 300ms;\
+        }\
         .popin-modal iframe.loading {\
+            opacity: 0;\
+        }\
+        .popin-modal .loader {\
+            position: absolute;\
+                left: calc(50% - 20px);\
+                top: calc(50% - 20px);\
+            width: 40px;\
+            height: 40px;\
             background-image: url('" + GM_getResourceURL("big-loader") + "');\
             background-repeat: no-repeat;\
-            background-position: center;\
             opacity: 0.3;\
         }\
         .sk-button {\
