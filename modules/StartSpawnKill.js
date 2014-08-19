@@ -85,27 +85,23 @@ SK.moduleConstructors.StartSpawnKill.prototype.bindPopinEvent = function() {
             }
             else if(contentType === "iframe") {
 
-                $modalContent = $("<iframe>", { 
+                var frameWidth = Math.min(800,  $(window).width() - 80);
+                var frameHeight = Math.min(700,  $(window).height() - 80);
+
+                $modalContent = $("<iframe>", {
+                    class: "loading",
                     src: contentSrc,
-                    width: Math.min(800,  $(window).width() - 80) + "px",
-                    height: Math.min(700,  $(window).height() - 80) + "px",
+                    width: frameWidth + "px",
+                    height: frameHeight + "px",
                     frameborder: 0,
                     //Ouvre l'iframe quand elle est chargée
                     load: function() {
-                        $modalContent
-                            .unbind("load")
-                            .css("position", "static");
-                        showPopin();
+                        //On retire le loader pour afficher la frame
+                        $(this).removeClass("loading");
                     }
                 });
 
-                $modalContent.css({
-                    position: "absolute",
-                    left: "-999999px"
-                });
-
-                $("#footer").append($modalContent);
-
+                showPopin();
             }
         });
 
@@ -246,6 +242,12 @@ SK.moduleConstructors.StartSpawnKill.prototype.correctSplitPost = function() {
         }\
         .popin-modal .content {\
             text-align: center;\
+        }\
+        .popin-modal iframe.loading {\
+            background-image: url('" + GM_getResourceURL("big-loader") + "');\
+            background-repeat: no-repeat;\
+            background-position: center;\
+            opacity: 0.3;\
         }\
         .sk-button {\
             position: relative;\
