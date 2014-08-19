@@ -11,11 +11,7 @@ Roadmap - SpawnKill
 - Ajouter d'autres types d'options pour les plugins (string, text, int, bool, float, color, select, bouton action...)
 - Ajouter option type de citations
 - Possibilité de citer seulement une partie du message
-- Ajouter un helper pour les regex de pages
 - Plusieurs tailles d'avatars
-- Afficher la description des modules dans le panneau de configuration
-
-
 
 ### Plus tard
 
@@ -52,6 +48,7 @@ Roadmap - SpawnKill
 - Ajouter un lien vers les citations de ce message
 - Possibilité d'afficher plus de 15 topics par page
 - Scroller au post quand on répond
+- Surligner les PEMT
 
 
 ### Optimisation
