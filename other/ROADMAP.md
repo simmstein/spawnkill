@@ -69,6 +69,9 @@ Roadmap - SpawnKill
 *Settings*
 - Le panneau de paramètrage ne peut pas défiler
 
+*LastPage*
+- Bug avec les pass modérateurs : http://www.jeuxvideo.com/forums/1-1000021-2267708-22-0-1-0-script-jvc-spawnkill-avant-respawn.htm#message_2286047
+
 
 #### Développement :
 
