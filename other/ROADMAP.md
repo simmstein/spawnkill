@@ -49,6 +49,7 @@ Roadmap - SpawnKill
 - Possibilité d'afficher plus de 15 topics par page
 - Scroller au post quand on répond
 - Surligner les PEMT
+- Recherche Intra Topic
 
 
 ### Optimisation
