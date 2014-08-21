@@ -276,14 +276,15 @@ SK.moduleConstructors.Quote.prototype.initQuoteTypes = function() {
 
     self.quoteTypes.push(new SK.moduleConstructors.Quote.QuoteType({
         id: "turboforum",
-        /* $1: pseudo, $2: jour, $3: mois, $4: année, $5: permalien (peut être vide), $6: message (à épurer en retirant le cadre), pas d'heure */
-        regex: /\| ([^\s]*)(?:(?:&nbsp;)|[\s])*-(?:(?:&nbsp;)|[\s])*le (\d{1,2}) ([^\s]*) (\d{4})[ ]*(?:\n\| <a(?:.*?)href="(http[^"]*)".*)*\n((?:(?:\n*^\|.*)*)*)(?:(?:[\s]*)&gt; )*/gm,
+        /* $1: pseudo, $2: jour (peut être vide), $3: mois (peut être vide), $4: année (peut être vide),
+         * $5: heure (peut être vide), $6: permalien (peut être vide), $6: message (à épurer en retirant le cadre), pas d'heure */
+        regex: /\| ([^\s]*)(?:(?:&nbsp;)|[\s])*-(?:(?:&nbsp;)|[\s])*(?:(?:le (\d{1,2}) ([^\s]*) (\d{4}))|(?:aujourd’hui à (\d{2}:\d{2})))[ ]*(?:\n\| <a(?:.*?)href="(http[^"]*)".*)*\n((?:(?:\n*^\|.*)*)*)(?:(?:[\s]*)&gt; )*/gm,
 
-        replaceCallback: function(match, pseudo, jour, mois, annee, permalien, message) {
+        replaceCallback: function(match, pseudo, jour, mois, annee, heure, permalien, message) {
 
             //On retire les | au début du message
             message = self.cleanUpMessage(message, "|");
-            return self.citationToHtml(pseudo, jour, mois, annee, "", permalien, message);
+            return self.citationToHtml(pseudo, jour, mois, annee, heure, permalien, message);
         }
     }));
 

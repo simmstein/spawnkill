@@ -4,9 +4,9 @@ Roadmap - SpawnKill
 ### v1.11.4
 - Correction d'un bug avec la réponse rapide quand un topic était locké.
 - Affichage des plugins dans la preview du message
-- Ajouter d'autres types de paramètres dans la config
 - Ajouter une option de choix pour la position du rang
-- Bugs avec "aujourd'hui" dans les citations Turboforum
+- Correction d'un bug avec "aujourd'hui" dans les citations Turboforum
+- (Dev) Ajout d'autres types de paramètres dans le panneau de configuration
 
 ### v1.12
 - Ajouter d'autres types d'options pour les plugins (string, text, int, bool, float, color, select, bouton action...)
