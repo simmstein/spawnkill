@@ -2,6 +2,7 @@ Roadmap - SpawnKill
 =====================
 
 ### v1.11.4
+- Correction d'un bug avec la réponse rapide quand un topic était locké.
 - Affichage des plugins dans la preview du message
 - Ajouter d'autres types de paramètres dans la config
 - Ajouter une option de choix pour la position du rang
@@ -21,8 +22,11 @@ Roadmap - SpawnKill
 
 #### Fonctionnalités :
 *Général*
+- Supporter les forums JV
 - Affichage des plugins dans la preview du message
 - Lien pour reporter un bug
+- Bouton rafraichir : scroll en bas du topic
+- Remplacer les liens vers les topics par le titre du topic
 
 *AutoUpdate*
 - Changelog directement dans les notifications
@@ -34,6 +38,8 @@ Roadmap - SpawnKill
 - Datapopin sur les liens des images pour dissocier les miniatures et les popins
 - Option pour afficher les images en miniatures
 - Ajouter option durée validité cache, options avancées ?
+- StrawPoll
+- SoundCloud
 
 *Settings*
 - Ajouter un lien vers les screenshots de la fonctionnalité dans le panneau de config
