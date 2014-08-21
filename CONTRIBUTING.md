@@ -1,5 +1,15 @@
-SpawnKill - Quelques conventions de code
+SpawnKill - Quelques conventions
 =========
+
+Fonctionnement des branches
+---------------------------
+
+- La branche `master` est la branche stable. C'est cette version qui est releasée.
+- La branche `dev` est la branche de développement. Si possible c'est de celle-ci que vous devez partir. Les modifications effectuées sur `dev` sont ensuite mergées dans `master` quand elles sont assez matures.
+- Parfois, il est nécessaire d'effectuer une correction rapide alors qu'un développement est déjà en cours sur `dev` et que la branche ne peut pas être mergée maintenant avec `master`. Dans ce cas, la branche `hotfix` est utilisée. Le code d'`hotfix` est tiré de `master` est une fois la correction effectuée, elle est directement mergée dans `master` et `dev`.
+
+Conventions de code
+-------------------
 
 ### Conventions de nommage
 
