@@ -7,6 +7,10 @@ Création d'un module
 JVC SpawnKill est un plugin pour jeuxvideo.com ajoutant des fonctionnalités comme les avatars, les citations ou les signatures.
 Ce guide présente la création d'un nouveau module avec pour illustration la création d'un module permettant d'accéder à la dernière page d'un topic depuis la liste des sujets.
 
+Avant de contribuer, pensez à lire les quelques conventions que je me suis donné sur la page suivante : [Contribuer à SpawnKill](https://github.com/dorian-marchal/spawnkill/blob/master/CONTRIBUTING.md)
+
+Vous pouvez ensuite suivre ce guide de création d'un module :smile:
+
 ### Ajout du code de base
 
 Pour mettre en place un nouveau module, la première chose à faire est de créer le fichier correspondant :
@@ -212,6 +216,7 @@ SK.moduleConstructors.LastPage.prototype.getCss = function() {
 };
 ```
 Voilà, en moins de 60 lignes, vous avez un module configurable et injectant du CSS dans la page. Il ne vous reste plus qu'à faire un `pull request`.
+Mais avant ça, pensez à lire les quelques règles à respecter sur la page suivante : [Contribuer à SpawnKill](https://github.com/dorian-marchal/spawnkill/blob/master/CONTRIBUTING.md)
 
 Pour les plugins plus complexes, vous pouvez aussi jeter un oeil aux objets suivants : [`Modal`](https://github.com/dorian-marchal/spawnkill/blob/master/Modal.js), [`Author`](https://github.com/dorian-marchal/spawnkill/blob/master/Author.js), [`Message`](https://github.com/dorian-marchal/spawnkill/blob/master/Message.js), [`Button`](https://github.com/dorian-marchal/spawnkill/blob/master/Button.js) ou [`SlideToggle`](https://github.com/dorian-marchal/spawnkill/blob/master/SlideToggle.js). Les fonctions statiques de la classe [`Util`](https://github.com/dorian-marchal/spawnkill/blob/master/Util.js) peuvent aussi être intéressantes, notamment pour interroger facilement l'API de JVC.
 
