@@ -4,6 +4,7 @@
 // @author      Spixel_
 // @namespace   http://www.spixel.fr
 // @include     http://*.jeuxvideo.com*
+// @include     http://*.forumjv.com*
 // @version     1.11.3
 // @require     jquery-2.1.1.min.js?v1.11.3
 // @require     jquery-plugins.js?v1.11.3
@@ -26,6 +27,7 @@
 // @require     modules/EmbedMedia.js?v1.11.3
 // @require     modules/WarnOnNewPost.js?v1.11.3
 // @require     modules/AutoUpdate.js?v1.11.3
+// @require     modules/Refresh.js?v1.11.3
 // @resource    close                 images/close.png
 // @resource    banImage              images/ban.png
 // @resource    newTopic              images/topic_new.gif
