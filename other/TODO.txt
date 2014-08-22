@@ -2,4 +2,3 @@
 - Affichage des plugins dans la preview du message
 - Ajouter d'autres types de paramètres dans la config
 - Ajouter une option de choix pour la position du rang
-- Bugs avec "aujourd'hui" dans les citations Turboforum

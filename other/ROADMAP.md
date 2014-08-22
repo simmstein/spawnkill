@@ -70,6 +70,9 @@ Roadmap - SpawnKill
 
 #### Bugs :
 
+*InfosPseudo*
+-Donner le même avatar aux bannis quand ils postent plusieurs fois
+
 *API*
 - Retourner une chaîne vide en cas d'erreur et ne pas mettre en cache le résultat de l'appel
 

@@ -347,6 +347,10 @@ SK.moduleConstructors.EmbedMedia.prototype.initMediaTypes = function() {
         getEmbeddedMedia: function() {
 
             var $el = $("<div>");
+            var things = [ "une gauffre", "une bière", "un kebab", "des bonbons", "un Humble Bundle", "une partie du serveur", "un café" ];
+            var aThing = things[Math.floor(Math.random() * things.length)];
+
+
             $el.append(new SK.Button({
                 class: "spawnkill-button large",
                 text: "Télécharger SpawnKill",
@@ -363,7 +367,7 @@ SK.moduleConstructors.EmbedMedia.prototype.initMediaTypes = function() {
 
             var $donationButton = new SK.Button({
                 class: "spawnkill-button large minor",
-                text: "Me payer une bière",
+                text: "Me payer " + aThing,
                 tooltip: {
                     position: "bottom large",
                     text: "Faire un don de 2€ à Spixel_"
