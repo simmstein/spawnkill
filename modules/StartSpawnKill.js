@@ -471,6 +471,69 @@ SK.moduleConstructors.StartSpawnKill.prototype.correctSplitPost = function() {
         .slide-toggle :disabled + .slide-toggle-style:after {\
             background-color: #D1D1D1;\
         }\
+        .sk-dropdown-select:-moz-focusring {\
+            color: transparent;\
+            text-shadow: 0 0 0 #FFF;\
+        }\
+        .sk-dropdown-select:focus {\
+            outline: 0;\
+        }\
+        .sk-dropdown-select {\
+            font-size: 12px;\
+            padding: 2px;\
+            margin: 0;\
+            box-shadow: 0px 0px 2px 0px #BC3800 inset;\
+        }\
+        .sk-dropdown-select {\
+            background-color: #FF7B3B;\
+            color: #fff;\
+        }\
+        .sk-dropdown {\
+            position: relative;\
+            display: inline-block;\
+            vertical-align: middle;\
+        }\
+        .sk-dropdown-select {\
+            padding-right: 30px;\
+            border: 0;\
+            border-radius: 3px;\
+            -webkit-appearance: none;\
+            -moz-appearance: none;\
+            appearance: none;    \
+        }\
+        .sk-dropdown::before,\
+        .sk-dropdown::after {\
+            content: \"\";\
+            position: absolute;\
+            pointer-events: none;\
+        }\
+        .sk-dropdown::after {\
+            content: \"\";\
+            right: 7px;\
+            top: 9px;\
+            border: solid 4px transparent;\
+            border-top-color: rgba(0, 0, 0, 0.3);\
+        }\
+        .sk-dropdown::before {\
+            width: 22px;\
+            right: 0;\
+            top: 0;\
+            bottom: 0;\
+            border-radius: 0 3px 3px 0;\
+        }\
+        .sk-dropdown.disabled {\
+            opacity: 0.8;\
+        }\
+        .sk-dropdown::before {\
+            background-color: #FFF;\
+            box-shadow: -2px 0px 2px -2px rgba(0, 0, 0, 0.3);\
+        }\
+        .sk-dropdown:hover::before {\
+            background-color: #EEE;\
+        }\
+        .sk-dropdown::after {\
+            color: rgba(0, 0, 0, .4);\
+        }\
       ";
 
     return css;

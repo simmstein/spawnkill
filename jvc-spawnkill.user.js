@@ -14,6 +14,7 @@
 // @require     Button.js?v1.11.4
 // @require     SlideToggle.js?v1.11.4
 // @require     Modal.js?v1.11.4
+// @require     DropdownList.js?v1.11.4
 // @require     modules/Module.js?v1.11.4
 // @require     modules/StartSpawnKill.js?v1.11.4
 // @require     modules/Settings.js?v1.11.4

@@ -145,6 +145,7 @@ SK.moduleConstructors.WarnOnNewPost.prototype.settings = {
     playSoundOnNewPost: {
         title: "Jouer un son quand un nouveau post est ajouté",
         description: "Joue un son de notification quand un post est ajouté au topic après le chargement de la page.",
+        type: "boolean",
         default: true,
     }
 };

@@ -400,41 +400,49 @@ SK.moduleConstructors.InfosPseudo.prototype.settings = {
     enableAvatar: {
         title: "Affichage des avatars",
         description: "Affiche les avatars à gauche des posts à la lecture d'un topic.",
+        type: "boolean",
         default: true,
     },
     enableRank: {
         title: "Affichage des rangs",
         description: "Affiche le rang de l'auteur sur les posts à la lecture d'un topic.",
+        type: "boolean",
         default: true,
     },
     enableMP: {
         title: "Bouton de MP",
         description: "Permet d'envoyer un MP à un utilisateur directement depuis un post.",
+        type: "boolean",
         default: true,
     },
     enableSex: {
         title: "Affichage du sexe de l'auteur",
         description: "Affiche une photo de la... Hmm...Pardon. Change le style du bouton de CDV d'un auteur en fonction de son sexe.",
+        type: "boolean",
         default: true,
     },
     enablePermalink: {
         title: "Bouton Permalien",
         description: "Ajoute un bouton permettant de copier directement le permalien d'un post.",
+        type: "boolean",
         default: true,
     },
     enableAlert: {
         title: "Bouton d'avertissement",
         description: "Ajoute un bouton permettant d'avertir un administrateur.",
+        type: "boolean",
         default: true,
     },
     enablePermalinkAnchor: {
         title: "Bouton ancre Permalien",
         description: "Ajoute un bouton ancre du permalien d'un post.",
+        type: "boolean",
         default: false,
     },
     modalProfile: {
         title: "Charger la CDV dans une modale",
         description: "Affiche le profil de l'auteur dans une fenêtre modale au clic.",
+        type: "boolean",
         default: true,
     }
 };

@@ -178,6 +178,7 @@ SK.moduleConstructors.AutoUpdate.prototype.settings = {
     enableBugFixAlert: {
         title: "Notification pour les corrections de bug",
         description: "Quand cette option est activée, une notification apparait si une correction de bug est en ligne.",
+        type: "boolean",
         default: false,
     }
 };

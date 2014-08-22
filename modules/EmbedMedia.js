@@ -538,31 +538,37 @@ SK.moduleConstructors.EmbedMedia.prototype.settings = {
     optinEmbed: {
         title: "Masquer les contenus par défaut",
         description: "Cache le contenu par défaut, il faut d'abord cliquer sur le bouton pour le faire apparaître.",
+        type: "boolean",
         default: false,
     },
     embedVideos: {
         title: "Intégration des vidéos",
         description: "Intégre les vidéos Youtube, DailyMotion et Vimeo aux posts.",
+        type: "boolean",
         default: true,
     },
     embedImages: {
         title: "Intégration des images",
         description: "Intégre les images PNG, JPG et GIF aux posts.",
+        type: "boolean",
         default: true,
     },
     embedSurveys: {
         title: "Intégration des sondages",
         description: "Intégre les sondages Pixule et Sondage.io aux posts.",
+        type: "boolean",
         default: true,
     },
     embedRecords: {
         title: "Intégration des Vocaroos",
         description: "Intégre les enregistrements Vocaroo aux posts.",
+        type: "boolean",
         default: true,
     },
     embedSpawnKill: {
         title: "Bouton de téléchargement SpawnKill",
         description: "Affiche un bouton à la place du lien de téléchargement SpawnKill",
+        type: "boolean",
         default: true,
     }
 };
