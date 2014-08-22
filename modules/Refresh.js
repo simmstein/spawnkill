@@ -15,19 +15,32 @@ SK.moduleConstructors.NouveauModule.prototype.required = false;
 /**
  * Initialise le module, fonction appelée quand le module est chargé
  */
+var url = document.URL;
+var regexp = /\?refresh=1/;
 SK.moduleConstructors.NouveauModule.prototype.init = function() {
     //Modification du bouton Refresh
-    $("#rafraichir a").attr("href","#");
+    if (this.isRefreshed()) {
+        $(".bt_rafraichir").attr("href", document.URL);
+    }
+    else {
+        $(".bt_rafraichir").attr("href", document.URL + "?refresh=1");
+    }
 
-    //Fonction de rafraichissement
-    $("#rafraichir a").click(function (e) {
-        window.location.href(document.URL + "?refresh=1");
-    });
+    //Teste si la requête est un rafraichissement
+    if (this.isRefreshed()) {
+        //Scrolle jusqu'au dernier message
+        window.scrollTo(0,$(".msg").last().position().top);
+    }  
 };
 
-SK.moduleConstructors.NouveauModule.prototype.uneMethodeExemple = function() {
-    //Ma méthode
-};
+SK.moduleConstructors.NouveauModule.prototype.isRefreshed = function() {
+    if (regexp.test(url)) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
 
 /**
  * Méthode testant si un Module doit être activé.
