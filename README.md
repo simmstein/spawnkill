@@ -168,7 +168,8 @@ SK.moduleConstructors.LastPage.prototype.getCss = function() {
 ### Ajout d'options au module
 
 Il est possible d'ajouter facilement des options au module avec l'attribut `settings`. Ces options apparaitront automatiquement dans le panneau de configuration de SpawnKill.
-Pour l'exemple, nous allons rendre optionnel l'affichage de la petite flèche à droite du topic :
+Plusieurs types d'options sont possibles (voir l'annexe : [Les types de d'options](#les-types-doptions))
+Pour l'exemple, nous allons rendre optionnel l'affichage de la petite flèche à droite du topic avec un booléen :
 
 ```javascript
 /**
@@ -179,6 +180,7 @@ SK.moduleConstructors.LastPage.prototype.settings = {
 	showIndicator: {
 	    title: "Ajout d'un indicateur",
 	    description: "Ajout d'une flèche à droite de l'image du topic pour indiquer l'intéractivité.",
+	    type: "boolean",
 	    default: true,
 	}
 };
@@ -223,3 +225,43 @@ Pour les plugins plus complexes, vous pouvez aussi jeter un oeil aux objets suiv
 Si vous avez des questions, n'hésitez pas à m'envoyer un MP sur jeuxvideo.com. Mon pseudo est [`Spixel_`](http://www.jeuxvideo.com/messages-prives/nouveau.php?all_dest=Spixel_).
 
 Bon développement :)
+
+
+Annexe
+------
+
+### Les types d'options
+
+Il existe plusieurs types d'option pour les modules, chacune a sa propre structure :
+
+#### Les booléens (Bouton ON/OFF)
+
+```javascript
+/**
+ * Boolean option
+ */ 
+SK.moduleConstructors.NouveauModule.prototype.settings = {
+	optionId: {
+	    title: "Titre de l'option",
+	    description: "Description de l'option",
+	    type: "boolean",
+	    default: true,
+	}
+};
+```
+
+#### Les selects (listes déroulantes)
+```javascript
+/**
+ * Select option
+ */ 
+SK.moduleConstructors.NouveauModule.prototype.settings = {
+	optionId: {
+	    title: "Titre de l'option",
+	    description: "Description de l'option",
+	    type: "select",
+	    values: { value1Id: "Valeur 1", value2Id: "Valeur 2", value3Id: "Valeur 3" },
+	    default: "value2Id"
+	}
+};
+```
