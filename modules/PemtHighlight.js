@@ -16,15 +16,22 @@ SK.moduleConstructors.NouveauModule.prototype.required = true;
  * Initialise le module, fonction appelée quand le module est chargé
  */
 SK.moduleConstructors.NouveauModule.prototype.init = function() {
-    var dates = $('.date').html().sort();
+    var dates = $('.date').text().replace(/via mobile/g,"").split("Posté le");
     var results = [];
-    for (var i = 0; i < dates.length -i; i++) {
+    for (var i = 0; i < dates.length; i++) {
         if (dates[i] == dates[i+1]) {
             results.push(dates[i]);
         }
     }
-    if (0 < array.length) {
-        $('.msg').find('.date:contains('+dates[i]+')').parent('.msg').attr('background','red');
+    if (0 < results.length) {
+	for (var i = 0; i < results.length; i++) {
+	    $('.date').filter(function() {
+                var re = new RegExp(results[i]);
+		if (re.test($(this).text())) {
+		    $(this).parents('.msg').css("background","orange");
+		}
+	    });
+	}
     }   
 };
 
