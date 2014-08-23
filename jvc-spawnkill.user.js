@@ -4,29 +4,29 @@
 // @author      Spixel_
 // @namespace   http://www.spixel.fr
 // @include     http://*.jeuxvideo.com*
-// @version     1.11.4
-// @require     jquery-2.1.1.min.js?v1.11.4
-// @require     jquery-plugins.js?v1.11.4
-// @require     base.js?v1.11.4
-// @require     Util.js?v1.11.4
-// @require     Message.js?v1.11.4
-// @require     Author.js?v1.11.4
-// @require     Button.js?v1.11.4
-// @require     SlideToggle.js?v1.11.4
-// @require     Modal.js?v1.11.4
-// @require     DropdownList.js?v1.11.4
-// @require     modules/Module.js?v1.11.4
-// @require     modules/StartSpawnKill.js?v1.11.4
-// @require     modules/Settings.js?v1.11.4
-// @require     modules/QuickResponse.js?v1.11.4
-// @require     modules/Quote.js?v1.11.4
-// @require     modules/Shortcuts.js?v1.11.4
-// @require     modules/InfosPseudo.js?v1.11.4
-// @require     modules/HilightNewTopic.js?v1.11.4
-// @require     modules/LastPage.js?v1.11.4
-// @require     modules/EmbedMedia.js?v1.11.4
-// @require     modules/WarnOnNewPost.js?v1.11.4
-// @require     modules/AutoUpdate.js?v1.11.4
+// @version     1.11.5
+// @require     jquery-2.1.1.min.js?v1.11.5
+// @require     jquery-plugins.js?v1.11.5
+// @require     base.js?v1.11.5
+// @require     Util.js?v1.11.5
+// @require     Message.js?v1.11.5
+// @require     Author.js?v1.11.5
+// @require     Button.js?v1.11.5
+// @require     SlideToggle.js?v1.11.5
+// @require     Modal.js?v1.11.5
+// @require     DropdownList.js?v1.11.5
+// @require     modules/Module.js?v1.11.5
+// @require     modules/StartSpawnKill.js?v1.11.5
+// @require     modules/Settings.js?v1.11.5
+// @require     modules/QuickResponse.js?v1.11.5
+// @require     modules/Quote.js?v1.11.5
+// @require     modules/Shortcuts.js?v1.11.5
+// @require     modules/InfosPseudo.js?v1.11.5
+// @require     modules/HilightNewTopic.js?v1.11.5
+// @require     modules/LastPage.js?v1.11.5
+// @require     modules/EmbedMedia.js?v1.11.5
+// @require     modules/WarnOnNewPost.js?v1.11.5
+// @require     modules/AutoUpdate.js?v1.11.5
 // @resource    close                 images/close.png
 // @resource    banImage              images/ban.png
 // @resource    newTopic              images/topic_new.gif
@@ -73,7 +73,7 @@
 /* jshint multistr: true */
 /* jshint newcap: false */
 
-SK.VERSION = "v1.11.4";
+SK.VERSION = "v1.11.5";
 
 var modulesStyle = "";
 
@@ -101,8 +101,11 @@ for(var key in SK.moduleConstructors) {
         setting.value = settingValue;
     }
 
-    //Si le module est requis, qu'il n'y a pas de préférences ou que la préférence est à faux
+    //Si le module est requis, qu'il n'y a pas de préférences ou que la préférence est activé
     if(module.required || moduleSettings === null || moduleSettings) {
+
+        //On autorise le module à exécuter du code avant le chargement du CSS
+        module.beforeInit();
 
         //On charge le CSS du module
         modulesStyle += module.internal_getCss();

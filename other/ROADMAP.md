@@ -1,12 +1,6 @@
 Roadmap - SpawnKill
 =====================
 
-### v1.11.4
-- Correction d'un bug avec la réponse rapide quand un topic était locké.
-- Ajout d'une option de choix pour la position du rang
-- Correction d'un bug avec "aujourd'hui" dans les citations Turboforum
-- (Dev) Ajout d'autres types de paramètres dans le panneau de configuration
-
 ### v1.11.5
 - Choix du type de citations
 - Affichage des plugins dans la preview du message

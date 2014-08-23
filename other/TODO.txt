@@ -1,4 +1,5 @@
 ### v1.11.5
+- Renommer la fonciton new des modules
 - Choix du type de citations
 - Affichage des plugins dans la preview du message
 - CHoix de la taille de l'avatar

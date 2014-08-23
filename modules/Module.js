@@ -61,6 +61,12 @@ SK.Module.prototype.getCss = function() {
     return "";
 };
 
+/**
+ * Fonction exécutée avant le chargement du CSS mais après le chargement des options du module.
+ * Permet de calculer des éléments nécessaires au CSS.
+ */
+SK.Module.prototype.beforeInit = function() {};
+
 //METHODE UTILS A NE PAS REDEFINIR
 
 /**
@@ -71,11 +77,13 @@ SK.Module.prototype.getSetting = function(settingKey) {
 };
 
 /**
- * Permet de créer un nouveau module
+ * Permet de créer un nouveau module. Il est possible de passer une fonction à exécuter dans le constructeur
  */
-SK.Module.new = function() {
+SK.Module.new = function(constructor) {
+    constructor = constructor || function() {};
     var module = function() {
         SK.Module.apply(this);
+        constructor(this);
     };
     module.prototype = Object.create(SK.Module.prototype);
     return module;
