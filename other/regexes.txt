@@ -1,0 +1,31 @@
+Matche les images :
+	matche :
+		http://www.hapshack.com/?v=kCIu0.png
+		http://www.noelshack.com/2014-33-1408191836-vimeo.png
+	ne matche pas :
+		https://www.dropbox.com/s/lfta3yd9tryotxp/screen2.png
+
+^https?:\/\/(?!www\.dropbox\.com)(?:(?:(www\.hapshack\.com\/\?v=)|(www\.noelshack\.com\/([\d]{4})-([\d]{2})-))?(.*.(jpe?g|png|gif)))$
+
+^https?:\/\/ #Commence par http(s)://
+(?!www\.dropbox\.com) #ce qui suit n'est pas précédé de www.dropbox.com
+(?:
+	(?:
+		(www\.hapshack\.com\/\?v=)| #début de lien hapshack
+		(www\.noelshack\.com\/([\d]{4})-([\d]{2})-) #ou début de lien noelshack
+	)? #le groupe précédent est optionnel
+	(.*.(jpe?g|png|gif)) #n'importe quoi suivi de .png/jp(e)g/gif
+)$
+
+Matche les vidéos youtubes
+	matche :
+		http://www.youtube.com/watch?v=0zM3nApSvMg&feature=feedrec_grec_index
+		http://www.youtube.com/user/IngridMichaelsonVEVO#p/a/u/1/QdK8U-VIH_o
+		http://www.youtube.com/v/0zM3nApSvMg?fs=1&amp;hl=en_US&amp;rel=0
+		http://www.youtube.com/watch?v=0zM3nApSvMg#t=0m10s
+		http://www.youtube.com/embed/0zM3nApSvMg?rel=0
+		http://www.youtube.com/watch?v=0zM3nApSvMg
+		http://youtu.be/0zM3nApSvMg
+		https://m.youtube.com/watch?v=66XOpToHzRI
+
+^https?:\/\/(?:(?:www)?m?\.)?youtu.*(?:\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^\s^#\&\?]*).*

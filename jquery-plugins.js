@@ -26,33 +26,3 @@ $.fn.scrollThere = function(delay, callback) {
 
     return this;
 };
-
-$.fn.spin = function(opts, color) {
-
-  return this.each(function() {
-    var $this = $(this),
-      data = $this.data();
-
-    if (data.spinner) {
-      data.spinner.stop();
-      delete data.spinner;
-    }
-    if (opts !== false) {
-      opts = $.extend(
-        { color: color || $this.css("color") },
-        $.fn.spin.presets[opts] || opts
-      );
-      data.spinner = new Spinner(opts).spin(this);
-    }
-  });
-};
-
-$.fn.spin.presets = {
-  tiny: {
-    lines: 10,
-    length: 3,
-    width: 2,
-    radius: 5,
-    color: "#888"
-  }
-};

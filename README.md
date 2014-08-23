@@ -7,6 +7,10 @@ Création d'un module
 JVC SpawnKill est un plugin pour jeuxvideo.com ajoutant des fonctionnalités comme les avatars, les citations ou les signatures.
 Ce guide présente la création d'un nouveau module avec pour illustration la création d'un module permettant d'accéder à la dernière page d'un topic depuis la liste des sujets.
 
+Avant de contribuer, pensez à lire les quelques conventions que je me suis donné sur la page suivante : [Contribuer à SpawnKill](https://github.com/dorian-marchal/spawnkill/blob/master/CONTRIBUTING.md)
+
+Vous pouvez ensuite suivre ce guide de création d'un module :smile:
+
 ### Ajout du code de base
 
 Pour mettre en place un nouveau module, la première chose à faire est de créer le fichier correspondant :
@@ -20,6 +24,7 @@ Pour mettre en place un nouveau module, la première chose à faire est de crée
  */
 SK.moduleConstructors.LastPage = SK.Module.new();
 
+SK.moduleConstructors.LastPage.prototype.id = "LastPage";
 SK.moduleConstructors.LastPage.prototype.title = "Dernière page";
 SK.moduleConstructors.LastPage.prototype.description = "Permet d'accéder à la dernière page d'un topic directement depuis la liste des sujets";
 
@@ -65,17 +70,17 @@ Ajouter ensuite une ligne en haut du fichier `jvc-spawnkill.user.js` pour import
 
 ### Conditions d'exécution du module
 
-La méthode `shouldBeActivated` doit retourner vrai si le script doit être exécuté.
-Dans notre cas, le script est exécuté sur la liste des topics :
+La méthode `shouldBeActivated` doit retourner vrai si le script doit être exécuté. Un helper est disponible pour faciliter la reconnaissance des pages. Par exemple, dans notre cas, le script est exécuté sur la liste des topics :
 
 ```javascript
 /**
  * Le script est exécuté sur la liste des sujets
  */
 SK.moduleConstructors.LastPage.prototype.shouldBeActivated = function() {
-    return (window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/0/));
+    SK.Util.currentPageIn([ "topic-list" ]); //Le module est activé si la page courante est la liste des sujets
 };
 ```
+La méthode `SK.Util.currentPageIn` prend en compte les pages suivantes : `topic-list`, `topic-read`, `topic-form` et `topic-response`. 
 
 ### Initialisation du plugin
 
@@ -163,7 +168,8 @@ SK.moduleConstructors.LastPage.prototype.getCss = function() {
 ### Ajout d'options au module
 
 Il est possible d'ajouter facilement des options au module avec l'attribut `settings`. Ces options apparaitront automatiquement dans le panneau de configuration de SpawnKill.
-Pour l'exemple, nous allons rendre optionnel l'affichage de la petite flèche à droite du topic :
+Plusieurs types d'options sont possibles (voir l'annexe : [Les types de d'options](#les-types-doptions))
+Pour l'exemple, nous allons rendre optionnel l'affichage de la petite flèche à droite du topic avec un booléen :
 
 ```javascript
 /**
@@ -174,6 +180,7 @@ SK.moduleConstructors.LastPage.prototype.settings = {
 	showIndicator: {
 	    title: "Ajout d'un indicateur",
 	    description: "Ajout d'une flèche à droite de l'image du topic pour indiquer l'intéractivité.",
+	    type: "boolean",
 	    default: true,
 	}
 };
@@ -211,9 +218,50 @@ SK.moduleConstructors.LastPage.prototype.getCss = function() {
 };
 ```
 Voilà, en moins de 60 lignes, vous avez un module configurable et injectant du CSS dans la page. Il ne vous reste plus qu'à faire un `pull request`.
+Mais avant ça, pensez à lire les quelques règles à respecter sur la page suivante : [Contribuer à SpawnKill](https://github.com/dorian-marchal/spawnkill/blob/master/CONTRIBUTING.md)
 
 Pour les plugins plus complexes, vous pouvez aussi jeter un oeil aux objets suivants : [`Modal`](https://github.com/dorian-marchal/spawnkill/blob/master/Modal.js), [`Author`](https://github.com/dorian-marchal/spawnkill/blob/master/Author.js), [`Message`](https://github.com/dorian-marchal/spawnkill/blob/master/Message.js), [`Button`](https://github.com/dorian-marchal/spawnkill/blob/master/Button.js) ou [`SlideToggle`](https://github.com/dorian-marchal/spawnkill/blob/master/SlideToggle.js). Les fonctions statiques de la classe [`Util`](https://github.com/dorian-marchal/spawnkill/blob/master/Util.js) peuvent aussi être intéressantes, notamment pour interroger facilement l'API de JVC.
 
 Si vous avez des questions, n'hésitez pas à m'envoyer un MP sur jeuxvideo.com. Mon pseudo est [`Spixel_`](http://www.jeuxvideo.com/messages-prives/nouveau.php?all_dest=Spixel_).
 
 Bon développement :)
+
+
+Annexe
+------
+
+### Les types d'options
+
+Il existe plusieurs types d'option pour les modules, chacune a sa propre structure :
+
+#### Les booléens (Bouton ON/OFF)
+
+```javascript
+/**
+ * Boolean option
+ */ 
+SK.moduleConstructors.NouveauModule.prototype.settings = {
+	optionId: {
+	    title: "Titre de l'option",
+	    description: "Description de l'option",
+	    type: "boolean",
+	    default: true,
+	}
+};
+```
+
+#### Les selects (listes déroulantes)
+```javascript
+/**
+ * Select option
+ */ 
+SK.moduleConstructors.NouveauModule.prototype.settings = {
+	optionId: {
+	    title: "Titre de l'option",
+	    description: "Description de l'option",
+	    type: "select",
+	    options: { value1Id: "Valeur 1", value2Id: "Valeur 2", value3Id: "Valeur 3" },
+	    default: "value2Id"
+	}
+};
+```

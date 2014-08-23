@@ -8,6 +8,7 @@
  */
 SK.moduleConstructors.LastPage = SK.Module.new();
 
+SK.moduleConstructors.LastPage.prototype.id = "LastPage";
 SK.moduleConstructors.LastPage.prototype.title = "Dernière page";
 SK.moduleConstructors.LastPage.prototype.description = "Permet d'accéder à la dernière page d'un topic directement depuis la liste des sujets";
 
@@ -51,6 +52,9 @@ SK.moduleConstructors.LastPage.prototype.addLastPageLinks = function() {
 			title: "Accéder à la dernière page du sujet"
 		}));
 
+		//On réduit la taille de la date pour ne pas casser l'affichage
+		$topic.find("td:eq(4)").html($topic.find("td:eq(4)").text().trim().replace(/\/[\d]{4}/, ""));
+		$("#liste_topics #c5").html("Dern. Msg.");
 	});
 };
 
@@ -58,7 +62,7 @@ SK.moduleConstructors.LastPage.prototype.addLastPageLinks = function() {
  * Le script est exécuté sur la liste des sujets
  */
 SK.moduleConstructors.LastPage.prototype.shouldBeActivated = function() {
-    return (window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/0/));
+    return SK.Util.currentPageIn([ "topic-list" ]);
 };
 
 /**
@@ -71,6 +75,12 @@ SK.moduleConstructors.LastPage.prototype.getCss = function() {
 
 	if(this.getSetting("showIndicator")) {
 		css += "\
+			#liste_topics th#c5 {\
+				width: auto;\
+			}\
+			#liste_topics th#c1 {\
+				min-width: 26px;\
+			}\
 			a.last-page-link {\
 			  position: relative;\
 			  width: 27px;\
@@ -101,6 +111,7 @@ SK.moduleConstructors.LastPage.prototype.settings = {
 	showIndicator: {
 	    title: "Ajout d'un indicateur",
 	    description: "Ajout d'une flèche à droite de l'image du topic pour indiquer l'intéractivité.",
+	    type: "boolean",
 	    default: true,
 	}
 };

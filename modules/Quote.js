@@ -14,56 +14,77 @@
  */
 SK.moduleConstructors.Quote = SK.Module.new();
 
+SK.moduleConstructors.Quote.prototype.id = "Quote";
 SK.moduleConstructors.Quote.prototype.title = "Citations";
 SK.moduleConstructors.Quote.prototype.description = "Permet de citer un message de manière propre simplement en cliquant sur un bouton \"citer\".";
 
-//Longueur maximum d'une ligne (approximatif), les lignes plus longues sont tronquées
-SK.moduleConstructors.Quote.prototype.maxLength = 50;
+//Longueur maximum d'une ligne (approximatif), les lignes plus longues sont tronquées. 0 = pas de limite
+SK.moduleConstructors.Quote.prototype.maxLength = 0;
 //Longueur de l'indentation de la citation
 SK.moduleConstructors.Quote.prototype.indentationBefore = 0;
 
 SK.moduleConstructors.Quote.prototype.init = function() {
-    //Si une citation est prévue, on l'affiche
-    var quoteMessage = GM_getValue("response.content");
-    if(quoteMessage) {
-        this.citeMessage(quoteMessage);
-        GM_deleteValue("response.content");
+
+    //On transforme les citations en Html
+    if(this.getSetting("htmlQuote")) {
+        this.initQuoteTypes();
+        this.htmlizeAllQuotes();
     }
-    this.addCitationButtons();
+
+    if(this.getSetting("quoteButton")) {
+        //Si une citation est prévue, on l'affiche
+        var quoteMessage = SK.Util.getValue("responseContent");
+
+        if(quoteMessage) {
+            this.citeMessage(quoteMessage);
+            SK.Util.deleteValue("responseContent");
+        }
+
+        //On veut que le bouton soit inséré après le lien
+        this.addQuoteButtons();
+    }
 };
 
 /* Ajoute les boutons de citation dans l'entete du poste
 * si la boîte de réponse est présente dans la page */
-SK.moduleConstructors.Quote.prototype.addCitationButtons = function() {
+SK.moduleConstructors.Quote.prototype.addQuoteButtons = function() {
 
     var self = this;
 
+    //On passe les fonctions dans la file pour éviter de bloquer l'UI
+    var queueQuoteButton = function($msg) {
+
+        self.queueFunction(function() {
+            SK.Util.addButton($msg, {
+                class: "quote",
+                location: "bottom",
+                index: 100,
+                tooltip: {
+                    text: "Citer ce message",
+                },
+                click: function() {
+
+                    var citationBlock = self.createCitationBlock(new SK.Message($msg));
+
+                    //Si QuickResponse n'est pas activé et qu'on est sur la page de lecture,
+                    //le bouton de citation dirige vers la page de réponse en remplissant
+                    //le formulaire de réponse
+                    if(!SK.modules.QuickResponse.activated &&
+                        window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/1/))
+                    {
+                        SK.Util.setValue("responseContent", citationBlock);
+                        window.location.href = $(".bt_repondre").attr("href");
+                    }
+                    else {
+                        self.citeMessage(citationBlock);
+                    }
+                }
+            });
+        }, this);
+    };
+
     $(".msg").each(function() {
-
-        SK.Util.addButton($(this), {
-            class: "quote",
-            location: "bottom",
-            tooltip: {
-                text: "Citer ce message",
-            },
-            click: function() {
-
-                var citationBlock = self.createCitationBlock(new SK.Message($(this).parents(".msg")));
-
-                //Si QuickResponse n'est pas activé et qu'on est sur la page de lecture,
-                //le bouton de citation dirige vers la page de réponse en remplissant
-                //le formulaire de réponse
-                if(!SK.modules.QuickResponse.activated &&
-                    window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/1/))
-                {
-                    GM_setValue("response.content", citationBlock);
-                    window.location.href = $(".bt_repondre").attr("href");
-                }
-                else {
-                    self.citeMessage(citationBlock);
-                }
-            }
-        });
+        queueQuoteButton($(this));
     });
 };
 
@@ -95,44 +116,40 @@ SK.moduleConstructors.Quote.prototype.createCitationBlock = function(message) {
 
     var lines = message.text.split("\n");
 
-    //On parcourt toutes les lignes du message
-    for(var i = 0; i < lines.length; i++) {
-        if(lines[i].length > this.maxLength) {
+    if(this.maxLength !== 0) {
+        //On parcourt toutes les lignes du message
+        for(var i = 0; i < lines.length; i++) {
+            if(lines[i].length > this.maxLength) {
 
-            //On passe les liens à la ligne
-            var httpIndex = lines[i].indexOf("http");
+                //On coupe les lignes trop longues au niveau des espaces (pour éviter de tronquer les mots)
+                var cutIndex = lines[i].substr(this.maxLength).indexOf(" ");
 
-            if(httpIndex > 1) { // > 0 et pas !== -1 pour éviter une boucle infini
-                lines.splice(i, 0, lines[i].substr(0, httpIndex));
-                lines.splice(i + 1, 1, lines[i + 1].substr(httpIndex));
-            } 
-
-            //On coupe les lignes trop longues au niveau des espaces (pour éviter de tronquer les mots)
-            var cutIndex = lines[i].substr(this.maxLength).indexOf(" ");
-
-            //S'il n'y a pas d'espaces dans la chaine, on ne la coupe pas
-            if(cutIndex !== -1) {
-                lines.splice(i, 0, lines[i].substr(0, this.maxLength + cutIndex));
-                lines.splice(i + 1, 1, lines[i + 1].substr(this.maxLength + cutIndex));
+                //S'il n'y a pas d'espaces dans la chaine, on ne la coupe pas
+                if(cutIndex !== -1) {
+                    lines.splice(i, 0, lines[i].substr(0, this.maxLength + cutIndex));
+                    lines.splice(i + 1, 1, lines[i + 1].substr(this.maxLength + cutIndex));
+                }
             }
         }
     }
 
     //Ajout de décoration/indentation à gauche des lignes
     $.each(lines, function(i, line) {
-        lines[i] = SK.Util._(this.indentationBefore) + "┆ " + SK.Util._(1) + " " + line;
+        lines[i] = SK.Util._(this.indentationBefore) + "┊ " + line;
     }.bind(this));
 
     //Message descriptif de la citation
-    lines.splice(0, 0, SK.Util._(this.indentationBefore) + "╭┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄");
-    lines.splice(0, 0, SK.Util._(this.indentationBefore + 4) + message.author + ", le " + message.date + " :");
+    lines.splice(0, 0, SK.Util._(this.indentationBefore) + "┊");
+    lines.splice(0, 0, SK.Util._(this.indentationBefore) + "┊ " + message.permalink);
+    lines.splice(0, 0, SK.Util._(this.indentationBefore) + "┊ " + message.authorPseudo + ", le " + message.date);
+    lines.splice(0, 0, SK.Util._(this.indentationBefore) + "╭");
     //Fin de la citation
-    lines.push(SK.Util._(this.indentationBefore) + "╰┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄");
+    lines.push(SK.Util._(this.indentationBefore) + "╰");
     //On passe une ligne après la citation
     lines.push("\n");
 
     //On n'autorise pas les sauts de ligne consécutifs dans les citations
-    var quote = lines.join("\n").replace("\n\n\n", "\n");
+    var quote = lines.join("\n")/*.replace("\n\n\n", "\n")*/;
 
     return quote;
 };
@@ -160,20 +177,325 @@ SK.moduleConstructors.Quote.prototype.citeMessage = function(citationBlock) {
 
 };
 
+/**
+ * Retourne un bloc de citation html à partir des infos passées en paramètre
+ */
+SK.moduleConstructors.Quote.prototype.citationToHtml = function(pseudo, jour, mois, annee, heure, permalien, message) {
+
+    //CDV de l'auteur cité
+    var profileUrl = "http://www.jeuxvideo.com/profil/" + pseudo + ".html";
+
+    if(heure !== "") {
+        heure = "<div class='quote-hour' >" + heure + "</div>";
+    }
+    var $quote = $("<div class='quote-bloc' >" +
+            "<div class='quote-header' >" +
+                "<a class='quote-pseudo' href='" + profileUrl + "' >" + pseudo + "</a>" +
+                heure +
+                "<div class='quote-date' >" + jour + " " + mois + " " + annee + "</div>" +
+            "</div>" +
+            "<hr>" +
+            "<div class='quote-message' >" +
+                message + 
+            "</div>" +
+        "</div>");
+
+    //Permlien vers le message
+    if(permalien !== "") {
+        $quote.find(".quote-pseudo").first().after(new SK.Button({
+            class: "link-gray",
+            href: permalien,
+            tooltip: {
+                text: "Lien vers ce message",
+                position: "right"
+            },
+            wrapper: {
+                class: "quote-link"
+            }
+        }));
+    }
+
+    //Popup CDV de l'auteur
+    $quote.find(".quote-pseudo").first().on("click", function(event) {
+        event.preventDefault();
+        window.open(profileUrl, "profil", "width=800,height=570,scrollbars=no,status=no");
+    });
+
+    return $quote[0].outerHTML;
+};
+
+/* options : {
+    id: nom du type de la citation
+    regex: regex de reconnaissance du type de citation 
+    replaceCallback: callback appelé avec post.replace(regex, replaceCallback)
+}*/
+SK.moduleConstructors.Quote.QuoteType = function(options) {
+    this.regex = options.regex;
+    this.replaceCallback = options.replaceCallback;
+};
+
+/**
+ * Tous les types de citations pris en compte par le plugin
+ * pour le passge à l'HTML
+ */
+SK.moduleConstructors.Quote.prototype.quoteTypes = [];
+
+/**
+ * Prépare les styles de citations supportés
+ */
+SK.moduleConstructors.Quote.prototype.initQuoteTypes = function() {
+
+    var self = this;
+
+    self.quoteTypes.push(new SK.moduleConstructors.Quote.QuoteType({
+        id: "beatrice",
+        /* $1: pseudo, $2: jour, $3: mois, $4: année, $5: heure, $6: message, $7: permalien */
+        regex: /# (.*)\n^# Posté le (\d{1,2}) ([^\s]*) (\d{4}) à (\d{2}:\d{2}):\d{2}\n((?:.|[\n\r])*?)\n^# *<a(?:.*?)href="(http[^"]*)".*[\s]*/gm,
+
+        replaceCallback: function(match, pseudo, jour, mois, annee, heure, message, permalien) {
+
+            //On retire les # au début du message
+            message = self.cleanUpMessage(message, "#");
+            return self.citationToHtml(pseudo, jour, mois, annee, heure, permalien, message);
+
+        }
+    }));
+
+    self.quoteTypes.push(new SK.moduleConstructors.Quote.QuoteType({
+        id: "spawnkill",
+        /* $1: pseudo, $2: jour, $3: mois, $4: année, $5: heure, $6: permalien, $7: message (à épurer en retirant le cadre) */
+        regex: /╭(?:┄┄┄)?(?:\n *┊)? ([^,]*), le (\d{1,2}) ([^\s]*) (\d{4}) à (\d{2}:\d{2}):\d{2}\n^ *┊ *<a(?:.*?)href="(http[^"]*)".*\n *┊(?:┄┄┄)?\n((?:.|[\n\r])*?)\n^ *╰(?:┄┄┄)?[\s]*/gm,
+
+        replaceCallback: function(match, pseudo, jour, mois, annee, heure, permalien, message) {
+
+            //On retire les | au début du message
+            message = self.cleanUpMessage(message, "┊");
+            return self.citationToHtml(pseudo, jour, mois, annee, heure, permalien, message);
+        }
+    }));
+
+    self.quoteTypes.push(new SK.moduleConstructors.Quote.QuoteType({
+        id: "turboforum",
+        /* $1: pseudo, $2: jour (peut être vide), $3: mois (peut être vide), $4: année (peut être vide),
+         * $5: heure (peut être vide), $6: permalien (peut être vide), $6: message (à épurer en retirant le cadre), pas d'heure */
+        regex: /\| ([^\s]*)(?:(?:&nbsp;)|[\s])*-(?:(?:&nbsp;)|[\s])*(?:(?:le (\d{1,2}) ([^\s]*) (\d{4}))|(?:aujourd’hui à (\d{2}:\d{2})))[ ]*(?:\n\| <a(?:.*?)href="(http[^"]*)".*)*\n((?:(?:\n*^\|.*)*)*)(?:(?:[\s]*)&gt; )*/gm,
+
+        replaceCallback: function(match, pseudo, jour, mois, annee, heure, permalien, message) {
+
+            //On retire les | au début du message
+            message = self.cleanUpMessage(message, "|");
+            return self.citationToHtml(pseudo, jour, mois, annee, heure, permalien, message);
+        }
+    }));
+
+    self.quoteTypes.push(new SK.moduleConstructors.Quote.QuoteType({
+        id: "jvcmaster",
+        /* $1: permalien (peut être vide), $2: pseudo, $3: jour, $4: mois, $5: année, $6: heure, $7: message (à épurer en retirant le cadre) */
+        regex: /(?:(?: *\| *<a(?:.*?)href="(http[^"]*)".*\n))* *\| Ecrit par « ([^\s]*) »(?:[^\d]*)(\d{1,2}) ([^\s]*) (\d{4}) à (\d{2}:\d{2}):\d{2}\n((?:\n? *\|.*)*)(?:(?:[\s]*)(?:&gt;)? *)?/gm,
+
+        replaceCallback: function(match, permalien, pseudo, jour, mois, annee, heure, message) {
+
+            //On retire les | au début du message
+            message = self.cleanUpMessage(message, "|");
+            return self.citationToHtml(pseudo, jour, mois, annee, heure, permalien, message);
+        }
+    }));
+};
+
+
+/**
+ * Retire les séparateurs et les guillemets des citations récupérées.
+ */
+SK.moduleConstructors.Quote.prototype.cleanUpMessage = function(message, separator) {
+    //On "nettoie" le message en retirant les séparateurs et les guillemets
+    var lines = message.split("\n");
+
+    for(var i in lines) {
+
+        //Suppression des séparateurs
+        var regex = new RegExp("^ *\\" + separator + " *");
+        lines[i] = lines[i].replace(regex, "");
+
+        //Suppression des guillemets
+        lines[i] = lines[i].replace(/^ *« */, "");
+
+        //Si les citations ne sont pas imbriquées, on supprime le »
+        if(!lines[i].match(/^ *[\||#|┊] *.*/)) {
+            lines[i] = lines[i].replace(/ *» *$/, "");
+        }
+    }
+
+    return lines.join("\n");
+};
+
+/** Remplace les citations textes par du HTML dans le texte passé en paramètre */
+SK.moduleConstructors.Quote.prototype.htmlizeQuote = function(postText) {
+    
+    var newPostText = postText;
+    
+    for(var i in this.quoteTypes) {
+        newPostText = newPostText.replace(this.quoteTypes[i].regex, this.quoteTypes[i].replaceCallback);
+    }
+
+    //Si aucun remplacement n'a été fait, on a terminé.
+    if(postText === newPostText) {
+        return newPostText;
+    }
+    //Sinon, on cherche des citations un niveau plus bas
+    else {
+        return this.htmlizeQuote(newPostText);
+    }
+};
+
+/** 
+ * Transforme toutes les citations textes de la page en Html
+ */
+SK.moduleConstructors.Quote.prototype.htmlizeAllQuotes = function() {
+
+    var self = this;
+    var $posts = $(".post");
+    var postCount = $posts.length;
+
+    //On remplace les citations textes par de l'Html dans tous les posts
+
+    $posts.each(function(i, post) {
+
+        var $post = $(post);
+        self.queueFunction(function() {
+            //On retire les <br> pour le parsing, on les ajoutera par la suite
+            var postText = $post.html().replace(/\n/g, "").replace(/[ ]*<br>/g, "\n");
+
+            //On converti les citations en html
+            postText = self.htmlizeQuote(postText);
+
+            //On remet les <br>
+            $post.html(postText.replace(/\n/g, "\n<br>"));
+
+            if(i === postCount - 1) {
+                SK.Util.dispatch("htmlQuoteLoaded");
+            }
+        }, this);
+    });
+};
+
+/* Options modifiables du plugin */ 
+SK.moduleConstructors.Quote.prototype.settings = {
+    htmlQuote: {
+        title: "Formatage des citations",
+        description: "Améliore le style des citations pour qu'elles se détachent plus du message.",
+        type: "boolean",
+        default: true,
+    },
+    quoteButton: {
+        title: "Bouton de citation",
+        description: "Ajoute un bouton de citation permettant de répondre à un post.",
+        type: "boolean",
+        default: true,
+    },
+    quoteType: {
+        title: "Type de citation",
+        description: "Choix du type de citation en mode texte (citations que verront ceux qui n'ont pas SpawnKill).",
+        type: "select",
+        options: { spawnkill: "SpawnKill", turboforum: "JVC TurboForum", jvcmaster: "JVC Master" },
+        default: "spawnkill",
+    }
+};
+
 SK.moduleConstructors.Quote.prototype.shouldBeActivated = function() {
     /* On affiche le bloc de citation sur la page réponse et les pages de lecture */
-    return (
-            window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/3/) || 
-            window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/1/)
-        );
+    return SK.Util.currentPageIn([ "topic-read", "topic-response" ]);
 };
 
 SK.moduleConstructors.Quote.prototype.getCss = function() {
-    var css = "\
-        .sk-button-content.quote {\
-            background-image: url('" + GM_getResourceURL("quote") + "');\
-            background-position: -1px -1px;\
-        }\
-    ";
+    var css = "";
+
+    if(this.getSetting("quoteButton")) {
+        css += "\
+            .sk-button-content.quote {\
+                background-image: url('" + GM_getResourceURL("quote") + "');\
+                background-position: -1px -1px;\
+            }\
+        ";
+    }
+
+    if(this.getSetting("htmlQuote")) {
+        css += "\
+            .quote-bloc {\
+                position: relative;\
+                background-color: #FFF;\
+                box-shadow: 1px 1px 3px -0px rgba(0, 0, 0, 0.3);\
+                border-left: solid 3px #FF7B3B;\
+                margin-bottom: 10px;\
+                color: #444;\
+            }\
+            .quote-bloc::after {\
+                content: \"\";\
+                display: block;\
+                width: 0px;\
+                height: 0px;\
+                position: absolute;\
+                top: 28px;\
+                left: -3px;\
+                border: solid 7px transparent;\
+                border-left-color: #FF7B3B;\
+            }\
+            .quote-header {\
+                padding: 3px 10px;\
+                padding-right: 5px;\
+            }\
+            .quote-bloc hr {\
+                display: block;\
+                border: none;\
+                border-bottom: solid 1px #E0E0E0;\
+                margin: 0 5px;\
+                margin-left: 10px;\
+                height: 0px;\
+            }\
+            .quote-pseudo {\
+                display: inline-block;\
+                font-weight: bold;\
+                color: #444;\
+            }\
+            .quote-pseudo:hover {\
+                color: #FF7B3B;\
+            }\
+            .quote-date {\
+                float: right;\
+                display: inline-block;\
+                position: relative;\
+                top: 1px;\
+                padding-left: 18px;\
+                font-size: 0.9em;\
+                background-image: url('" + GM_getResourceURL("calendar") + "');\
+                background-position: 1px -1px;\
+                background-repeat: no-repeat;\
+            }\
+            .quote-hour {\
+                float: right;\
+                display: inline-block;\
+                position: relative;\
+                top: 1px;\
+                padding-left: 26px;\
+                font-size: 0.9em;\
+                background-image: url('" + GM_getResourceURL("clock") + "');\
+                background-position: 10px -1px;\
+                background-repeat: no-repeat;\
+            }\
+            .quote-message {\
+                padding: 5px;\
+                padding-left: 10px;\
+            }\
+            .quote-bloc .sk-button.quote-link {\
+                float: right;\
+                margin-left: 8px;\
+            }\
+            .sk-button-content.link-gray {\
+                background-image: url('" + GM_getResourceURL("link-gray") + "');\
+                background-color: transparent;\
+                border-bottom-color: transparent;\
+            }\
+        ";
+    }
+
     return css;
 };

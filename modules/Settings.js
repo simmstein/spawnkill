@@ -7,8 +7,9 @@
  */
 SK.moduleConstructors.Settings = SK.Module.new();
 
+SK.moduleConstructors.Settings.prototype.id = "Settings";
 SK.moduleConstructors.Settings.prototype.title = "Configuration";
-SK.moduleConstructors.Settings.prototype.description = "Permet d'ajouter une fenêtre de configuration pour SpawnKill.";
+SK.moduleConstructors.Settings.prototype.description = "Ajoute une fenêtre de configuration pour SpawnKill.";
 SK.moduleConstructors.Settings.prototype.required = true;
 
 SK.moduleConstructors.Settings.prototype.init = function() {
@@ -18,11 +19,11 @@ SK.moduleConstructors.Settings.prototype.init = function() {
 
 /* Affiche le panneau de configuration au premier lancement du script */
 SK.moduleConstructors.Settings.prototype.showSettingsIfNeeded = function() {
-    if(!GM_getValue("seenSettings")) {
+    if(!SK.Util.getValue("seenSettings")) {
         window.setTimeout(function() {
             $("#settings-button > a").click();
             //Le panneau ne doit s'afficher qu'une fois
-            GM_setValue("seenSettings", true);
+            SK.Util.setValue("seenSettings", true);
         }, 200);
     }
 };
@@ -84,9 +85,11 @@ SK.moduleConstructors.Settings.prototype.getModal = function() {
     });
 
     var $modal = new SK.Modal({
+        location: "top",
         title: "Configuration de SpawnKill",
+        hasCloseButton: false,
         content: this.getSettingsUI(),
-        buttons: [$cancelButton, $okButton]
+        buttons: [ $cancelButton, $okButton ]
     });
 
     return $modal;
@@ -94,22 +97,28 @@ SK.moduleConstructors.Settings.prototype.getModal = function() {
 
 SK.moduleConstructors.Settings.prototype.getSettingsUI = function() {
 
-    var ui = "";
+    var getOptionStringValue = function(option) {
+        if(option.type === "boolean") {
+            return option.value ? "1" : "0";
+        }
+        return option.value;
+    };
 
+    var ui = "";
+    ui += "<span class='settings-spawnkill-version' >" + SK.VERSION + "</span>";
     ui += "<ul id='settings-form' >";
         for(var moduleKey in SK.modules) {
 
             var module = SK.modules[moduleKey];
-            ui += "<li class='setting" + (module.required ? " required" : "") + "' data-activated='" + (module.activated ? "1" : "0") + "' data-id='" + moduleKey + "' >";
+            ui += "<li title='" + SK.Util.htmlEncode(module.description) + "' class='setting" + (module.required ? " required" : "") + "' data-activated='" + (module.activated ? "1" : "0") + "' data-id='" + moduleKey + "' >";
 
-                ui += "<div class='main-setting' >" + module.title + "</div>";
+                ui += "<div class='main-setting' >" + SK.Util.htmlEncode(module.title) + "</div>";
                 ui += "<hr>";
                 ui += "<ul class='options fold' >";
                     for(var settingKey in module.settings) {
                         var setting = module.settings[settingKey];
-                        ui += "<li class='option' data-value='" + (setting.value ? "1" : "0") + "' data-id='" + settingKey + "' >";
-                            ui += module.settings[settingKey].title;
-                            // console.log(moduleKey + "." + setting.label + ": " + setting);
+                        ui += "<li class='option' title='" + SK.Util.htmlEncode(setting.description) + "' data-id='" + settingKey + "' >";
+                            ui += SK.Util.htmlEncode(module.settings[settingKey].title);
                         ui += "</li>";
                     }    
                 ui += "</ul>";
@@ -126,6 +135,7 @@ SK.moduleConstructors.Settings.prototype.getSettingsUI = function() {
         var $mainSetting = $setting.find(".main-setting");
         var disabled = $mainSetting.parent().hasClass("required");
         var subOptions = $mainSetting.siblings(".options").find(".option");
+        var module = SK.modules[$(this).attr("data-id")];
 
         //Slide-toggles Settings
         $mainSetting.append(new SK.SlideToggle({
@@ -139,7 +149,8 @@ SK.moduleConstructors.Settings.prototype.getSettingsUI = function() {
         var $settingButton = new SK.Button({
             class: "settings",
             tooltip: {
-                text: "Afficher/Masquer les options du module"
+                text: "Afficher/Masquer les options du module",
+                position: "right"
             },
             wrapper: {
                 class: "subsettings-button"
@@ -157,11 +168,23 @@ SK.moduleConstructors.Settings.prototype.getSettingsUI = function() {
         }
 
         //Slide-toggles Options
+
         $setting.find(".option").each(function() {
+
             var $option = $(this);
-            $option.append(new SK.SlideToggle({
-                value: $option.attr("data-value") === "1",
-            }));
+            var option = module.settings[$option.attr("data-id")];
+
+            if(option.type === "boolean") {
+                $option.append(new SK.SlideToggle({
+                    value: option.value,
+                }));
+            }
+            else if(option.type === "select") {
+                $option.append(new SK.DropdownList({
+                    values: option.options,
+                    value: option.value
+                }));
+            }
         });
     });
 
@@ -170,19 +193,29 @@ SK.moduleConstructors.Settings.prototype.getSettingsUI = function() {
 
 /** Parcourt l'interface de paramètrage et enregistre les préférences */
 SK.moduleConstructors.Settings.prototype.saveSettings = function() {
+
     //On parcourt l'interface et on enregistre les préférences
     $("#settings-form .setting").each(function() {
         var $setting = $(this);
         var settingId = $setting.attr("data-id");
+        var setting = SK.modules[settingId];
         var settingIsActivated = $setting.find(".main-setting .slide-toggle input").prop("checked");
-        GM_setValue(settingId, settingIsActivated);
+        SK.Util.setValue(settingId, settingIsActivated);
 
         //Enregistrement des options des modules
         $setting.find(".option").each(function() {
             var $option = $(this);
-            var optionId = settingId + "." + $option.attr("data-id");
-            var optionValue = $option.find("input").prop("checked");
-            GM_setValue(optionId, optionValue);
+            var optionId = $option.attr("data-id");
+            var option = setting.settings[optionId];
+            var optionLocalstorageId = settingId + "." + $option.attr("data-id");
+            var optionValue = null;
+            if(option.type === "boolean") {
+                optionValue = $option.find("input").prop("checked");
+            }
+            else if(option.type === "select") {
+                optionValue = $option.find("select").val();
+            }
+            SK.Util.setValue(optionLocalstorageId, optionValue);
 
         });
 
@@ -190,7 +223,7 @@ SK.moduleConstructors.Settings.prototype.saveSettings = function() {
 };
 
 SK.moduleConstructors.Settings.prototype.shouldBeActivated = function() {
-    return (window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/(0|1|2|3)/));
+    return SK.Util.currentPageIn([ "topic-read", "topic-list", "topic-form", "topic-response" ]);
 };
 
 SK.moduleConstructors.Settings.prototype.getCss = function() {
@@ -208,6 +241,13 @@ SK.moduleConstructors.Settings.prototype.getCss = function() {
             position: absolute;\
                 right: 1px;\
                 top: 3px;\
+        }\
+        .settings-spawnkill-version {\
+            position: absolute;\
+            right: 10px;\
+            top: 10px;\
+            font-size: 1.2em;\
+            color: #BBB;\
         }\
         .sk-button-content.settings {\
             width: 18px;\
@@ -254,7 +294,15 @@ SK.moduleConstructors.Settings.prototype.getCss = function() {
         #settings-form .slide-toggle {\
             position: absolute;\
             right: 34px;\
-            top: 5px;           \
+            top: 5px;\
+        }\
+        #settings-form .option .slide-toggle {\
+            right: 6px;\
+        }\
+        #settings-form .option .sk-dropdown {\
+            position: absolute;\
+                top: 6px;\
+                right: 6px;\
         }\
         .subsettings-button {\
             position: absolute !important;\

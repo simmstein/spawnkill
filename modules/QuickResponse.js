@@ -10,12 +10,16 @@
  */
 SK.moduleConstructors.QuickResponse = SK.Module.new();
 
+SK.moduleConstructors.QuickResponse.prototype.id = "QuickResponse";
 SK.moduleConstructors.QuickResponse.prototype.title = "Réponse Rapide";
 SK.moduleConstructors.QuickResponse.prototype.description = "Permet de répondre à un topic sans avoir à cliquer sur \"Répondre\". Le formulaire de réponse est présent sur toutes les pages.";
 
 SK.moduleConstructors.QuickResponse.prototype.init = function() {
-    this.addResponseForm();
-    this.addAnchor();
+    this.queueFunction(function() {
+
+        this.addResponseForm();
+        this.addAnchor();
+    }, this);
 };
 
 /* Ajoute le formulaire de réponse en base de la page, si nécessaire */
@@ -32,6 +36,7 @@ SK.moduleConstructors.QuickResponse.prototype.addResponseForm = function() {
 
             $quickResponseForm.hide();
             $quickResponseForm.html($(data.replace(/<p class="lien_base">\n.*\n<\/p>/, "")).find(".bloc_forum:last, form[name=post2]"));
+            $quickResponseForm.addClass("quick-response");
             $quickResponseForm.fadeIn();
         }
     });
@@ -50,5 +55,18 @@ SK.moduleConstructors.QuickResponse.prototype.addAnchor = function() {
 };
 
 SK.moduleConstructors.QuickResponse.prototype.shouldBeActivated = function() {
-    return (window.location.href.match(/http:\/\/www\.jeuxvideo\.com\/forums\/1/) && $(".bt_repondre").length > 0);
+    //On ajoute la quickResponse que si le bouton répondre est présent sur la page
+    return SK.Util.currentPageIn([ "topic-read" ]) && $(".bt_repondre").length > 0;
+};
+
+SK.moduleConstructors.QuickResponse.prototype.getCss = function() {
+
+    var css = "\
+        .quick-response #boutons_repondre {\
+            background: none;\
+            padding-bottom: 0px;\
+        }\
+    ";
+
+    return css;
 };

@@ -3,50 +3,131 @@
 /* jshint newcap: false */
 
 /* Représente un auteur de JVC */
-SK.Author = function($msg) {
-    this.$msg = $msg;
-    this.$avatar = null;
-    this.pseudo = "";
+SK.Author = function(pseudo) {
+    this.version = SK.Author.VERSION;
+    this.pseudo = pseudo;
     this.rank = "";
     this.messageCount = 0;
     this.avatar = "";
+    this.fullSizeAvatar = "";
     this.gender = "";
     this.profileLink = "";
-    this.listeners = [];
+    //Faux en cas de profile banni/supprimé
+    this.profileUnavailable = false;
+    //"ban tempo", "ban def", "error" ou "removed"
+    this.errorType = "";
+    this.hasLocalData = false;
+    this.messages = [];
 };
 
-/* Charge les données de l'auteur en Ajax */
-SK.Author.prototype.init = function() {
-    var self = this;
+/** Version du modèle. Permet de déprecier le cache si la structure change */
+SK.Author.VERSION = "2.2.1";
 
-    self.loaded = false;
-    self.pseudo = self.$msg.find("strong").html().trim();
-    self.profileLink = "http://www.jeuxvideo.com/profil/" + self.pseudo + ".html";
-
-    SK.Util.jvc("profil/" + self.pseudo + ".xml", function($xml) {
+/** Durée de validité du localStorage en jours */
+SK.Author.DATA_TTL = 4;
 
 
-        if($xml.find("info_pseudo").length > 0 &&
-            $xml.find("nb_messages").length > 0 &&
-            $xml.find("petite_image").length > 0 &&
-            $xml.find("couleur_pseudo").length > 0
-        ) {
-            self.rank = SK.Author.getRankFromColor($xml.find("couleur_rang").text());
-            self.messageCount = parseInt($xml.find("nb_messages").text());
-            self.avatar = $xml.find("petite_image").text();
-            self.gender = $xml.find("couleur_pseudo").text() === "#0066CC" ? "male" : "female";
-            self.loaded = true;
-        }
-
-        for (var i in self.listeners) {
-            self.listeners[i](self);
-        }
-    });
+/** 
+ * Set les données de l'auteur à partir d'un objet data
+ */
+SK.Author.prototype.initFromData = function(data) {
+    this.version = data.version || "";
+    this.rank = data.rank || "";
+    this.messageCount = data.messageCount || 0;
+    this.avatar = data.avatar || "";
+    this.fullSizeAvatar = data.fullSizeAvatar || "";
+    this.gender = data.gender || "";
+    this.profileLink = data.profileLink || "";
+    this.profileUnavailable = data.profileUnavailable || false;
+    this.errorType = data.errorType || "";
+    this.hasLocalData = data.hasLocalData || false;
 };
 
-/* Ajoute une fonction qui sera appelée quand les données seront chargées */
-SK.Author.prototype.addListener = function(listener) {
-    this.listeners.push(listener);
+/* Charge les données de l'auteur à partir d"un élément $cdv (issu de l'API JVC) */
+SK.Author.prototype.initFromCdv = function($cdv) {
+
+    this.profileLink = "http://www.jeuxvideo.com/profil/" + this.pseudo + ".html";
+    
+    if($cdv.find("info_pseudo").length > 0 &&
+        $cdv.find("nb_messages").length > 0 &&
+        $cdv.find("petite_image").length > 0 &&
+        $cdv.find("couleur_pseudo").length > 0
+    ) {
+        this.rank = SK.Author.getRankFromColor($cdv.find("couleur_rang").text());
+        this.messageCount = parseInt($cdv.find("nb_messages").text());
+        this.avatar = $cdv.find("petite_image").text();
+        this.fullSizeAvatar = $cdv.find("image").text();
+        this.gender = $cdv.find("couleur_pseudo").text() === "#0066CC" ? "male" : "female";
+    }
+    else {
+        this.profileUnavailable = true;
+
+        var error = $cdv.find("texte_erreur").text();
+        
+        if(error === "Le pseudo est banni temporairement") {
+            this.errorType = "ban tempo";
+        }
+        else if(error === "Le pseudo est banni") {
+            this.errorType = "ban def";
+        }
+        else {
+            this.errorType = "error";
+        }
+    }
+};
+
+
+
+/* Ajoute un message à l'auteur */
+SK.Author.prototype.addMessage = function(message) {
+    this.messages.push(message);
+};
+
+/** 
+ * Enregistre les données de l'auteur dans le localStorage
+ */
+SK.Author.prototype.saveLocalData = function() {
+
+    var data = {
+        version: this.version,
+        rank: this.rank,
+        messageCount: this.messageCount,
+        avatar: this.avatar,
+        fullSizeAvatar: this.fullSizeAvatar,
+        gender: this.gender,
+        profileLink: this.profileLink,
+        profileUnavailable: this.profileUnavailable,
+        errorType: this.errorType,
+        hasLocalData: true,
+        date: new Date()
+    };
+
+    SK.Util.setValue(this.pseudo, data);
+};
+
+/*
+ * Récupère les données de l'auteur dans le localStorage.
+ * Retourne vrai si on a trouvé des données exploitables en local pour cet auteur
+ */
+SK.Author.prototype.loadLocalData = function() {
+
+    var data = SK.Util.getValue(this.pseudo);
+
+    if(data !== null) {
+
+        //On ne charge les données que si elles sont encore valables
+        var dataDate = new Date(data.date);
+        var now = new Date();
+        var timeDiff = Math.abs(now.getTime() - dataDate.getTime());
+        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+        if(data.version === SK.Author.VERSION && diffDays < SK.Author.DATA_TTL) {
+            this.initFromData(data);
+            return true;
+        }
+    }
+
+    return false;
 };
 
 SK.Author.getRankFromColor = function(hexString) {

@@ -6,7 +6,10 @@
  * Objet parent de tous les modules de SpawnKill
  * 
  */
-SK.Module = function() {};
+SK.Module = function() {
+    /** File de fonctions à exécuter */
+    this.internal_queue = [];
+};
 
 //MÉTHODES ET ATTRIBUTS POUVANT ÊTRE REDÉFINIES DANS LES MODULES ENFANTS
 
@@ -14,6 +17,11 @@ SK.Module = function() {};
  * true si le module ne peut pas être désactivé.
  */
 SK.Module.prototype.required = false;
+
+/**
+ * Id du module
+ */
+SK.Module.prototype.id = "";
 
 /**
  * Titre du module
@@ -98,4 +106,49 @@ SK.Module.prototype.internal_getCss = function() {
     else {
         return "";
     }
+};
+
+/** Timer de la file de fonctions */
+SK.Module.prototype.internal_timer = null;
+
+
+SK.Module.prototype.internal_clearFunction = function() {
+    clearTimeout(this.internal_timer);
+    this.internal_queue = [];
+};
+
+/**
+ * Méthode à utiliser pour mettre du code en file d'attente
+ * afin d'éviter de bloquer le navigateur avec des opérations
+ * lourdes.
+ * Le code est exécuté dans l'ordre de la file avec un petit
+ * délai entre chaque.
+ */
+SK.Module.prototype.queueFunction = function(fn, context, time) {
+    var self = this;
+
+    var setTimer = function(time) {
+        self.internal_timer = setTimeout(function() {
+            time = self.queueFunction();
+            if(self.internal_queue.length) {
+                setTimer(time);
+            }
+        }, time || 0);
+    };
+
+    if(fn) {
+        self.internal_queue.push([fn, context, time]);
+        if(self.internal_queue.length == 1) {
+            setTimer(time);
+        }
+        return;
+    }
+
+    var next = self.internal_queue.shift();
+    if(!next) {
+        return 0;
+    }
+    next[0].call(next[1] || window);
+
+    return next[2];
 };

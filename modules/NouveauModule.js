@@ -7,6 +7,7 @@
  */
 SK.moduleConstructors.NouveauModule = SK.Module.new();
 
+SK.moduleConstructors.NouveauModule.prototype.id = "NouveauModule";
 SK.moduleConstructors.NouveauModule.prototype.title = "Titre du nouveau module";
 SK.moduleConstructors.NouveauModule.prototype.description = "Description du nouveau module";
 SK.moduleConstructors.NouveauModule.prototype.required = false;
@@ -37,7 +38,10 @@ SK.moduleConstructors.NouveauModule.prototype.shouldBeActivated = function() {
  * Par défaut, aucun CSS n'est injecté.
  */
 SK.moduleConstructors.NouveauModule.prototype.getCss = function() {
-    return "";
+
+	var css = "";
+
+    return css;
 };
 
 /**
