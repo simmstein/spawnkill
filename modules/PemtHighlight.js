@@ -3,35 +3,47 @@
 /* jshint newcap: false */
 
 /**
- * NouveauModule : Description du module
+ * PemtHighlight: Met en valeur les posts simultanés
+ * TODO:
+ *  -Embellir la mise en valeur
  */
+
 SK.moduleConstructors.NouveauModule = SK.Module.new();
 
-SK.moduleConstructors.NouveauModule.prototype.id = "NouveauModule";
-SK.moduleConstructors.NouveauModule.prototype.title = "Titre du nouveau module";
-SK.moduleConstructors.NouveauModule.prototype.description = "Description du nouveau module";
+SK.moduleConstructors.NouveauModule.prototype.id = "PemtHighlight";
+SK.moduleConstructors.NouveauModule.prototype.title = "PemtHighlight";
+SK.moduleConstructors.NouveauModule.prototype.description = "Met en valeur les posts simultanés";
 SK.moduleConstructors.NouveauModule.prototype.required = true;
 
 /**
  * Initialise le module, fonction appelée quand le module est chargé
  */
 SK.moduleConstructors.NouveauModule.prototype.init = function() {
+    //Crée un tableau contenant les dates du topic
     var dates = $('.date').text().replace(/via mobile/g,"").split("Posté le");
     var results = [];
+    //Boucle de test de PEMT
     for (var i = 0; i < dates.length; i++) {
+        //Si la date est similaire à celle du post suivant
         if (dates[i] == dates[i+1]) {
+            //Alors on l'ajoute au tableau des PEMT
             results.push(dates[i]);
         }
     }
+    //Si le tableau des PEMT n'est pas vide
     if (0 < results.length) {
-	for (var i = 0; i < results.length; i++) {
-	    $('.date').filter(function() {
+        //Pour chaque PEMT
+	    for (var i = 0; i < results.length; i++) {
+            //On récupère toutes les dates du topic
+	        $('.date').filter(function() {
                 var re = new RegExp(results[i]);
-		if (re.test($(this).text())) {
-		    $(this).parents('.msg').css("background","orange");
-		}
-	    });
-	}
+                //Et on teste si certaines ont la date d'un PEMT
+		        if (re.test($(this).text())) {
+                    //Si oui, on colorie le message en orange
+		            $(this).parents('.msg').css("background","orange");
+		        }
+	        });
+	    }
     }   
 };
 
@@ -45,7 +57,7 @@ SK.moduleConstructors.NouveauModule.prototype.uneMethodeExemple = function() {
  * Par défaut le module est toujours activé
  */
 SK.moduleConstructors.NouveauModule.prototype.shouldBeActivated = function() {
-    return true;
+    return SK.Util.currentPageIn([ "topic-read" ]);
 };
 
 /**

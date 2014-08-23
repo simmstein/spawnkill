@@ -3,20 +3,18 @@
 /* jshint newcap: false */
 
 /**
- * NouveauModule : Description du module
+ * Refresh: plugin du bouton de rafraichissement 
  */
 SK.moduleConstructors.NouveauModule = SK.Module.new();
 
-SK.moduleConstructors.NouveauModule.prototype.id = "NouveauModule";
-SK.moduleConstructors.NouveauModule.prototype.title = "Titre du nouveau module";
-SK.moduleConstructors.NouveauModule.prototype.description = "Description du nouveau module";
-SK.moduleConstructors.NouveauModule.prototype.required = false;
+SK.moduleConstructors.NouveauModule.prototype.id = "Refresh";
+SK.moduleConstructors.NouveauModule.prototype.title = "Rafraichissement";
+SK.moduleConstructors.NouveauModule.prototype.description = "Le bouton de rafraichissement scrolle en bas de la page";
+SK.moduleConstructors.NouveauModule.prototype.required = true;
 
 /**
  * Initialise le module, fonction appelée quand le module est chargé
  */
-var url = document.URL;
-var regexp = /\?refresh=1/;
 SK.moduleConstructors.NouveauModule.prototype.init = function() {
     //Modification du bouton Refresh
     if (this.isRefreshed()) {
@@ -34,6 +32,10 @@ SK.moduleConstructors.NouveauModule.prototype.init = function() {
 };
 
 SK.moduleConstructors.NouveauModule.prototype.isRefreshed = function() {
+    //Cette regexp teste si l'url contient ?refresh=1
+    var regexp = /\?refresh=1/;
+
+    //Teste si la requête vient du bouton Rafraichir
     if (regexp.test(url)) {
         return true;
     }
@@ -48,7 +50,7 @@ SK.moduleConstructors.NouveauModule.prototype.isRefreshed = function() {
  * Par défaut le module est toujours activé
  */
 SK.moduleConstructors.NouveauModule.prototype.shouldBeActivated = function() {
-    return true;
+    return SK.Util.currentPageIn([ "topic-read" ]);
 };
 
 /**
