@@ -8,17 +8,17 @@
  *  -Embellir la mise en valeur
  */
 
-SK.moduleConstructors.NouveauModule = SK.Module.new();
+SK.moduleConstructors.PemtHighlight = SK.Module.new();
 
-SK.moduleConstructors.NouveauModule.prototype.id = "PemtHighlight";
-SK.moduleConstructors.NouveauModule.prototype.title = "PemtHighlight";
-SK.moduleConstructors.NouveauModule.prototype.description = "Met en valeur les posts simultanés";
-SK.moduleConstructors.NouveauModule.prototype.required = true;
+SK.moduleConstructors.PemtHighlight.prototype.id = "PemtHighlight";
+SK.moduleConstructors.PemtHighlight.prototype.title = "PemtHighlight";
+SK.moduleConstructors.PemtHighlight.prototype.description = "Met en valeur les posts simultanés";
+SK.moduleConstructors.PemtHighlight.prototype.required = true;
 
 /**
  * Initialise le module, fonction appelée quand le module est chargé
  */
-SK.moduleConstructors.NouveauModule.prototype.init = function() {
+SK.moduleConstructors.PemtHighlight.prototype.init = function() {
     //Crée un tableau contenant les dates du topic
     var dates = $('.date').text().replace(/via mobile/g,"").split("Posté le");
     var results = [];
@@ -47,7 +47,7 @@ SK.moduleConstructors.NouveauModule.prototype.init = function() {
     }   
 };
 
-SK.moduleConstructors.NouveauModule.prototype.uneMethodeExemple = function() {
+SK.moduleConstructors.PemtHighlight.prototype.uneMethodeExemple = function() {
     //Ma méthode
 };
 
@@ -56,7 +56,7 @@ SK.moduleConstructors.NouveauModule.prototype.uneMethodeExemple = function() {
  * peut-être redéfinie.
  * Par défaut le module est toujours activé
  */
-SK.moduleConstructors.NouveauModule.prototype.shouldBeActivated = function() {
+SK.moduleConstructors.PemtHighlight.prototype.shouldBeActivated = function() {
     return SK.Util.currentPageIn([ "topic-read" ]);
 };
 
@@ -64,7 +64,7 @@ SK.moduleConstructors.NouveauModule.prototype.shouldBeActivated = function() {
  * Retourne le CSS à injecter si le plugin est activé.
  * Par défaut, aucun CSS n'est injecté.
  */
-SK.moduleConstructors.NouveauModule.prototype.getCss = function() {
+SK.moduleConstructors.PemtHighlight.prototype.getCss = function() {
 
 	var css = "";
 
@@ -75,4 +75,4 @@ SK.moduleConstructors.NouveauModule.prototype.getCss = function() {
  * Options configurables du plugin.
  * Ces options apparaitront dans le panneau de configuration de SpawnKill
  */ 
-SK.moduleConstructors.NouveauModule.prototype.settings = {};
+SK.moduleConstructors.PemtHighlight.prototype.settings = {};
