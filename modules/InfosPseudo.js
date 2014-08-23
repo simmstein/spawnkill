@@ -261,7 +261,8 @@ SK.moduleConstructors.InfosPseudo.prototype.addRank = function(message) {
 
         var rankString = "Rang " + message.author.rank.charAt(0).toUpperCase() + message.author.rank.slice(1);
 
-        if(this.getSetting("enableAvatar")) {
+        //Si l'avatar est pas disponible et que le rang doit être positionné sur l'avatar
+        if(this.getSetting("enableAvatar") && this.getSetting("rankLocation") === "avatar") {
             
             var $rank = $("<span />", {
                 class: "rank " + message.author.rank,
@@ -408,6 +409,13 @@ SK.moduleConstructors.InfosPseudo.prototype.settings = {
         description: "Affiche le rang de l'auteur sur les posts à la lecture d'un topic.",
         type: "boolean",
         default: true,
+    },
+    rankLocation: {
+        title: "Emplacement du rang",
+        description: "Permet de choisir où le rang doit apparaître sur le post",
+        type: "select",
+        options: { avatar: "Sur l'avatar", topBar: "À gauche du bouton CDV" },
+        default: "avatar",
     },
     enableMP: {
         title: "Bouton de MP",
@@ -620,6 +628,7 @@ SK.moduleConstructors.InfosPseudo.prototype.getCss = function() {
             border-bottom-color: #A0170B;\
         }\
         .sk-button-content.rank {\
+            position: static;\
             border: none !important;\
             height: 15px !important;\
             cursor: default;\

@@ -1,10 +1,5 @@
 ### v1.11.4
 - Affichage des plugins dans la preview du message
 - Ajouter d'autres types de paramètres dans la config
-	- Mettre à juor la doc
-	- getSetting
-	- Panneau de paramètrage
-	- Sauvegarde des paramètres
-	- Valeurs par défaut
 - Ajouter une option de choix pour la position du rang
 - Choix du type de citations

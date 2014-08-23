@@ -260,7 +260,7 @@ SK.moduleConstructors.NouveauModule.prototype.settings = {
 	    title: "Titre de l'option",
 	    description: "Description de l'option",
 	    type: "select",
-	    values: { value1Id: "Valeur 1", value2Id: "Valeur 2", value3Id: "Valeur 3" },
+	    options: { value1Id: "Valeur 1", value2Id: "Valeur 2", value3Id: "Valeur 3" },
 	    default: "value2Id"
 	}
 };
