@@ -394,7 +394,7 @@ SK.moduleConstructors.Quote.prototype.settings = {
     },
     quoteType: {
         title: "Type de citation",
-        description: "Chopix du type de citation en mode texte (citations que verront ceux qui n'ont pas SpawnKill).",
+        description: "Choix du type de citation en mode texte (citations que verront ceux qui n'ont pas SpawnKill).",
         type: "select",
         options: { spawnkill: "SpawnKill", turboforum: "JVC TurboForum", jvcmaster: "JVC Master" },
         default: "spawnkill",

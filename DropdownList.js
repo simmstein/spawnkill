@@ -24,15 +24,22 @@ SK.DropdownList = function(options) {
 
     var $select = $("<select>", selectOptions);
 
-    $select
-        .addClass("sk-dropdown-select")
-        .prop("checked", defaultValue);
+    $select.addClass("sk-dropdown-select");
 
+    //On ajoute les options
     for(var value in values) {
-        $select.append($("<option>", {
+
+        var $option = $("<option>", {
             value: value,
             text: values[value]
-        }));
+        });
+
+        $select.append($option);
+
+        //On sélectionne la valeur par défaut
+        if(defaultValue === value) {
+            $option.prop("selected", true);
+        }
     }
 
     $dropdown.append($select);

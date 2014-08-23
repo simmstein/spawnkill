@@ -500,6 +500,7 @@ SK.moduleConstructors.StartSpawnKill.prototype.correctSplitPost = function() {
             -webkit-appearance: none;\
             -moz-appearance: none;\
             appearance: none;    \
+            cursor: pointer;\
         }\
         .sk-dropdown::before,\
         .sk-dropdown::after {\

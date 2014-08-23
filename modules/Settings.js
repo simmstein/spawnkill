@@ -117,7 +117,7 @@ SK.moduleConstructors.Settings.prototype.getSettingsUI = function() {
                 ui += "<ul class='options fold' >";
                     for(var settingKey in module.settings) {
                         var setting = module.settings[settingKey];
-                        ui += "<li class='option' title='" + SK.Util.htmlEncode(setting.description) + "' data-type='" + setting.type + "' data-value='" + getOptionStringValue(setting) + "' data-id='" + settingKey + "' >";
+                        ui += "<li class='option' title='" + SK.Util.htmlEncode(setting.description) + "' data-id='" + settingKey + "' >";
                             ui += SK.Util.htmlEncode(module.settings[settingKey].title);
                         ui += "</li>";
                     }    
@@ -135,6 +135,7 @@ SK.moduleConstructors.Settings.prototype.getSettingsUI = function() {
         var $mainSetting = $setting.find(".main-setting");
         var disabled = $mainSetting.parent().hasClass("required");
         var subOptions = $mainSetting.siblings(".options").find(".option");
+        var module = SK.modules[$(this).attr("data-id")];
 
         //Slide-toggles Settings
         $mainSetting.append(new SK.SlideToggle({
@@ -167,20 +168,21 @@ SK.moduleConstructors.Settings.prototype.getSettingsUI = function() {
         }
 
         //Slide-toggles Options
-        $setting.find(".option").each(function() {
-            var $option = $(this);
-            var value = $option.attr("data-value");
-            var type = $option.attr("data-type");
 
-            if(type === "boolean") {
+        $setting.find(".option").each(function() {
+
+            var $option = $(this);
+            var option = module.settings[$option.attr("data-id")];
+
+            if(option.type === "boolean") {
                 $option.append(new SK.SlideToggle({
-                    value: value === "1",
+                    value: option.value,
                 }));
             }
-            else if(type === "select") {
+            else if(option.type === "select") {
                 $option.append(new SK.DropdownList({
-                    values: { test: "Test", toast: "Toast", otherItem: "Autre choix" },
-                    value: value
+                    values: option.options,
+                    value: option.value
                 }));
             }
         });
@@ -191,19 +193,29 @@ SK.moduleConstructors.Settings.prototype.getSettingsUI = function() {
 
 /** Parcourt l'interface de paramètrage et enregistre les préférences */
 SK.moduleConstructors.Settings.prototype.saveSettings = function() {
+
     //On parcourt l'interface et on enregistre les préférences
     $("#settings-form .setting").each(function() {
         var $setting = $(this);
         var settingId = $setting.attr("data-id");
+        var setting = SK.modules[settingId];
         var settingIsActivated = $setting.find(".main-setting .slide-toggle input").prop("checked");
         SK.Util.setValue(settingId, settingIsActivated);
 
         //Enregistrement des options des modules
         $setting.find(".option").each(function() {
             var $option = $(this);
-            var optionId = settingId + "." + $option.attr("data-id");
-            var optionValue = $option.find("input").prop("checked");
-            SK.Util.setValue(optionId, optionValue);
+            var optionId = $option.attr("data-id");
+            var option = setting.settings[optionId];
+            var optionLocalstorageId = settingId + "." + $option.attr("data-id");
+            var optionValue = null;
+            if(option.type === "boolean") {
+                optionValue = $option.find("input").prop("checked");
+            }
+            else if(option.type === "select") {
+                optionValue = $option.find("select").val();
+            }
+            SK.Util.setValue(optionLocalstorageId, optionValue);
 
         });
 
