@@ -40,7 +40,7 @@ SK.moduleConstructors.PemtHighlight.prototype.init = function() {
                 //Et on teste si certaines ont la date d'un PEMT
 		        if (re.test($(this).text())) {
                     //Si oui, on colorie le message en orange
-		            $(this).parents('.msg').css("background","orange");
+		            $(this).css("color","orange");
 		        }
 	        });
 	    }
