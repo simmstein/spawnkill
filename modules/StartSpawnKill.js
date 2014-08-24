@@ -15,7 +15,9 @@ SK.moduleConstructors.StartSpawnKill.prototype.required = true;
 
 SK.moduleConstructors.StartSpawnKill.prototype.beforeInit = function() {
     var mainHsl = this.getSetting("mainColor");
+    console.log(mainHsl);
     var match = mainHsl.match(/hsl\((\d*), (\d*)%, (\d*)%\)/);
+    console.log(match);
     this.mainColor = "hsl(" + match[1] + ", " + match[2] + "%, 60%)";
     this.darkColor = "hsl(" + match[1] + ", " + match[2] + "%, 35%)";
 };
@@ -167,7 +169,7 @@ SK.moduleConstructors.StartSpawnKill.prototype.settings = {
         description: "Possibilité de choisir la couleur principale utilisée à travers tout le plugin.",
         type: "select",
         options: { "hsl(20, 100%, 62%)": "Orange", "hsl(195, 60%, 33%)" : "Bleu", "hsl(40, 100%, 52%)" : "Jaune" },
-        default: "#FF7B3B",
+        default: "hsl(20, 100%, 62%)",
     }
 };
 
