@@ -29,6 +29,7 @@ Roadmap - SpawnKill
 - Bouton pour vider le cache
 
 *EmbedMedia*
+- Problème avec les liens Youtube incorporants une durée
 - Datapopin sur les liens des images pour dissocier les miniatures et les popins
 - Option pour afficher les images en miniatures
 - Ajouter option durée validité cache, options avancées ?
