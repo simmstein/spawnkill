@@ -397,14 +397,14 @@ SK.moduleConstructors.Quote.prototype.settings = {
         description: "Ajoute un bouton de citation permettant de répondre à un post.",
         type: "boolean",
         default: true,
-    },
-    quoteType: {
-        title: "Type de citation",
-        description: "Choix du type de citation en mode texte (citations que verront ceux qui n'ont pas SpawnKill).",
-        type: "select",
-        options: { spawnkill: "SpawnKill", turboforum: "JVC TurboForum", jvcmaster: "JVC Master" },
-        default: "spawnkill",
-    }
+    }//,
+    // quoteType: {
+    //     title: "Type de citation",
+    //     description: "Choix du type de citation en mode texte (citations que verront ceux qui n'ont pas SpawnKill).",
+    //     type: "select",
+    //     options: { spawnkill: "SpawnKill", turboforum: "JVC TurboForum", jvcmaster: "JVC Master" },
+    //     default: "spawnkill",
+    // }
 };
 
 SK.moduleConstructors.Quote.prototype.shouldBeActivated = function() {
