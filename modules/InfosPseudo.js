@@ -35,7 +35,7 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostInfos = function() {
     var self = this;
 
     //:not(.lecture_msg) evite les MP
-    if($("#col1:not(.lecture_msg) .msg").length > 0) {
+    if($(":not(.lecture_msg) .msg").length > 0) {
 
         //Auteurs dont on n'a pas les données
         var toLoadAuthors = [];
@@ -142,7 +142,6 @@ SK.moduleConstructors.InfosPseudo.prototype.addPostButtons = function(message) {
     var mpUrl = "http://www.jeuxvideo.com/messages-prives/nouveau.php?all_dest=" + message.authorPseudo;
 
     //Bouton CDV
-
     var profileButtonOptions = {
         class: (message.author.gender && this.getSetting("enableSex")) ? message.author.gender : "unknown",
         href: profileUrl,
@@ -399,7 +398,7 @@ SK.moduleConstructors.InfosPseudo.prototype.resizeAndCenterAvatar = function($av
 };
 
 SK.moduleConstructors.InfosPseudo.prototype.shouldBeActivated = function() {
-    return SK.Util.currentPageIn([ "topic-read", "topic-response" ]);
+    return SK.Util.currentPageIn([ "topic-read", "topic-response", "post-preview" ]);
 };
 
 SK.moduleConstructors.InfosPseudo.prototype.settings = {

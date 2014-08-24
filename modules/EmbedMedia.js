@@ -539,7 +539,7 @@ SK.moduleConstructors.EmbedMedia.prototype.embedMedia = function() {
 };
 
 SK.moduleConstructors.EmbedMedia.prototype.shouldBeActivated = function() {
-    return SK.Util.currentPageIn([ "topic-read", "topic-response" ]);
+    return SK.Util.currentPageIn([ "topic-read", "topic-response", "post-preview" ]);
 };
 
 SK.moduleConstructors.EmbedMedia.prototype.settings = {

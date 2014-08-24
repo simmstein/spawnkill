@@ -2,15 +2,14 @@ Roadmap - SpawnKill
 =====================
 
 ### v1.11.5
-- Choix du type de citations
-- Affichage des plugins dans la preview du message
-- CHoix de la taille de l'avatar
+- Possibilité de changer la taille des avatars
+- Les plugins sont désormais actifs dans l'aperçu du message
+- Possibilité de choisir le type de citation texte (SpawnKill, Turboforum ou JVC Master)
+- Possibilité de changer la couleur principale du plugin
 
 ### v1.12
 - Ajouter d'autres types d'options pour les plugins (string, text, int, bool, float, color, select, bouton action...)
-- Ajouter option type de citations
 - Possibilité de citer seulement une partie du message
-- Plusieurs tailles d'avatars
 
 ### Plus tard
 

@@ -131,7 +131,7 @@ var checkDomReady = setInterval(function() {
         module.internal_init();
     };
 
-    if($("#footer").length > 0) {
+    if($(".stats").length > 0) {
 
         clearInterval(checkDomReady);
         
