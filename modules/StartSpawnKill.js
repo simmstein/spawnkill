@@ -166,7 +166,7 @@ SK.moduleConstructors.StartSpawnKill.prototype.settings = {
         title: "Couleur principale du plugin",
         description: "Possibilité de choisir la couleur principale utilisée à travers tout le plugin.",
         type: "select",
-        options: { "hsl(20, 100%, 62%)": "Orange", "hsl(195, 60%, 33%)" : "Bleu", "hsl(40, 100%, 52%)" : "Jaune" },
+        options: { "hsl(20, 100%, 62%)": "Orange", "hsl(195, 60%, 33%)" : "Bleu", "hsl(40, 90%, 52%)" : "Jaune" },
         default: "hsl(20, 100%, 62%)",
     }
 };
