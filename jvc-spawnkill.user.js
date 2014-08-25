@@ -27,7 +27,7 @@
 // @require     modules/EmbedMedia.js?v1.11.3
 // @require     modules/WarnOnNewPost.js?v1.11.3
 // @require     modules/AutoUpdate.js?v1.11.3
-// @require     modules/Refresh.js?v1.11.3
+// @require     modules/RefreshScroll.js?v1.11.3
 // @require     modules/PemtHighlight.js?v1.11.3
 // @resource    close                 images/close.png
 // @resource    banImage              images/ban.png

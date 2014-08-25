@@ -13,7 +13,7 @@ SK.moduleConstructors.PemtHighlight = SK.Module.new();
 SK.moduleConstructors.PemtHighlight.prototype.id = "PemtHighlight";
 SK.moduleConstructors.PemtHighlight.prototype.title = "PemtHighlight";
 SK.moduleConstructors.PemtHighlight.prototype.description = "Met en valeur les posts simultanés";
-SK.moduleConstructors.PemtHighlight.prototype.required = true;
+SK.moduleConstructors.PemtHighlight.prototype.required = false;
 
 /**
  * Initialise le module, fonction appelée quand le module est chargé
@@ -40,7 +40,7 @@ SK.moduleConstructors.PemtHighlight.prototype.init = function() {
                 //Et on teste si certaines ont la date d'un PEMT
 		        if (re.test($(this).text())) {
                     //Si oui, on colorie le message en orange
-		            $(this).css("color","orange");
+		            $(this).addClass("pemt-highlight");
 		        }
 	        });
 	    }
@@ -66,7 +66,11 @@ SK.moduleConstructors.PemtHighlight.prototype.shouldBeActivated = function() {
  */
 SK.moduleConstructors.PemtHighlight.prototype.getCss = function() {
 
-	var css = "";
+	var css = "\
+        .pemt-highlight {\
+            color: orange\
+        };
+    ";
 
     return css;
 };
