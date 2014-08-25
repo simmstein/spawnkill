@@ -29,10 +29,25 @@ SK.moduleConstructors.AutoUpdate.prototype.init = function() {
 			//n'a pas déjà été vue au cours de la dernière heure, on affiche une notification
 			if(release.tag_name !== SK.VERSION) {
 
+				var updateFragments = this.splitTagName(release.tag_name);
+				var currentFragments = this.splitTagName(SK.VERSION);
+				var versionType = "major";
+
+				if(updateFragments.bugfixPart !== 0 && 
+					updateFragments.bugfixPart !== currentFragments.bugfixPart &&
+					updateFragments.featurePart === currentFragments.featurePart &&
+					updateFragments.modulePart === currentFragments.modulePart &&
+					updateFragments.structurePart === currentFragments.structurePart
+				) {
+					versionType = "minor";
+				}
+
+				
+
 				var updateSeen = SK.Util.getValue("update.seen");
 
 				//Si c'est une version mineure, il faut que l'option soit activée
-				if(this.releaseType(release) === "major" || this.getSetting("enableBugFixAlert")) {
+				if(versionType === "major" || this.getSetting("enableBugFixAlert")) {
 
 					//Si aucune notification n'a été vue ou que le délai est dépassé
 					if(!updateSeen || (SK.Util.timestamp() - updateSeen) > SK.moduleConstructors.AutoUpdate.NOTIFICATION_INTERVAL) {
@@ -49,10 +64,21 @@ SK.moduleConstructors.AutoUpdate.prototype.init = function() {
 };
 
 /**
- * Retourne "minor" ou "major" en fonction du type de la release.
+ * Retourne le tag de la release décomposé en fragments faciles à comparer
  */
-SK.moduleConstructors.AutoUpdate.prototype.releaseType = function(release) {
-	return typeof release.tag_name.split(".")[3] !== "undefined" ? "minor" : "major";
+SK.moduleConstructors.AutoUpdate.prototype.splitTagName = function(tagName) {
+	var tagArray = tagName.split(".")[3];
+	var structurePart = parseInt(tagArray[1]) || 0;
+	var modulePart = parseInt(tagArray[2]) || 0;
+	var featurePart = parseInt(tagArray[3]) || 0;
+	var bugfixPart = parseInt(tagArray[4]) || 0;
+
+	return {
+		structurePart: structurePart,
+		modulePart: modulePart,
+		featurePart: featurePart,
+		bugfixPart: bugfixPart,
+	};
 };
 
 /*
@@ -70,7 +96,7 @@ SK.moduleConstructors.AutoUpdate.prototype.getLastRelease = function(callback) {
 			callback(JSON.parse(response.responseText)[0]);
 			// callback({
 			// 	"name": "Ne ratez plus les mises à jour !",
-			// 	"tag_name": "v1.14",
+			// 	"tag_name": "v1.11.6",
 			// });
 		}
 	});
@@ -184,6 +210,6 @@ SK.moduleConstructors.AutoUpdate.prototype.settings = {
         title: "Notification pour les corrections de bug",
         description: "Quand cette option est activée, une notification apparait si une correction de bug est en ligne.",
         type: "boolean",
-        default: false,
+        default: true,
     }
 };
