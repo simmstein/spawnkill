@@ -1,14 +1,8 @@
 Roadmap - SpawnKill
 =====================
 
-### v1.12
-Intégration des modules de nounoursheureux :
-- RefreshScroll : Le bouton rafraichir scroll directement au dernier message
-- PemtHilight : Met en couleur les dates quand des posts sont postés en même temps (PEMT)
-- Scroller au dernier post quand on répond
-
-
 ### v1.13
+- Scroller au dernier post quand on répond
 - Possibilité de citer seulement une partie du message
 - Réduire la taille des options
 - Gestion des onglets dans le panneau de configuration
@@ -19,7 +13,6 @@ Intégration des modules de nounoursheureux :
 - Websocket plutôt que requêtes Ajax
 
 ### Plus tard
-
 #### Fonctionnalités :
 *Général*
 - Supporter les forums JV

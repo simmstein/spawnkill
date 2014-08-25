@@ -520,6 +520,7 @@ SK.moduleConstructors.InfosPseudo.prototype.getCss = function() {
             }\
             .avatar.ban img {\
                 background-color: #FFF;\
+                width: 100%;\
             }\
             .avatar.ban::after {\
                 content: \"banni\";\
