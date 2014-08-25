@@ -69,7 +69,7 @@ SK.moduleConstructors.PemtHighlight.prototype.getCss = function() {
 	var css = "\
         .pemt-highlight {\
             color: orange\
-        };
+        };\
     ";
 
     return css;

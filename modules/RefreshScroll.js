@@ -10,7 +10,7 @@ SK.moduleConstructors.RefreshScroll = SK.Module.new();
 SK.moduleConstructors.RefreshScroll.prototype.id = "RefreshScroll";
 SK.moduleConstructors.RefreshScroll.prototype.title = "Scrolling du bouton de rafraichissement";
 SK.moduleConstructors.RefreshScroll.prototype.description = "Le bouton de rafraichissement scrolle en bas de la page";
-SK.moduleConstructors.RefreshScroll.prototype.required = true;
+SK.moduleConstructors.RefreshScroll.prototype.required = false;
 
 /**
  * Initialise le module, fonction appelée quand le module est chargé
