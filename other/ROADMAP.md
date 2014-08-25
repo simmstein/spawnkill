@@ -1,25 +1,31 @@
 Roadmap - SpawnKill
 =====================
 
-### v1.11.5
-- Possibilité de changer la taille des avatars
-- Les plugins sont désormais actifs dans l'aperçu du message
-- Possibilité de choisir le type de citation texte (SpawnKill, Turboforum ou JVC Master)
-- Possibilité de changer la couleur principale du plugin
-
 ### v1.12
-- Ajouter d'autres types d'options pour les plugins (string, text, int, bool, float, color, select, bouton action...)
+Intégration des modules de nounoursheureux :
+- RefreshScroll : Le bouton rafraichir scroll directement au dernier message
+- PemtHilight : Met en couleur les dates quand des posts sont postés en même temps (PEMT)
+- Scroller au dernier post quand on répond
+
+
+### v1.13
 - Possibilité de citer seulement une partie du message
+- Réduire la taille des options
+- Gestion des onglets dans le panneau de configuration
+
+### coming soon
+- Donner le même avatar aux bannis quand ils postent plusieurs fois
+*WarnOnNewPost*
+- Websocket plutôt que requêtes Ajax
 
 ### Plus tard
 
 #### Fonctionnalités :
 *Général*
 - Supporter les forums JV
-- Affichage des plugins dans la preview du message
 - Lien pour reporter un bug
-- Bouton rafraichir : scroll en bas du topic
 - Remplacer les liens vers les topics par le titre du topic
+- Ajouter d'autres types d'options pour les plugins (string, text, int, bool, float, color, select, bouton action...)
 
 *AutoUpdate*
 - Changelog directement dans les notifications
@@ -51,8 +57,6 @@ Roadmap - SpawnKill
 - Bookmark dernière page d'un topic
 - Ajouter un lien vers les citations de ce message
 - Possibilité d'afficher plus de 15 topics par page
-- Scroller au post quand on répond
-- Surligner les PEMT
 - Recherche Intra Topic
 
 
@@ -63,16 +67,7 @@ Roadmap - SpawnKill
 - Ne boucler qu'une fois sur les messages et déclencher des événements interceptables par les plugins
 - Système de priorité pour les appels avec des événements pour lancer d'autres appels
 
-*WarnOnNewPost*
-- Websocket plutôt que requêtes Ajax
-
 #### Bugs :
-
-*InfosPseudo*
--Donner le même avatar aux bannis quand ils postent plusieurs fois
-
-*API*
-- Retourner une chaîne vide en cas d'erreur et ne pas mettre en cache le résultat de l'appel
 
 *Settings*
 - Le panneau de paramètrage ne peut pas défiler
