@@ -111,6 +111,7 @@ SK.moduleConstructors.LastPage.prototype.settings = {
 	showIndicator: {
 	    title: "Ajout d'un indicateur",
 	    description: "Ajout d'une flèche à droite de l'image du topic pour indiquer l'intéractivité.",
+	    type: "boolean",
 	    default: true,
 	}
 };

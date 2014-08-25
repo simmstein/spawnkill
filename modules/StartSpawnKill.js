@@ -13,11 +13,31 @@ SK.moduleConstructors.StartSpawnKill.prototype.title = "Module Principal";
 SK.moduleConstructors.StartSpawnKill.prototype.description = "Met en place la structure générale de SpawnKill.";
 SK.moduleConstructors.StartSpawnKill.prototype.required = true;
 
+SK.moduleConstructors.StartSpawnKill.prototype.beforeInit = function() {
+    var mainHsl = this.getSetting("mainColor");
+    console.log(mainHsl);
+    var match = mainHsl.match(/hsl\((\d*), (\d*)%, (\d*)%\)/);
+    console.log(match);
+    this.mainColor = "hsl(" + match[1] + ", " + match[2] + "%, 60%)";
+    this.darkColor = "hsl(" + match[1] + ", " + match[2] + "%, 35%)";
+};
+
 SK.moduleConstructors.StartSpawnKill.prototype.init = function() {
     this.addModalBackground();
     this.correctSplitPost();
     this.bindPopinEvent();
+
+    if(SK.Util.currentPageIn([ "post-preview" ])) {
+        this.preparePreview();
+    }
+
 };
+
+/* Permet de régler les problèmes de tooltip dans les previews de messages */
+SK.moduleConstructors.StartSpawnKill.prototype.preparePreview = function() {
+    $("body").append($("<div>", { id: "footer" }));
+};
+
 
 /* Ajoute l'évenement permettant d'ouvrir du contenu dans une fenêtre modale */
 SK.moduleConstructors.StartSpawnKill.prototype.bindPopinEvent = function() {
@@ -143,7 +163,21 @@ SK.moduleConstructors.StartSpawnKill.prototype.correctSplitPost = function() {
         });
 };
 
+SK.moduleConstructors.StartSpawnKill.prototype.settings = {
+    mainColor: {
+        title: "Couleur principale du plugin",
+        description: "Possibilité de choisir la couleur principale utilisée à travers tout le plugin.",
+        type: "select",
+        options: { "hsl(20, 100%, 62%)": "Orange", "hsl(195, 60%, 33%)" : "Bleu", "hsl(40, 100%, 52%)" : "Jaune" },
+        default: "hsl(20, 100%, 62%)",
+    }
+};
+
  SK.moduleConstructors.StartSpawnKill.prototype.getCss = function() {
+
+    var mainColor = SK.modules.StartSpawnKill.mainColor;
+    var darkColor = SK.modules.StartSpawnKill.darkColor;
+
     var css = "\
         .msg .post {\
             overflow: visible !important;\
@@ -213,7 +247,7 @@ SK.moduleConstructors.StartSpawnKill.prototype.correctSplitPost = function() {
             top: 10px;\
         }\
         .modal-box h3 {\
-            color: #FF7B3B;\
+            color: " + mainColor + ";\
             overflow: visible !important;\
         }\
         .modal-box hr {\
@@ -296,7 +330,7 @@ SK.moduleConstructors.StartSpawnKill.prototype.correctSplitPost = function() {
             margin-top: 10px;\
         }\
         .sk-button-content {\
-            background-color: #FF7B3B;\
+            background-color: " + mainColor + ";\
             display: inline-block;\
             vertical-align: top;\
             position: relative;\
@@ -305,7 +339,7 @@ SK.moduleConstructors.StartSpawnKill.prototype.correctSplitPost = function() {
             box-sizing: content-box;\
             border: 0;\
             padding: 0;\
-            border-bottom: solid 2px #BC3800;\
+            border-bottom: solid 2px " + darkColor + ";\
             color: #FFF !important;\
             border-radius: 2px;\
             cursor: pointer;\
@@ -450,26 +484,91 @@ SK.moduleConstructors.StartSpawnKill.prototype.correctSplitPost = function() {
             transition-duration: 300ms;\
         }\
         .slide-toggle :checked + .slide-toggle-style {\
-            background-color: #FF7B3B;\
-            box-shadow: 0 0 2px 0px #BC3800 inset;\
+            background-color: " + mainColor + ";\
+            box-shadow: 0 0 2px 0px " + darkColor + " inset;\
         }\
         .slide-toggle :checked + .slide-toggle-style:after {\
             left: 16px;\
         }\
-        .slide-toggle :disabled + .slide-toggle-style {\
-            background-color: #BBB;\
-            box-shadow: 0 0 2px 0px #777 inset;\
-            opacity: 0.8;\
-            cursor: auto;\
-        }\
-        .slide-toggle :disabled:checked + .slide-toggle-style {\
-            background-color: #D17C53;\
-            box-shadow: 0 0 2px 0px #A05838 inset;\
-            opacity: 0.8;\
+        .slide-toggle :disabled+ .slide-toggle-style:before {\
+            content: \"\";\
+            display: block;\
+            position: absolute;\
+            top: 0px;\
+            left: 0px;\
+            border-radius: 50px;\
+            background-color: #AAA;\
+            width: 100%;\
+            height: 100%;\
+            opacity: 0.5;\
             cursor: auto;\
         }\
         .slide-toggle :disabled + .slide-toggle-style:after {\
-            background-color: #D1D1D1;\
+            background-color: #DDD;\
+        }\
+        .sk-dropdown-select:-moz-focusring {\
+            color: transparent;\
+            text-shadow: 0 0 0 #FFF;\
+        }\
+        .sk-dropdown-select:focus {\
+            outline: 0;\
+        }\
+        .sk-dropdown-select {\
+            font-size: 12px;\
+            padding: 2px;\
+            margin: 0;\
+            box-shadow: 0px 0px 2px 0px " + darkColor + " inset;\
+        }\
+        .sk-dropdown-select {\
+            background-color: " + mainColor + ";\
+            color: #fff;\
+        }\
+        .sk-dropdown {\
+            position: relative;\
+            display: inline-block;\
+            vertical-align: middle;\
+        }\
+        .sk-dropdown-select {\
+            padding-right: 30px;\
+            border: 0;\
+            border-radius: 3px;\
+            -webkit-appearance: none;\
+            -moz-appearance: none;\
+            appearance: none;    \
+            cursor: pointer;\
+        }\
+        .sk-dropdown::before,\
+        .sk-dropdown::after {\
+            content: \"\";\
+            position: absolute;\
+            pointer-events: none;\
+        }\
+        .sk-dropdown::after {\
+            content: \"\";\
+            right: 7px;\
+            top: 9px;\
+            border: solid 4px transparent;\
+            border-top-color: rgba(0, 0, 0, 0.3);\
+        }\
+        .sk-dropdown::before {\
+            width: 22px;\
+            right: 0;\
+            top: 0;\
+            bottom: 0;\
+            border-radius: 0 3px 3px 0;\
+        }\
+        .sk-dropdown.disabled {\
+            opacity: 0.8;\
+        }\
+        .sk-dropdown::before {\
+            background-color: #FFF;\
+            box-shadow: -2px 0px 2px -2px rgba(0, 0, 0, 0.3);\
+        }\
+        .sk-dropdown:hover::before {\
+            background-color: #EEE;\
+        }\
+        .sk-dropdown::after {\
+            color: rgba(0, 0, 0, .4);\
         }\
       ";
 

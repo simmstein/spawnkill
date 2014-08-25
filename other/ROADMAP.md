@@ -1,22 +1,15 @@
 Roadmap - SpawnKill
 =====================
 
-### v1.11.4
-- Correction d'un bug avec la réponse rapide quand un topic était locké.
-- Affichage des plugins dans la preview du message
-- Ajouter d'autres types de paramètres dans la config
-- Ajouter une option de choix pour la position du rang
-- Bugs avec "aujourd'hui" dans les citations Turboforum
+### v1.11.5
+- Possibilité de changer la taille des avatars
+- Les plugins sont désormais actifs dans l'aperçu du message
+- Possibilité de choisir le type de citation texte (SpawnKill, Turboforum ou JVC Master)
+- Possibilité de changer la couleur principale du plugin
 
 ### v1.12
 - Ajouter d'autres types d'options pour les plugins (string, text, int, bool, float, color, select, bouton action...)
-- Ajouter option type de citations
 - Possibilité de citer seulement une partie du message
-- Ajouter un helper pour les regex de pages
-- Plusieurs tailles d'avatars
-- Afficher la description des modules dans le panneau de configuration
-
-
 
 ### Plus tard
 
@@ -35,6 +28,7 @@ Roadmap - SpawnKill
 - Bouton pour vider le cache
 
 *EmbedMedia*
+- Problème avec les liens Youtube incorporants une durée
 - Datapopin sur les liens des images pour dissocier les miniatures et les popins
 - Option pour afficher les images en miniatures
 - Ajouter option durée validité cache, options avancées ?
@@ -58,6 +52,8 @@ Roadmap - SpawnKill
 - Ajouter un lien vers les citations de ce message
 - Possibilité d'afficher plus de 15 topics par page
 - Scroller au post quand on répond
+- Surligner les PEMT
+- Recherche Intra Topic
 
 
 ### Optimisation
@@ -72,11 +68,17 @@ Roadmap - SpawnKill
 
 #### Bugs :
 
+*InfosPseudo*
+-Donner le même avatar aux bannis quand ils postent plusieurs fois
+
 *API*
 - Retourner une chaîne vide en cas d'erreur et ne pas mettre en cache le résultat de l'appel
 
 *Settings*
 - Le panneau de paramètrage ne peut pas défiler
+
+*LastPage*
+- Bug avec les pass modérateurs : http://www.jeuxvideo.com/forums/1-1000021-2267708-22-0-1-0-script-jvc-spawnkill-avant-respawn.htm#message_2286047
 
 
 #### Développement :

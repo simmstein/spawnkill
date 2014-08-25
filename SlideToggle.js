@@ -4,7 +4,7 @@
 
 /**
  * Représente un toggle ON/OFF de SpawnKill, options possibles :
- * value : valeur par défaut
+ * value (boolean) : valeur par défaut
  * options d'un objet jQuery
  */
 SK.SlideToggle = function(options) {

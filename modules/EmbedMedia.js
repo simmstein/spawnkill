@@ -347,6 +347,18 @@ SK.moduleConstructors.EmbedMedia.prototype.initMediaTypes = function() {
         getEmbeddedMedia: function() {
 
             var $el = $("<div>");
+            var donationLabels = [
+                "Me payer une gauffre",
+                "Me payer une bière",
+                "Me payer un kebab",
+                "M'acheter des bonbons",
+                "M'offrir un Humble Bundle",
+                "Payer une partie du serveur",
+                "M'offrir un café"
+            ];
+            var donationLabel = donationLabels[Math.floor(Math.random() * donationLabels.length)];
+
+
             $el.append(new SK.Button({
                 class: "spawnkill-button large",
                 text: "Télécharger SpawnKill",
@@ -363,7 +375,7 @@ SK.moduleConstructors.EmbedMedia.prototype.initMediaTypes = function() {
 
             var $donationButton = new SK.Button({
                 class: "spawnkill-button large minor",
-                text: "Me payer une bière",
+                text: donationLabel,
                 tooltip: {
                     position: "bottom large",
                     text: "Faire un don de 2€ à Spixel_"
@@ -527,38 +539,44 @@ SK.moduleConstructors.EmbedMedia.prototype.embedMedia = function() {
 };
 
 SK.moduleConstructors.EmbedMedia.prototype.shouldBeActivated = function() {
-    return SK.Util.currentPageIn([ "topic-read", "topic-response" ]);
+    return SK.Util.currentPageIn([ "topic-read", "topic-response", "post-preview" ]);
 };
 
 SK.moduleConstructors.EmbedMedia.prototype.settings = {
     optinEmbed: {
         title: "Masquer les contenus par défaut",
         description: "Cache le contenu par défaut, il faut d'abord cliquer sur le bouton pour le faire apparaître.",
+        type: "boolean",
         default: false,
     },
     embedVideos: {
         title: "Intégration des vidéos",
         description: "Intégre les vidéos Youtube, DailyMotion et Vimeo aux posts.",
+        type: "boolean",
         default: true,
     },
     embedImages: {
         title: "Intégration des images",
         description: "Intégre les images PNG, JPG et GIF aux posts.",
+        type: "boolean",
         default: true,
     },
     embedSurveys: {
         title: "Intégration des sondages",
         description: "Intégre les sondages Pixule et Sondage.io aux posts.",
+        type: "boolean",
         default: true,
     },
     embedRecords: {
         title: "Intégration des Vocaroos",
         description: "Intégre les enregistrements Vocaroo aux posts.",
+        type: "boolean",
         default: true,
     },
     embedSpawnKill: {
         title: "Bouton de téléchargement SpawnKill",
         description: "Affiche un bouton à la place du lien de téléchargement SpawnKill",
+        type: "boolean",
         default: true,
     }
 };

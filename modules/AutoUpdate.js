@@ -153,6 +153,11 @@ SK.moduleConstructors.AutoUpdate.prototype.dissmisUpdateNotification = function(
 	SK.Util.hideModal();
 };
 
+
+SK.moduleConstructors.AutoUpdate.prototype.shouldBeActivated = function() {
+    return !SK.Util.currentPageIn([ "post-preview" ]);
+};
+
 /**
  * Retourne le CSS à injecter si le plugin est activé.
  * Par défaut, aucun CSS n'est injecté.
@@ -178,6 +183,7 @@ SK.moduleConstructors.AutoUpdate.prototype.settings = {
     enableBugFixAlert: {
         title: "Notification pour les corrections de bug",
         description: "Quand cette option est activée, une notification apparait si une correction de bug est en ligne.",
+        type: "boolean",
         default: false,
     }
 };
