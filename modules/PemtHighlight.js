@@ -5,19 +5,16 @@
 /**
  * PemtHighlight: Met en valeur les posts simultanés
  */
-
 SK.moduleConstructors.PemtHighlight = SK.Module.new();
 
 SK.moduleConstructors.PemtHighlight.prototype.id = "PemtHighlight";
-SK.moduleConstructors.PemtHighlight.prototype.title = "PemtHighlight";
+SK.moduleConstructors.PemtHighlight.prototype.title = "Mise en avant des PEMT";
 SK.moduleConstructors.PemtHighlight.prototype.description = "Met en valeur les posts simultanés";
 
 /**
  * Initialise le module, fonction appelée quand le module est chargé
  */
 SK.moduleConstructors.PemtHighlight.prototype.init = function() {
-
-
 
     //Crée un tableau contenant les dates du topic
     var dates = $(".date").text().replace(/via mobile/g, "").split("Posté le");
@@ -39,8 +36,9 @@ SK.moduleConstructors.PemtHighlight.prototype.init = function() {
 
             //Pour chaque PEMT
     	    for (i = 0; i < results.length; i++) {
+
                 var re = new RegExp(results[i]);
-                //Et on teste si certaines ont la date d'un PEMT
+                //On teste si certaines dates ont la date d'un PEMT
     	        if (re.test($(this).text())) {
                     var $date = $(this);
                     var fullDateHtml = $date.html().trim();

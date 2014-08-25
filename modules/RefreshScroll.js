@@ -8,13 +8,18 @@
 SK.moduleConstructors.RefreshScroll = SK.Module.new();
 
 SK.moduleConstructors.RefreshScroll.prototype.id = "RefreshScroll";
-SK.moduleConstructors.RefreshScroll.prototype.title = "Scrolling du bouton de rafraichissement";
-SK.moduleConstructors.RefreshScroll.prototype.description = "Le bouton de rafraichissement scrolle en bas de la page";
+SK.moduleConstructors.RefreshScroll.prototype.title = "Rafraichir au dernier post";
+SK.moduleConstructors.RefreshScroll.prototype.description = "Le bouton de rafraichissement d'un topic amène directement au dernier message de la page";
 
 /**
  * Initialise le module, fonction appelée quand le module est chargé
  */
 SK.moduleConstructors.RefreshScroll.prototype.init = function() {
+
+    if(this.isRefreshed()) {
+        //Scrolle jusqu'au dernier message
+        window.scrollTo(0,$(".msg").last().position().top);
+    }
 
     setTimeout(function() {
 
@@ -28,11 +33,6 @@ SK.moduleConstructors.RefreshScroll.prototype.init = function() {
         
         $refreshButton.attr("href", refreshUrl);
 
-        //Teste si la requête est un rafraichissement
-        if (this.isRefreshed()) {
-            //Scrolle jusqu'au dernier message
-            window.scrollTo(0,$(".msg").last().position().top);
-        }
     }.bind(this),1500);
 };
 
