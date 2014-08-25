@@ -15,9 +15,7 @@ SK.moduleConstructors.StartSpawnKill.prototype.required = true;
 
 SK.moduleConstructors.StartSpawnKill.prototype.beforeInit = function() {
     var mainHsl = this.getSetting("mainColor");
-    console.log(mainHsl);
     var match = mainHsl.match(/hsl\((\d*), (\d*)%, (\d*)%\)/);
-    console.log(match);
     this.mainColor = "hsl(" + match[1] + ", " + match[2] + "%, 60%)";
     this.darkColor = "hsl(" + match[1] + ", " + match[2] + "%, 35%)";
 };

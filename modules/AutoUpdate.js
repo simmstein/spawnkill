@@ -22,36 +22,20 @@ SK.moduleConstructors.AutoUpdate.prototype.init = function() {
 
 	//On décale légérement la récupération pour ne pas retarder le chargement de la page
 	setTimeout(function() {
-
 		this.getLastRelease(function(release) {
 
 			//Si la version courante n'est pas la dernière et que la notification 
 			//n'a pas déjà été vue au cours de la dernière heure, on affiche une notification
 			if(release.tag_name !== SK.VERSION) {
 
-				var updateFragments = this.splitTagName(release.tag_name);
-				var currentFragments = this.splitTagName(SK.VERSION);
-				var versionType = "major";
-
-				if(updateFragments.bugfixPart !== 0 && 
-					updateFragments.bugfixPart !== currentFragments.bugfixPart &&
-					updateFragments.featurePart === currentFragments.featurePart &&
-					updateFragments.modulePart === currentFragments.modulePart &&
-					updateFragments.structurePart === currentFragments.structurePart
-				) {
-					versionType = "minor";
-				}
-
-				
-
 				var updateSeen = SK.Util.getValue("update.seen");
+				var updateIsMinor = this.updateIsMinor(SK.VERSION, release.tag_name);
 
 				//Si c'est une version mineure, il faut que l'option soit activée
-				if(versionType === "major" || this.getSetting("enableBugFixAlert")) {
-
+				if(!updateIsMinor || this.getSetting("enableBugFixAlert")) {
 					//Si aucune notification n'a été vue ou que le délai est dépassé
 					if(!updateSeen || (SK.Util.timestamp() - updateSeen) > SK.moduleConstructors.AutoUpdate.NOTIFICATION_INTERVAL) {
-						this.showUpdateModal(release);
+						this.showUpdateModal(release, updateIsMinor);
 
 						//On regarde régulièrement si la notif n'a pas été fermée dans un autre onglet
 						this.intervalDismissIfSeen();
@@ -64,14 +48,37 @@ SK.moduleConstructors.AutoUpdate.prototype.init = function() {
 };
 
 /**
+ * Retourne vrai si la mise à jour est mineure par rapport à la version actuelle.
+ * Une mise à jour est mineure si seulement la quatrième partie du numéro de verison est différent
+ * du numéro de la version installée.
+ */
+SK.moduleConstructors.AutoUpdate.prototype.updateIsMinor = function(currentVersionTag, updateVersionTag) {
+
+	var currentFragments = this.splitTagName(currentVersionTag);
+	var updateFragments = this.splitTagName(updateVersionTag);
+
+	if(updateFragments.bugfixPart !== 0 && 
+		updateFragments.bugfixPart !== currentFragments.bugfixPart &&
+		updateFragments.featurePart === currentFragments.featurePart &&
+		updateFragments.modulePart === currentFragments.modulePart &&
+		updateFragments.structurePart === currentFragments.structurePart
+	) {
+		return true;
+	}
+
+	return false;
+
+}
+
+/**
  * Retourne le tag de la release décomposé en fragments faciles à comparer
  */
-SK.moduleConstructors.AutoUpdate.prototype.splitTagName = function(tagName) {
-	var tagArray = tagName.split(".")[3];
-	var structurePart = parseInt(tagArray[1]) || 0;
-	var modulePart = parseInt(tagArray[2]) || 0;
-	var featurePart = parseInt(tagArray[3]) || 0;
-	var bugfixPart = parseInt(tagArray[4]) || 0;
+SK.moduleConstructors.AutoUpdate.prototype.splitTagName = function(versionTag) {
+	var tagArray = versionTag.substr(1).split(".");
+	var structurePart = parseInt(tagArray[0]) || 0;
+	var modulePart = parseInt(tagArray[1]) || 0;
+	var featurePart = parseInt(tagArray[2]) || 0;
+	var bugfixPart = parseInt(tagArray[3]) || 0;
 
 	return {
 		structurePart: structurePart,
@@ -96,7 +103,7 @@ SK.moduleConstructors.AutoUpdate.prototype.getLastRelease = function(callback) {
 			callback(JSON.parse(response.responseText)[0]);
 			// callback({
 			// 	"name": "Ne ratez plus les mises à jour !",
-			// 	"tag_name": "v1.11.6",
+			// 	"tag_name": "v1.11",
 			// });
 		}
 	});
@@ -105,12 +112,13 @@ SK.moduleConstructors.AutoUpdate.prototype.getLastRelease = function(callback) {
 /**
  * Affiche la fenêtre modale de mise à jour.
  */
-SK.moduleConstructors.AutoUpdate.prototype.showUpdateModal = function(release) {
+SK.moduleConstructors.AutoUpdate.prototype.showUpdateModal = function(release, updateIsMinor) {
 
 	var self = this;
 
 	var modalTitle = "Une mise à jour de SpawnKill est disponible";
-	if (this.releaseType(release) === "minor") {
+
+	if (updateIsMinor) {
 		modalTitle = "Un correctif pour SpawnKill est disponible";
 	}
 
