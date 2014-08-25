@@ -23,7 +23,10 @@ mklink "C:\Users\Dorian\AppData\Roaming\Mozilla\Firefox\Profiles\z8o408dk.defaul
 mklink "C:\Users\Dorian\AppData\Roaming\Mozilla\Firefox\Profiles\z8o408dk.default\gm_scripts\JVC_SpawnKill\EmbedMedia.js" "C:\wamp\www\spawnkill\modules\EmbedMedia.js"
 mklink "C:\Users\Dorian\AppData\Roaming\Mozilla\Firefox\Profiles\z8o408dk.default\gm_scripts\JVC_SpawnKill\WarnOnNewPost.js" "C:\wamp\www\spawnkill\modules\WarnOnNewPost.js"
 mklink "C:\Users\Dorian\AppData\Roaming\Mozilla\Firefox\Profiles\z8o408dk.default\gm_scripts\JVC_SpawnKill\AutoUpdate.js" "C:\wamp\www\spawnkill\modules\AutoUpdate.js"
+mklink "C:\Users\Dorian\AppData\Roaming\Mozilla\Firefox\Profiles\z8o408dk.default\gm_scripts\JVC_SpawnKill\RefreshScroll.js" "C:\wamp\www\spawnkill\modules\RefreshScroll.js"
+mklink "C:\Users\Dorian\AppData\Roaming\Mozilla\Firefox\Profiles\z8o408dk.default\gm_scripts\JVC_SpawnKill\PemtHighlight.js" "C:\wamp\www\spawnkill\modules\PemtHighlight.js"
 mklink "C:\Users\Dorian\AppData\Roaming\Mozilla\Firefox\Profiles\z8o408dk.default\gm_scripts\JVC_SpawnKill\Test.js" "C:\wamp\www\spawnkill\modules\Test.js"
+
 mklink "C:\Users\Dorian\AppData\Roaming\Mozilla\Firefox\Profiles\z8o408dk.default\gm_scripts\JVC_SpawnKill\ban.png" "C:\wamp\www\spawnkill\images\ban.png"
 mklink "C:\Users\Dorian\AppData\Roaming\Mozilla\Firefox\Profiles\z8o408dk.default\gm_scripts\JVC_SpawnKill\close.png" "C:\wamp\www\spawnkill\images\close.png"
 mklink "C:\Users\Dorian\AppData\Roaming\Mozilla\Firefox\Profiles\z8o408dk.default\gm_scripts\JVC_SpawnKill\topic_new.gif" "C:\wamp\www\spawnkill\images\topic_new.gif"

@@ -4,8 +4,6 @@
 
 /**
  * PemtHighlight: Met en valeur les posts simultanés
- * TODO:
- *  -Embellir la mise en valeur
  */
 
 SK.moduleConstructors.PemtHighlight = SK.Module.new();
@@ -13,14 +11,16 @@ SK.moduleConstructors.PemtHighlight = SK.Module.new();
 SK.moduleConstructors.PemtHighlight.prototype.id = "PemtHighlight";
 SK.moduleConstructors.PemtHighlight.prototype.title = "PemtHighlight";
 SK.moduleConstructors.PemtHighlight.prototype.description = "Met en valeur les posts simultanés";
-SK.moduleConstructors.PemtHighlight.prototype.required = false;
 
 /**
  * Initialise le module, fonction appelée quand le module est chargé
  */
 SK.moduleConstructors.PemtHighlight.prototype.init = function() {
+
+
+
     //Crée un tableau contenant les dates du topic
-    var dates = $('.date').text().replace(/via mobile/g,"").split("Posté le");
+    var dates = $(".date").text().replace(/via mobile/g, "").split("Posté le");
     var results = [];
     //Boucle de test de PEMT
     for (var i = 0; i < dates.length; i++) {
@@ -30,25 +30,26 @@ SK.moduleConstructors.PemtHighlight.prototype.init = function() {
             results.push(dates[i]);
         }
     }
+
     //Si le tableau des PEMT n'est pas vide
-    if (0 < results.length) {
-        //Pour chaque PEMT
-	    for (var i = 0; i < results.length; i++) {
-            //On récupère toutes les dates du topic
-	        $('.date').filter(function() {
+    if (results.length > 0) {
+
+        //On teste les PEMT sur chaque dates
+        $(".date").each(function() {
+
+            //Pour chaque PEMT
+    	    for (i = 0; i < results.length; i++) {
                 var re = new RegExp(results[i]);
                 //Et on teste si certaines ont la date d'un PEMT
-		        if (re.test($(this).text())) {
-                    //Si oui, on colorie le message en orange
-		            $(this).addClass("pemt-highlight");
-		        }
-	        });
-	    }
+    	        if (re.test($(this).text())) {
+                    var $date = $(this);
+                    var fullDateHtml = $date.html().trim();
+                    //Si oui, on colorie la date avec la couleur principale
+    	            $date.html(fullDateHtml.replace(/(\d{2}:\d{2}:\d{2})/, "<span class='pemt-highlight'>$1</span>"));
+                }
+    	    }
+        });
     }   
-};
-
-SK.moduleConstructors.PemtHighlight.prototype.uneMethodeExemple = function() {
-    //Ma méthode
 };
 
 /**
@@ -68,15 +69,9 @@ SK.moduleConstructors.PemtHighlight.prototype.getCss = function() {
 
 	var css = "\
         .pemt-highlight {\
-            color: orange\
+            color: " + SK.modules.StartSpawnKill.mainColor + " !important;\
         };\
     ";
 
     return css;
 };
-
-/**
- * Options configurables du plugin.
- * Ces options apparaitront dans le panneau de configuration de SpawnKill
- */ 
-SK.moduleConstructors.PemtHighlight.prototype.settings = {};
