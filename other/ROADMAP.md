@@ -62,6 +62,9 @@ Roadmap - SpawnKill
 
 #### Bugs :
 
+*InfosPseudo*
+- En petit, les avatars des bannis sont invisibles
+
 *Settings*
 - Le panneau de paramètrage ne peut pas défiler
 
