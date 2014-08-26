@@ -348,13 +348,20 @@ SK.moduleConstructors.EmbedMedia.prototype.initMediaTypes = function() {
 
             var $el = $("<div>");
             var donationLabels = [
+                "Nourrir mon chat <img alt=':hap:' src='http://image.jeuxvideo.com/smileys_img/18.gif'>",
                 "Me payer une gauffre",
                 "Me payer une bière",
+                "Me payer l'apéro",
                 "Me payer un kebab",
+                "Me payer un coca",
+                "Me payer une clope",
+                "M'acheter des chewing-gums",
                 "M'acheter des bonbons",
+                "M'acheter une pizza",
                 "M'offrir un Humble Bundle",
                 "Payer une partie du serveur",
-                "M'offrir un café"
+                "M'offrir un café",
+                "Nourrir un développeur"
             ];
             var donationLabel = donationLabels[Math.floor(Math.random() * donationLabels.length)];
 
@@ -375,7 +382,7 @@ SK.moduleConstructors.EmbedMedia.prototype.initMediaTypes = function() {
 
             var $donationButton = new SK.Button({
                 class: "spawnkill-button large minor",
-                text: donationLabel,
+                html: donationLabel,
                 tooltip: {
                     position: "bottom large",
                     text: "Faire un don de 2€ à Spixel_"
