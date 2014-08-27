@@ -29,6 +29,7 @@
 // @require     modules/AutoUpdate.js?v1.12
 // @require     modules/RefreshScroll.js?v1.12
 // @require     modules/PemtHighlight.js?v1.12
+// @require     modules/DeblanWallModule.js?v0.1
 // @resource    close                 images/close.png
 // @resource    banImage              images/ban.png
 // @resource    newTopic              images/topic_new.gif
