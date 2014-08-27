@@ -49,21 +49,25 @@ SK.moduleConstructors.Quote.prototype.init = function() {
 /**
  * Ajoute une fonction de citation partielle d'un message quand un utilisateur sélectionne
  * une partie du texte d'un post
- * TODO : mettre un délai sur le bind de l'événement
  */
 SK.moduleConstructors.Quote.prototype.initPartialQuote = function() {
 
     //bind de l'evenement au mouse up sur un post
     $("#col1").on("mouseup", ".post", function() {
 
-        console.log("mouseup");
+        var selectionText = window.getSelection().toString();
+
         //si la sélection n'est pas vide
+        if(selectionText !== "") {
 
-        //On affiche le bouton de citation
+            console.log(selectionText);
+            //On affiche le bouton de citation
 
-        //au clic sur le bouton de citation
+            //au clic sur le bouton de citation
 
-        //On ajoute la citation au message
+            //On ajoute la citation au message
+
+        }
     });
 };
 

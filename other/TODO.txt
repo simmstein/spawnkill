@@ -1,5 +1,9 @@
-### v1.12
-- Vérifier les modifs de nounours
-- Corriger le surlignage seulement sur la date
-- Tests et optimisation
+### v1.13
+- Citations partielles
+	- Mettre un délai sur le bind de l'événement
+	- Encapsuler le code qui :
+		- Ajoute la citation au formulaire
+		ou
+		- Met la citation dans le localStorage avant de changer de page
+	- Afficher le bouton de citation partielle
 
