@@ -8,6 +8,7 @@ Roadmap - SpawnKill
 - Gestion des onglets dans le panneau de configuration
 
 ### coming soon
+- Passer le roadmap sur l'issue tracker de Github
 - Donner le même avatar aux bannis quand ils postent plusieurs fois
 *WarnOnNewPost*
 - Websocket plutôt que requêtes Ajax
