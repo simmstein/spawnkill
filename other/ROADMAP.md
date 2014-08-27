@@ -28,6 +28,9 @@ Roadmap - SpawnKill
 *PemtHiliht*
 - Les pemt via mobile ne fonctionnent pas correctement : http://www.jeuxvideo.com/forums/1-50-169394717-2-0-1-0-big-pemt-a-22-22-22.htm
 
+*WarnOnNewPost*
+- Problème avec "NaN" quand la connexion n'est pas trouvée
+
 
 #### Fonctionnalités :
 *Général*
