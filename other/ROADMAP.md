@@ -13,6 +13,22 @@ Roadmap - SpawnKill
 - Websocket plutôt que requêtes Ajax
 
 ### Plus tard
+
+#### Bugs :
+
+*InfosPseudo*
+- En petit, les avatars des bannis sont invisibles
+
+*Settings*
+- Le panneau de paramètrage ne peut pas défiler
+
+*LastPage*
+- Bug avec les pass modérateurs : http://www.jeuxvideo.com/forums/1-1000021-2267708-22-0-1-0-script-jvc-spawnkill-avant-respawn.htm#message_2286047
+
+*PemtHiliht*
+- Les pemt via mobile ne fonctionnent pas correctement : http://www.jeuxvideo.com/forums/1-50-169394717-2-0-1-0-big-pemt-a-22-22-22.htm
+
+
 #### Fonctionnalités :
 *Général*
 - Supporter les forums JV
@@ -59,18 +75,6 @@ Roadmap - SpawnKill
 - Optimiser les appels au localStorage : un objet JS pour tous les settings
 - Ne boucler qu'une fois sur les messages et déclencher des événements interceptables par les plugins
 - Système de priorité pour les appels avec des événements pour lancer d'autres appels
-
-#### Bugs :
-
-*InfosPseudo*
-- En petit, les avatars des bannis sont invisibles
-
-*Settings*
-- Le panneau de paramètrage ne peut pas défiler
-
-*LastPage*
-- Bug avec les pass modérateurs : http://www.jeuxvideo.com/forums/1-1000021-2267708-22-0-1-0-script-jvc-spawnkill-avant-respawn.htm#message_2286047
-
 
 #### Développement :
 
