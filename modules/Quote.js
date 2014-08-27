@@ -26,6 +26,7 @@ SK.moduleConstructors.Quote.prototype.init = function() {
         this.htmlizeAllQuotes();
     }
 
+    //Bouton de citation
     if(this.getSetting("quoteButton")) {
         //Si une citation est prévue, on l'affiche
         var quoteMessage = SK.Util.getValue("responseContent");
@@ -38,10 +39,37 @@ SK.moduleConstructors.Quote.prototype.init = function() {
         //On veut que le bouton soit inséré après le lien
         this.addQuoteButtons();
     }
+
+    //Citations partielles
+    this.initPartialQuote();
+
 };
 
-/* Ajoute les boutons de citation dans l'entete du poste
-* si la boîte de réponse est présente dans la page */
+
+/**
+ * Ajoute une fonction de citation partielle d'un message quand un utilisateur sélectionne
+ * une partie du texte d'un post
+ * TODO : mettre un délai sur le bind de l'événement
+ */
+SK.moduleConstructors.Quote.prototype.initPartialQuote = function() {
+
+    //bind de l'evenement au mouse up sur un post
+    $("#col1").on("mouseup", ".post", function() {
+
+        console.log("mouseup");
+        //si la sélection n'est pas vide
+
+        //On affiche le bouton de citation
+
+        //au clic sur le bouton de citation
+
+        //On ajoute la citation au message
+    });
+};
+
+/*
+ * Ajoute les boutons de citation dans l'entete du post
+ */
 SK.moduleConstructors.Quote.prototype.addQuoteButtons = function() {
 
     var self = this;
